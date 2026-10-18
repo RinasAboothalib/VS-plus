@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { WorksWheel } from '@/components/ui/works-wheel';
 import social from '../../data/social.json';
 import data from '../../data/site.js';
 import { canHover, reduced } from '../../lib/motion.js';
@@ -51,21 +52,54 @@ function ReelCard( { r } ) {
 	);
 }
 
+/* The wheel needs a pointer and room to turn; phones and narrow screens keep the swipeable row. */
+const WIDE = '(min-width: 900px) and (hover: hover) and (pointer: fine)';
+
+function useWide() {
+	const [ wide, setWide ] = useState( () => window.matchMedia( WIDE ).matches );
+	useEffect( () => {
+		const q = window.matchMedia( WIDE );
+		const read = () => setWide( q.matches );
+		q.addEventListener( 'change', read );
+		return () => q.removeEventListener( 'change', read );
+	}, [] );
+	return wide;
+}
+
+/*
+ * The studio feed. On desktop it is the WorksWheel: the Instagram covers sit in
+ * a ring around "Fresh off the edit.", and scrolling (or dragging) over it opens
+ * the ring into a drum you turn post by post; each card opens the original post.
+ * On touch screens it falls back to the swipeable row of playable reels.
+ */
 export default function ReelsRail( { eyebrow = 'From the studio feed', only } ) {
 	const items = only ? social.filter( ( s ) => only.includes( s.slug ) ) : social;
+	const wide = useWide();
+	const wheelItems = items.map( ( r ) => ( { title: r.title, image: r.cover, href: r.url } ) );
+
 	return (
-		<section className="reelsRail" id="studio-feed" aria-labelledby="reelsTitle">
+		<section className={ `reelsRail${ wide ? ' reelsRail--wheel' : '' }` } id="studio-feed" aria-labelledby="reelsTitle">
 			<div className="reelsRail_head">
 				<div>
 					<p className="eyebrow">{ eyebrow }</p>
-					<h2 className="sectionTitle" id="reelsTitle">Fresh off the edit.</h2>
-					<p className="lede lede--light">Reels and campaign creative straight from our Instagram — hover a reel to play it.</p>
+					<h2 className={ wide ? 'sr-only' : 'sectionTitle' } id="reelsTitle">Fresh off the edit.</h2>
+					<p className="lede lede--light">
+						{ wide
+							? 'Reels and campaign creative straight from our Instagram. Scroll or drag over the wheel to turn it, or pick a post from the index.'
+							: 'Reels and campaign creative straight from our Instagram — tap a reel to watch it.' }
+					</p>
 				</div>
 				<a className="pillBtn" href={ INSTAGRAM } target="_blank" rel="noopener noreferrer">Follow @visualstudiosplus ↗</a>
 			</div>
-			<div className="reelsRail_track">
-				{ items.map( ( r ) => <ReelCard key={ r.slug } r={ r } /> ) }
-			</div>
+			{ wide ? (
+				<div className="reelsRail_wheel">
+					<WorksWheel items={ wheelItems } label="Fresh off the edit." action="Open on Instagram" ratio={ 1.1 } external />
+				</div>
+			) : (
+				<div className="reelsRail_track">
+					{ items.map( ( r ) => <ReelCard key={ r.slug } r={ r } /> ) }
+				</div>
+			) }
 		</section>
 	);
 }

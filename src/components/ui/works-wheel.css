@@ -1,0 +1,162 @@
+/* WorksWheel — the original Tailwind utilities, written out as plain CSS.
+   Colours come from --ww-* tokens so the wheel can sit on a light or dark section. */
+
+.ww {
+	--ww-bg: var(--ink, #231f20);
+	--ww-fg: #fff;
+	--ww-muted: rgba(255, 255, 255, 0.08);
+	--ww-muted-fg: rgba(255, 255, 255, 0.5);
+	--ww-accent: var(--lime, #dfff24);
+
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 24rem;
+	overflow: hidden;
+	user-select: none;
+	background: var(--ww-bg);
+	color: var(--ww-fg);
+}
+
+.ww_stage {
+	position: absolute;
+	inset: 0;
+	cursor: grab;
+	touch-action: pan-x;
+	outline: none;
+}
+
+.ww_stage:active {
+	cursor: grabbing;
+}
+
+.ww_stage:focus-visible {
+	outline: 2px solid var(--ww-fg);
+	outline-offset: -4px;
+}
+
+.ww_wheel {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform-style: preserve-3d;
+}
+
+.ww_card {
+	position: absolute;
+	display: block;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	text-decoration: none;
+	color: inherit;
+}
+
+.ww_face {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: 0.5rem;
+	background: var(--ww-muted);
+	box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+}
+
+.ww_face img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	pointer-events: none;
+}
+
+.ww_action {
+	position: absolute;
+	right: 0.75rem;
+	bottom: 0.75rem;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.25rem 0.625rem;
+	border-radius: 999px;
+	font-size: 0.7rem;
+	color: var(--ink, #231f20);
+	background: var(--ww-accent);
+	opacity: 0;
+	transform: translateY(0.25rem);
+	transition: opacity 0.2s, transform 0.2s;
+	pointer-events: none;
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+}
+
+.ww_action svg {
+	width: 0.625rem;
+	height: 0.625rem;
+}
+
+.ww_card:hover .ww_action,
+.ww_card:focus-visible .ww_action {
+	opacity: 1;
+	transform: none;
+}
+
+.ww_label {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	pointer-events: none;
+	font-weight: 600;
+	letter-spacing: -0.025em;
+	text-align: center;
+}
+
+.ww_title {
+	position: absolute;
+	top: 50%;
+	left: 8%;
+	max-width: 24%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	opacity: 0;
+	font-weight: 600;
+	line-height: 1.05;
+	letter-spacing: -0.025em;
+}
+
+.ww_index {
+	position: absolute;
+	top: 7.5%;
+	right: 2.5%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: right;
+	line-height: 1.75;
+	color: var(--ww-muted-fg);
+}
+
+.ww_indexBtn {
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+	transition: color 0.2s;
+}
+
+.ww_indexBtn:hover {
+	color: var(--ww-fg);
+}
+
+.ww_indexBtn.is-active {
+	color: var(--ww-accent);
+	font-weight: 500;
+}
+
+.ww_indexBtn:focus-visible {
+	outline: 1px solid var(--ww-fg);
+	outline-offset: 2px;
+}

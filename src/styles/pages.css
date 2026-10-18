@@ -3006,3 +3006,18 @@ body.inner .page_content_wrap::before {
 	.vsHero_intro { font-size: 1rem; margin-top: 2rem; }
 	.vsHero_scroll { display: none; }
 }
+
+/* Studio feed as a WorksWheel: a full-height stage under the heading. */
+.reelsRail--wheel {
+	padding-bottom: 0;
+}
+
+.reelsRail--wheel .reelsRail_head {
+	margin-bottom: 0;
+}
+
+.reelsRail_wheel {
+	height: 100vh;
+	height: 100svh;
+	min-height: 36rem;
+}
