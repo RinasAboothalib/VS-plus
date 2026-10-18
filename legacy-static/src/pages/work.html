@@ -1,0 +1,59 @@
+	<header class="pageHero">
+		<div class="pageHero_inner">
+			<p class="eyebrow">Commercial work &amp; campaign archive</p>
+			<h1 class="pageTitle"><span class="pageTitle_line">Our work</span> <span class="pageTitle_line">&amp; projects<i class="heroDot"></i></span></h1>
+			<p class="pageLede">High-impact commercial films, viral social campaigns, FMCG storytelling, and brand imagery created by Visual Studios Plus for market-leading brands.</p>
+			<ul class="pageJump">
+				<li><a href="#films">(A) TVC &amp; Films</a></li>
+				<li><a href="#case-studies">(B) Flagship portfolio</a></li>
+				<li><a href="#archive">(C) Photography archive</a></li>
+			</ul>
+		</div>
+	</header>
+
+	<div class="bg-white">
+		<section class="ProjectsList ProjectsList--films" id="films" aria-labelledby="filmsTitle">
+			<div class="ProjectsList_head ProjectsList_head--row">
+				<div>
+					<p class="eyebrow">(A)</p>
+					<h2 class="sectionTitle" id="filmsTitle">TVC &amp; films.</h2>
+				</div>
+				<a class="btnLink" href="https://www.youtube.com/@visualstudiosplus" target="_blank" rel="noopener noreferrer">YouTube channel ↗</a>
+			</div>
+			<canvas class="worksCanvas" aria-hidden="true"></canvas>
+			<div class="filmGrid">{{> filmCards}}
+			</div>
+		</section>
+	</div>
+
+	<section class="caseSection" id="case-studies" aria-labelledby="casesTitle">
+		<div class="caseInner">
+			<div class="caseHead">
+				<div>
+					<p class="eyebrow">(B) Flagship portfolio</p>
+					<h2 class="sectionTitle" id="casesTitle">Projects engineered for verifiable business impact.</h2>
+				</div>
+				<p class="lede">Every client brief is treated as a growth partnership. We blend high-fashion visual standards with aggressive social media reach, high-velocity turnaround, and conversion-driven storytelling.</p>
+			</div>
+			<div class="chipRow caseFilters" role="group" aria-label="Filter projects">{{> caseFilters}}</div>
+			<ol class="caseList">{{> caseStudies}}
+			</ol>
+		</div>
+	</section>
+
+	<section class="archiveSection" id="archive" aria-labelledby="archiveTitle">
+		<div class="archiveInner">
+			<div class="caseHead">
+				<div>
+					<p class="eyebrow">(C) Commercial photography</p>
+					<h2 class="sectionTitle" id="archiveTitle">The photography archive.</h2>
+				</div>
+				<div>
+					<p class="lede">Browse by discipline, or open the full archive.</p>
+					<a class="btnLink" href="/photography/">View all {{> photoCount}} photographs →</a>
+				</div>
+			</div>
+			<div class="catGrid">{{> photoCategoryCards}}
+			</div>
+		</div>
+	</section>

@@ -1,0 +1,36 @@
+	<header class="pageHero">
+		<div class="pageHero_inner">
+			<p class="eyebrow">Photography — {{> photoCount}} images</p>
+			<h1 class="pageTitle"><span class="pageTitle_line">Photography</span> <span class="pageTitle_line">portfolio<i class="heroDot"></i></span></h1>
+			<p class="pageLede">Food, fashion, jewellery, hospitality, interiors and architecture. Select a frame to view it full screen — or add it to your contact sheet as a reference for your brief.</p>
+		</div>
+	</header>
+
+	<div class="bg-white">
+		<section class="gallerySection" id="gallery" aria-labelledby="galleryTitle">
+			<div class="galleryHead">
+				<h2 class="eyebrow" id="galleryTitle">Browse the archive</h2>
+				<div class="chipRow galleryFilters" role="group" aria-label="Filter by category">{{> photoFilters}}</div>
+			</div>
+			<div class="galleryGrid" data-gallery aria-live="polite"></div>
+			<div class="galleryMore">
+				<button type="button" class="pillBtn pillBtn--dark" data-load-more>Load more</button>
+			</div>
+		</section>
+	</div>
+
+	<!-- Lightbox -->
+	<div class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+		<div class="lightbox_top">
+			<p class="lightbox_meta"><span data-lb-cat></span><span data-lb-count></span></p>
+			<div class="lightbox_actions">
+				<button type="button" class="lbBtn" data-lb-sheet aria-pressed="false">+ Contact sheet</button>
+				<button type="button" class="lbBtn lbBtn--icon" data-lb-close aria-label="Close viewer">✕</button>
+			</div>
+		</div>
+		<figure class="lightbox_stage">
+			<img data-lb-img alt="">
+		</figure>
+		<button type="button" class="lbNav lbNav--prev" data-lb-prev aria-label="Previous photo">←</button>
+		<button type="button" class="lbNav lbNav--next" data-lb-next aria-label="Next photo">→</button>
+	</div>

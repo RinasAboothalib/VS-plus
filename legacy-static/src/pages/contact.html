@@ -1,0 +1,63 @@
+	<header class="pageHero">
+		<div class="pageHero_inner">
+			<p class="eyebrow">Direct studio inquiry &amp; commissioning</p>
+			<h1 class="pageTitle"><span class="pageTitle_line">Contact</span> <span class="pageTitle_line">our team<i class="heroDot"></i></span></h1>
+			<p class="pageLede">Commission your next commercial film, request a channel retainer deck, or schedule a coffee at our Colombo 04 studio floor.</p>
+		</div>
+	</header>
+
+	<div class="bg-white">
+		<section class="contactSection">
+			<div class="contactGrid">
+				<div class="contactInfo">
+					<div class="contactInfo_block">
+						<p class="fLabel">// Direct email</p>
+						<div class="save_to_clipboard save_to_clipboard--lg"><h4>info@visualstudiosplus.com</h4></div>
+						<p class="contactNote">Typical reply within 4 business hours</p>
+					</div>
+					<div class="contactInfo_block">
+						<p class="fLabel">// Studio hotline</p>
+						<a class="contactBig" href="tel:+94740436639">+94 74 043 6639</a>
+						<a class="contactBig" href="tel:+94740435332">+94 74 043 5332</a>
+					</div>
+					<div class="contactInfo_block">
+						<p class="fLabel">// Studio headquarters</p>
+						<p class="contactAddr">Level 1, 36 Haig Road<br>Colombo 04<br>Sri Lanka</p>
+						<a class="btnLink" href="https://www.google.com/maps/search/?api=1&amp;query=36+Haig+Road+Colombo+04+Sri+Lanka" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
+					</div>
+					<div class="contactInfo_block">
+						<p class="fLabel">Follow &amp; connect on direct channels</p>
+						<ul class="contactSocials">{{> contactSocials}}</ul>
+					</div>
+				</div>
+
+				<form class="briefForm" id="brief" novalidate>
+					<p class="eyebrow">Start your business transformation</p>
+					<h2 class="sectionTitle">Let’s make something matter.</h2>
+					<p class="lede">Tell us about your brand, your campaign or your digital vision. We take projects for ambitious businesses and deliver measurable results from our studio in Colombo 04.</p>
+
+					<fieldset class="briefSet">
+						<legend class="fLabel">I’m interested in</legend>
+						<div class="chipRow chipRow--wrap" data-interests>{{> interestChips}}</div>
+					</fieldset>
+
+					<div class="briefRefs" data-refs hidden>
+						<p class="fLabel">Reference frames from your contact sheet · <span data-refs-count>0</span></p>
+						<ul class="briefRefs_list" data-refs-list></ul>
+					</div>
+
+					<div class="briefFields">
+						<label class="field"><span>Your name *</span><input type="text" name="name" autocomplete="name" required></label>
+						<label class="field"><span>Email *</span><input type="email" name="email" autocomplete="email" required></label>
+						<label class="field field--full"><span>Company / brand</span><input type="text" name="company" autocomplete="organization"></label>
+						<label class="field field--full"><span>Tell us about the project *</span><textarea name="message" rows="5" required></textarea></label>
+					</div>
+					<p class="briefError" role="alert" hidden></p>
+					<div class="briefSubmit">
+						<button type="submit" class="pillBtn pillBtn--dark">Start project brief</button>
+						<p class="contactNote">Typical reply within 4 business hours. Opens your email app with your message ready to send.</p>
+					</div>
+				</form>
+			</div>
+		</section>
+	</div>

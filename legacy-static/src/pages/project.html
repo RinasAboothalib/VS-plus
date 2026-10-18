@@ -1,0 +1,40 @@
+	<header class="pageHero pageHero--project">
+		<div class="pageHero_inner">
+			<p class="projectNav"><a href="/work/#films" class="btnLink">← All work</a><span>Project {{pIndex}} / {{pTotal}}</span></p>
+			<h1 class="pageTitle pageTitle--project">{{pTitle}}<i class="heroDot"></i></h1>
+			<dl class="projectMeta">
+				<div><dt>Client</dt><dd>{{pClient}}</dd></div>
+				<div><dt>Discipline</dt><dd>Videography</dd></div>
+				<div><dt>Format</dt><dd>{{pFormat}}</dd></div>
+				<div><dt>Watch</dt><dd><a href="https://www.youtube.com/watch?v={{pYt}}" target="_blank" rel="noopener noreferrer">YouTube ↗</a></dd></div>
+			</dl>
+		</div>
+	</header>
+
+	<div class="bg-white">
+		<section class="projectFilm">
+			<div class="projectFilm_frame" data-film="{{pYt}}" data-film-title="{{pTitle}}">
+				<img src="{{pImg}}" alt="{{pAlt}}">
+				<button type="button" class="projectPlay" aria-label="Play film: {{pTitle}} — Visual Studios Plus">
+					<span class="projectPlay_icon" aria-hidden="true"></span>
+					<span>Play film</span>
+				</button>
+			</div>
+		</section>
+
+		<section class="projectBody">
+			<div class="projectBody_inner">
+				<p class="eyebrow">The project</p>
+				<p class="projectText">{{pText}}</p>
+			</div>
+		</section>
+
+		<section class="nextProject">
+			<a class="nextProject_link" href="/work/{{nSlug}}/">
+				<span class="eyebrow">Next project</span>
+				<span class="nextProject_title">{{nTitle}}</span>
+				<span class="nextProject_format">{{nFormat}}</span>
+				<span class="nextProject_img"><img src="{{nImg}}" alt="{{nAlt}}" loading="lazy"></span>
+			</a>
+		</section>
+	</div>

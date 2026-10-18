@@ -1,0 +1,161 @@
+	<h1 class="sr-only">Visual Studios Plus — Digital Creative Marketing Agency, Colombo</h1>
+
+	<!-- HERO (pinned) -->
+	<section class="homeHero" aria-label="Introduction">
+		<div class="heroStage">
+			<p class="heroKicker"><span class="dot"></span>Visual Studios+ · Creative Agency</p>
+			<h2 class="heroWord" aria-label="We create content.">
+				<span class="heroLine"><span class="heroLine_in">we create</span></span>
+				<span class="heroLine heroLine--accent"><span class="heroLine_in">content<i class="heroDot"></i></span></span>
+			</h2>
+			<div class="heroReel" aria-hidden="true">
+				<video src="https://visualstudiosplus.com/wp-content/uploads/2024/09/Sequence-01.mp4#t=63" muted loop playsinline autoplay preload="metadata" poster="/assets/img/Cover.jpeg"></video>
+			</div>
+			<p class="heroScroll" aria-hidden="true">Scroll</p>
+		</div>
+		<div id="homeBanner_intro" class="introWrap">
+			<svg class="homeBanner_shape" viewBox="0 0 200 200" aria-hidden="true">
+				<path d="M40.4,-70C49.7,-64.6,52.8,-48.4,61,-34.9C69.3,-21.5,82.7,-10.7,87.7,2.9C92.6,16.4,89,32.9,80,45C70.9,57,56.4,64.7,42.1,68C27.9,71.3,13.9,70.2,-0.8,71.5C-15.5,72.8,-30.9,76.6,-40.1,70.4C-49.3,64.1,-52.1,48,-60.3,34.6C-68.4,21.2,-81.8,10.6,-81.9,0C-82,-10.7,-68.7,-21.4,-60.7,-35C-52.7,-48.6,-50,-65.2,-40.7,-70.6C-31.4,-76.1,-15.7,-70.4,-0.1,-70.3C15.5,-70.1,31.1,-75.4,40.4,-70Z" transform="translate(100 100)"/>
+			</svg>
+			<h2 class="introText"><span>We create content that moves brands.</span> <span>Colombo’s premier digital marketing, social media campaigns, and content creation agency.</span> <span>We partner with ambitious brands to command attention</span> <span>and deliver verified commercial growth.</span></h2>
+		</div>
+	</section>
+
+	<!-- CLIENT LOGOS -->
+	<div class="clientele_wrap" aria-label="Clients">
+		<div class="clientele_track">
+			<ul class="clientele_list"></ul>
+		</div>
+	</div>
+
+	<!-- WORK GRID -->
+	<div class="bg-white" id="work">
+		<section class="ProjectsList">
+			<div class="ProjectsList_head">
+				<p class="eyebrow">(01) Selected works</p>
+				<h2 class="sectionTitle">Crafted for screen,<br>built for cultural impact.</h2>
+			</div>
+			<canvas class="worksCanvas" aria-hidden="true"></canvas>
+			<div class="my-masonry-grid" data-home-grid></div>
+		</section>
+
+		<section class="featureCases" aria-labelledby="casesTitle">
+			<div class="featureCases_head">
+				<p class="eyebrow">(02) Flagship portfolio</p>
+				<h2 class="sectionTitle" id="casesTitle">Every brief is a growth partnership.</h2>
+				<p class="lede">We blend high-fashion visual standards with aggressive social media reach, high-velocity turnaround, and conversion-driven storytelling.</p>
+			</div>
+			<div class="featureCases_grid">{{> featuredCases}}
+			</div>
+			<div class="ProjectsList_foot">
+				<a href="/work/" class="btnLink">View all projects &amp; campaigns</a>
+			</div>
+		</section>
+	</div>
+
+	<!-- SHOWREEL -->
+	<div class="featuredSection" id="showreel">
+		<div class="featuredWrap">
+			<h3>When showing<br>beats telling.</h3>
+			<div class="featuredVideo">
+				<video src="https://visualstudiosplus.com/wp-content/uploads/2024/09/Sequence-01.mp4" muted loop playsinline preload="none" poster="/assets/img/Cover.jpeg"></video>
+				<button class="featuredSound" type="button" aria-pressed="false">Sound on</button>
+			</div>
+			<p class="featuredText">Our videography showreel. Cinema-grade visual storytelling engineered to stop the infinite scroll and command cultural attention — 100% in-house production, colour graded in DaVinci Resolve before it ever reaches your feed.</p>
+			<p class="featuredMore"><a href="https://www.youtube.com/@visualstudiosplus" target="_blank" rel="noopener noreferrer">Watch more on YouTube</a></p>
+		</div>
+	</div>
+
+	<!-- PHILOSOPHY -->
+	<section class="philosophy" aria-labelledby="philTitle">
+		<div class="philosophy_inner">
+			<div class="philosophy_head">
+				<p class="eyebrow">(03) Agency operating philosophy</p>
+				<h2 class="sectionTitle" id="philTitle">We create. We strategize. We execute. We amplify. We measure. We grow.</h2>
+				<p class="philosophy_counter" aria-hidden="true"><span data-phase-num>01</span> / 06</p>
+			</div>
+			<ol class="phaseList">{{> philosophy}}
+			</ol>
+		</div>
+	</section>
+
+	<!-- SERVICES -->
+	<section class="servicesSection" id="services">
+		<div class="servicesInner">
+			<div class="servicesHead">
+				<p class="eyebrow">(04) Capabilities overview</p>
+				<h2 class="sectionTitle">One full-service studio.<br>Zero creative fragmentation.</h2>
+				<p class="servicesLede">Need a custom agency retainer or dedicated production team? We work on project-by-project commissions and full-year creative retainers.</p>
+				<a class="btnLink" href="/services/">All capabilities</a>
+			</div>
+			<ul class="accordion">{{> servicesAccordion}}
+			</ul>
+		</div>
+	</section>
+
+	<!-- PHOTOGRAPHY STRIP -->
+	<section class="photoStrip" aria-labelledby="stripTitle">
+		<div class="photoStrip_head">
+			<div>
+				<p class="eyebrow">(05) Our photography</p>
+				<h2 class="sectionTitle" id="stripTitle">Portfolio</h2>
+				<p class="lede">Tactile luxury across Gastronomy, Architecture, and High Fashion.</p>
+			</div>
+			<a class="btnLink" href="/photography/">Explore the archive</a>
+		</div>
+		<div class="photoStrip_track">
+			<div class="photoStrip_row">
+				{{> homePortfolio}}
+			</div>
+		</div>
+	</section>
+
+	<!-- COLOUR GRADING -->
+	<section class="gradeSection" aria-labelledby="gradeTitle">
+		<div class="gradeInner">
+			<div class="gradeHead">
+				<p class="eyebrow">(06) Colour grading</p>
+				<h2 class="sectionTitle" id="gradeTitle">From flat LOG to the finished frame.</h2>
+				<p class="lede">Drag across the frame. Every shoot is colour graded in-house in DaVinci Resolve before it reaches your feed.</p>
+			</div>
+			<div class="gradeCompare" data-grade>
+				<div class="gradeStage">
+					<img class="gradeImg gradeImg--after" src="/assets/photos/full/KeelesFoodPhotography0314.webp" alt="Overhead food photography of a Sri Lankan crab curry spread">
+					<span class="gradeOverlay" aria-hidden="true"></span>
+					<div class="gradeBefore" aria-hidden="true">
+						<img class="gradeImg gradeImg--before" src="/assets/photos/full/KeelesFoodPhotography0314.webp" alt="">
+					</div>
+					<span class="gradeTag gradeTag--l">LOG · Flat profile</span>
+					<span class="gradeTag gradeTag--r" data-look-label>Graded · Studio grade</span>
+					<div class="gradeHandle" aria-hidden="true"><span>◂ ▸</span></div>
+					<input class="gradeRange" type="range" min="0" max="100" value="50" aria-label="Compare LOG and graded frame">
+				</div>
+				<div class="gradeControls">
+					<div class="chipRow" role="group" aria-label="Frame">{{> gradeFrames}}</div>
+					<div class="chipRow" role="group" aria-label="Look">{{> gradeLooks}}</div>
+				</div>
+				<p class="gradeNote">The flat LOG view is simulated from the delivered frame to show the grading step.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- RESULTS -->
+	<section class="resultsSection" aria-labelledby="resultsTitle">
+		<div class="resultsInner">
+			<p class="eyebrow">(07) Commercial attributions</p>
+			<h2 class="sectionTitle" id="resultsTitle">Verified business impact.</h2>
+			<p class="lede lede--light">Every reel, campaign asset, and ad spend is audited against real commercial benchmarks and engagement lifts.</p>
+			<div class="resultsGrid"></div>
+		</div>
+	</section>
+
+	<!-- ROSTER -->
+	<section class="rosterSection" aria-labelledby="rosterTitle">
+		<div class="rosterInner">
+			<p class="eyebrow">(08) Commercial client roster</p>
+			<h2 class="sectionTitle" id="rosterTitle">Trusted by market leaders &amp; global brands.</h2>
+			<p class="lede">From global FMCG giants to boutique luxury houses across Sri Lanka &amp; international markets.</p>
+			<ul class="rosterGrid">{{> roster}}
+			</ul>
+		</div>
+	</section>
