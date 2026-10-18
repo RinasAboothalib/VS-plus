@@ -12,10 +12,16 @@
 //
 // Ported from the crafterui WorksWheel (TSX + Tailwind) to this project's
 // stack: plain JSX, with the Tailwind utilities expressed in works-wheel.css.
-// Two additions: `ratio` (card width / height, default unchanged) and
-// `external` (cards open in a new tab), plus a wheel hand-off that stops
+// Additions: `ratio` (card width / height), `cardHeight` / `cardMaxWidth`
+// (front-card size), `ringRadius` (ring size, in card heights), `showIndex` (the title list on the right) and `external`
+// (cards open in a new tab), `onSelect` (a click opens the item instead of
+// navigating; a drag never counts as a click) and `cursor` (a custom cursor that
+// follows the pointer and reads Drag / the item's `cursorLabel`, while the
+// hovered card's image zooms toward it) - all default to the original - plus a wheel hand-off that stops
 // Lenis from scrolling the page while the wheel still has turning to do.
 import * as React from 'react';
+
+import { gsap } from 'gsap';
 
 import { cn } from '@/lib/utils';
 import './works-wheel.css';
@@ -68,15 +74,21 @@ function place( ringDeg, drumDeg, ringR, drumR, bow, m ) {
 }
 
 /**
- * @typedef {{ title: string, image: string, href?: string }} WorksWheelItem
- * @param {{ items: WorksWheelItem[], label?: string, action?: string, ratio?: number, external?: boolean, className?: string }} props
+ * @typedef {{ title: string, image: string, href?: string, cursorLabel?: string }} WorksWheelItem
+ * @param {{ items: WorksWheelItem[], label?: string, action?: string, ratio?: number, cardHeight?: number, cardMaxWidth?: number, ringRadius?: number, showIndex?: boolean, external?: boolean, onSelect?: (item: WorksWheelItem, index: number) => void, cursor?: boolean, className?: string }} props
  */
 export function WorksWheel( {
 	items,
 	label = 'Works \'26',
 	action = 'View',
 	ratio = CARD_RATIO,
+	cardHeight = CARD_H,
+	cardMaxWidth = CARD_MAX_W,
+	ringRadius = RING_R,
+	showIndex = true,
 	external = false,
+	onSelect,
+	cursor = false,
 	className,
 	...props
 } ) {
@@ -85,6 +97,12 @@ export function WorksWheel( {
 	const cardRefs = React.useRef( [] );
 	const labelRef = React.useRef( null );
 	const titleRef = React.useRef( null );
+	const sectionRef = React.useRef( null );
+	const cursorRef = React.useRef( null );
+	const hoverIdx = React.useRef( -1 );
+	const press = React.useRef( null );
+	const moveCursor = React.useRef( null );
+	const [ cursorLabel, setCursorLabel ] = React.useState( null );
 
 	// The wheel's position, and where it is heading. Only `active` is state.
 	const turn = React.useRef( 0 );
@@ -118,10 +136,10 @@ export function WorksWheel( {
 
 	const metrics = React.useMemo( () => {
 		const { w, h } = stage;
-		const cardW = Math.min( h * CARD_H * ratio, w * CARD_MAX_W );
+		const cardW = Math.min( h * cardHeight * ratio, w * cardMaxWidth );
 		const cardH = cardW / ratio;
 		const drumR = cardH * DRUM;
-		const ringR = cardH * RING_R;
+		const ringR = cardH * ringRadius;
 		// Shrink the ring's cards until the circle reads as a closed loop.
 		const ringScale = count
 			? clamp( ( ( ( 2 * Math.PI * ringR ) / count ) * 0.82 ) / ( cardW || 1 ), 0.16, 1 )
@@ -137,7 +155,7 @@ export function WorksWheel( {
 			title: cardH * TITLE,
 			index: cardH * INDEX
 		};
-	}, [ stage, count, ratio ] );
+	}, [ stage, count, ratio, cardHeight, cardMaxWidth, ringRadius ] );
 
 	// One pass per frame: ease toward the target, then write every transform.
 	React.useEffect( () => {
@@ -213,6 +231,66 @@ export function WorksWheel( {
 	const drag = React.useRef( null );
 	const settling = React.useRef( 0 );
 
+	/** Which card (if any) is under a viewport point. Works under pointer capture. */
+	const cardAt = ( x, y ) => {
+		const hit = document.elementFromPoint( x, y );
+		const card = hit && hit.closest( '.ww_card' );
+		return card ? cardRefs.current.indexOf( card ) : -1;
+	};
+
+	// Custom cursor: follows the pointer with a little lag.
+	React.useEffect( () => {
+		if ( ! cursor || ! cursorRef.current ) {
+			return undefined;
+		}
+		const xTo = gsap.quickTo( cursorRef.current, 'x', { duration: 0.45, ease: 'power3.out' } );
+		const yTo = gsap.quickTo( cursorRef.current, 'y', { duration: 0.45, ease: 'power3.out' } );
+		moveCursor.current = ( x, y ) => {
+			const r = sectionRef.current.getBoundingClientRect();
+			xTo( x - r.left );
+			yTo( y - r.top );
+		};
+		return () => {
+			moveCursor.current = null;
+		};
+	}, [ cursor ] );
+
+	/** Hover: zoom the card's image toward the pointer and set the cursor label. */
+	const hover = ( x, y ) => {
+		const i = cardAt( x, y );
+		if ( i !== hoverIdx.current ) {
+			const prev = cardRefs.current[ hoverIdx.current ];
+			if ( prev ) {
+				prev.classList.remove( 'is-hover' );
+				const img = prev.querySelector( 'img' );
+				if ( img ) {
+					img.style.transform = '';
+				}
+			}
+			hoverIdx.current = i;
+			if ( i >= 0 ) {
+				cardRefs.current[ i ].classList.add( 'is-hover' );
+			}
+			if ( cursor ) {
+				setCursorLabel( i >= 0 ? ( items[ i ].cursorLabel || action || 'View' ) : 'Drag' );
+			}
+		}
+		const card = cardRefs.current[ i ];
+		const img = card && card.querySelector( 'img' );
+		if ( img ) {
+			const r = card.getBoundingClientRect();
+			const nx = ( x - r.left ) / r.width - 0.5;
+			const ny = ( y - r.top ) / r.height - 0.5;
+			img.style.transform = `scale(1.12) translate(${ ( -nx * 5 ).toFixed( 2 ) }%, ${ ( -ny * 5 ).toFixed( 2 ) }%)`;
+		}
+	};
+
+	const select = ( i ) => {
+		if ( onSelect && items[ i ] ) {
+			onSelect( items[ i ], i );
+		}
+	};
+
 	// Native listener, because the wheel has to be cancellable - and it only
 	// cancels while it still has somewhere to go, so the page scrolls on at
 	// either end instead of trapping the reader. stopPropagation keeps the
@@ -241,7 +319,7 @@ export function WorksWheel( {
 	}, [ to, last ] );
 
 	return (
-		<section aria-label={ label } className={ cn( 'ww', className ) } { ...props }>
+		<section ref={ sectionRef } aria-label={ label } className={ cn( 'ww', cursor && 'ww--cursor', className ) } { ...props }>
 			<div
 				ref={ stageRef }
 				tabIndex={ 0 }
@@ -252,23 +330,67 @@ export function WorksWheel( {
 				style={ { perspective: `${ metrics.depth }px` } }
 				onPointerDown={ ( event ) => {
 					drag.current = event.clientY;
+					press.current = { x: event.clientX, y: event.clientY, moved: false };
 					event.currentTarget.setPointerCapture( event.pointerId );
+					if ( cursorRef.current ) {
+						cursorRef.current.classList.add( 'is-down' );
+					}
 				} }
 				onPointerMove={ ( event ) => {
+					if ( event.pointerType === 'mouse' ) {
+						if ( moveCursor.current ) {
+							cursorRef.current.classList.add( 'is-on' );
+							moveCursor.current( event.clientX, event.clientY );
+						}
+						if ( drag.current === null ) {
+							hover( event.clientX, event.clientY );
+						}
+					}
 					if ( drag.current === null ) {
 						return;
+					}
+					if ( press.current && Math.hypot( event.clientX - press.current.x, event.clientY - press.current.y ) > 6 ) {
+						press.current.moved = true;
 					}
 					to( target.current + ( drag.current - event.clientY ) / DRAG_UNITS );
 					drag.current = event.clientY;
 				} }
-				onPointerUp={ () => {
-					// Land on an item rather than between two.
+				onPointerUp={ ( event ) => {
+					// A press that never moved is a click: open the card under it.
+					const wasClick = press.current && ! press.current.moved;
+					press.current = null;
 					drag.current = null;
+					if ( cursorRef.current ) {
+						cursorRef.current.classList.remove( 'is-down' );
+					}
+					if ( wasClick && onSelect ) {
+						select( cardAt( event.clientX, event.clientY ) );
+						return;
+					}
+					// Land on an item rather than between two.
 					if ( target.current > 1 ) {
 						to( Math.round( target.current ) );
 					}
 				} }
+				onPointerEnter={ ( event ) => {
+					if ( cursorRef.current && event.pointerType === 'mouse' ) {
+						cursorRef.current.classList.add( 'is-on' );
+						const r = sectionRef.current.getBoundingClientRect();
+						gsap.set( cursorRef.current, { x: event.clientX - r.left, y: event.clientY - r.top } );
+					}
+				} }
+				onPointerLeave={ () => {
+					if ( cursorRef.current ) {
+						cursorRef.current.classList.remove( 'is-on' );
+					}
+					hover( -9999, -9999 );
+				} }
 				onKeyDown={ ( event ) => {
+					if ( ( event.key === 'Enter' || event.key === ' ' ) && onSelect && target.current >= 1 ) {
+						select( active );
+						event.preventDefault();
+						return;
+					}
 					if ( event.key === 'ArrowDown' ) {
 						to( Math.round( target.current ) + 1 );
 					} else if ( event.key === 'ArrowUp' ) {
@@ -281,14 +403,14 @@ export function WorksWheel( {
 			>
 				<div ref={ wheelRef } className="ww_wheel">
 					{ items.map( ( item, i ) => {
-						const Tag = item.href ? 'a' : 'div';
+						const Tag = item.href && ! onSelect ? 'a' : 'div';
 						return (
 							<Tag
 								key={ item.title }
 								id={ `works-wheel-${ i }` }
 								role="option"
 								aria-selected={ i === active }
-								href={ item.href }
+								href={ onSelect ? undefined : item.href }
 								target={ item.href && external ? '_blank' : undefined }
 								rel={ item.href && external ? 'noopener noreferrer' : undefined }
 								draggable={ false }
@@ -305,12 +427,12 @@ export function WorksWheel( {
 							>
 								<span className="ww_face">
 									<img src={ item.image } alt={ item.title } draggable={ false } />
-									{ action && item.href ? (
+									{ action && ( item.href || onSelect ) ? (
 										<span className="ww_action">
 											<svg viewBox="0 0 12 12" aria-hidden="true">
 												<path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
 											</svg>
-											{ action }
+											{ item.cursorLabel || action }
 										</span>
 									) : null }
 								</span>
@@ -320,6 +442,12 @@ export function WorksWheel( {
 				</div>
 			</div>
 
+			{ cursor && (
+				<div ref={ cursorRef } className={ cn( 'ww_cursor', cursorLabel && cursorLabel !== 'Drag' && 'is-card' ) } aria-hidden="true">
+					<span>{ cursorLabel || 'Drag' }</span>
+				</div>
+			) }
+
 			{ /* Ring title and front-card title trade places across the transition. */ }
 			<div ref={ labelRef } className="ww_label" style={ { fontSize: metrics.title } }>
 				{ label }
@@ -328,7 +456,7 @@ export function WorksWheel( {
 				{ items[ active ] && items[ active ].title }
 			</div>
 
-			<ol className="ww_index" style={ { fontSize: metrics.index } }>
+			{ showIndex && <ol className="ww_index" style={ { fontSize: metrics.index } }>
 				{ items.map( ( item, i ) => (
 					<li key={ item.title }>
 						<button type="button" onClick={ () => to( i + 1 ) } className={ cn( 'ww_indexBtn', i === active && 'is-active' ) }>
@@ -336,7 +464,7 @@ export function WorksWheel( {
 						</button>
 					</li>
 				) ) }
-			</ol>
+			</ol> }
 		</section>
 	);
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { WorksWheel } from '@/components/ui/works-wheel';
+import ReelViewer from './ReelViewer.jsx';
 import social from '../../data/social.json';
 import data from '../../data/site.js';
 import { canHover, reduced } from '../../lib/motion.js';
@@ -11,7 +12,7 @@ const INSTAGRAM = data.site.socials.find( ( s ) => s[ 0 ] === 'Instagram' )[ 1 ]
  * hovered; on touch screens the one most in view plays. Posters are the
  * original covers, so browsers that can't play VP9 still show the frame.
  */
-function ReelCard( { r } ) {
+function ReelCard( { r, onOpen } ) {
 	const card = useRef( null );
 	const video = useRef( null );
 
@@ -38,7 +39,13 @@ function ReelCard( { r } ) {
 
 	return (
 		<article className="reelCard" ref={ card }>
-			<a className="reelCard_media" href={ r.url } target="_blank" rel="noopener noreferrer" aria-label={ `${ r.title } — watch on Instagram` }>
+			<a className="reelCard_media" href={ r.url } target="_blank" rel="noopener noreferrer" aria-label={ `${ r.title } — ${ r.video ? 'play reel' : 'view post' }` }
+				onClick={ ( e ) => {
+					if ( onOpen ) {
+						e.preventDefault();
+						onOpen();
+					}
+				} }>
 				{ r.video
 					? <video ref={ video } src={ r.video } poster={ r.cover } muted loop playsInline preload="none" aria-hidden="true" />
 					: <img src={ r.cover } alt="" loading="lazy" decoding="async" /> }
@@ -75,7 +82,13 @@ function useWide() {
 export default function ReelsRail( { eyebrow = 'From the studio feed', only } ) {
 	const items = only ? social.filter( ( s ) => only.includes( s.slug ) ) : social;
 	const wide = useWide();
-	const wheelItems = items.map( ( r ) => ( { title: r.title, image: r.cover, href: r.url } ) );
+	const [ open, setOpen ] = useState( -1 );
+	// Everything the wheel and the viewer need: reels play, image posts zoom.
+	const viewItems = items.map( ( r ) => ( {
+		title: r.title, image: r.cover, href: r.url, url: r.url, video: r.video,
+		kind: r.kind, date: r.date, summary: r.summary,
+		cursorLabel: r.video ? 'Play' : 'Zoom'
+	} ) );
 
 	return (
 		<section className={ `reelsRail${ wide ? ' reelsRail--wheel' : '' }` } id="studio-feed" aria-labelledby="reelsTitle">
@@ -85,21 +98,23 @@ export default function ReelsRail( { eyebrow = 'From the studio feed', only } ) 
 					<h2 className={ wide ? 'sr-only' : 'sectionTitle' } id="reelsTitle">Fresh off the edit.</h2>
 					<p className="lede lede--light">
 						{ wide
-							? 'Reels and campaign creative straight from our Instagram. Scroll or drag over the wheel to turn it, or pick a post from the index.'
-							: 'Reels and campaign creative straight from our Instagram — tap a reel to watch it.' }
+							? 'Reels and campaign creative straight from our Instagram. Scroll or drag over the wheel to turn it; click a reel to play it, or a post to zoom in.'
+							: 'Reels and campaign creative straight from our Instagram — tap a reel to play it.' }
 					</p>
 				</div>
 				<a className="pillBtn" href={ INSTAGRAM } target="_blank" rel="noopener noreferrer">Follow @visualstudiosplus ↗</a>
 			</div>
 			{ wide ? (
 				<div className="reelsRail_wheel">
-					<WorksWheel items={ wheelItems } label="Fresh off the edit." action="Open on Instagram" ratio={ 1.1 } external />
+					<WorksWheel items={ viewItems } label="Fresh off the edit." action="View" ratio={ 1.1 } cardHeight={ 0.5 } cardMaxWidth={ 0.44 } ringRadius={ 0.74 } showIndex={ false } cursor
+						onSelect={ ( item, i ) => setOpen( i ) } />
 				</div>
 			) : (
 				<div className="reelsRail_track">
-					{ items.map( ( r ) => <ReelCard key={ r.slug } r={ r } /> ) }
+					{ items.map( ( r, i ) => <ReelCard key={ r.slug } r={ r } onOpen={ () => setOpen( i ) } /> ) }
 				</div>
 			) }
+			{ open >= 0 && <ReelViewer items={ viewItems } index={ open } onIndex={ setOpen } onClose={ () => setOpen( -1 ) } /> }
 		</section>
 	);
 }

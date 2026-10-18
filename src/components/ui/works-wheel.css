@@ -160,3 +160,62 @@
 	outline: 1px solid var(--ww-fg);
 	outline-offset: 2px;
 }
+
+/* ---------- additions: hover zoom + custom cursor ---------- */
+
+.ww_face img {
+	transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: transform;
+}
+
+.ww--cursor .ww_stage,
+.ww--cursor .ww_stage:active {
+	cursor: none;
+}
+
+.ww_cursor {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 200;
+	display: grid;
+	place-items: center;
+	width: 4rem;
+	height: 4rem;
+	margin: -2rem 0 0 -2rem;
+	border-radius: 50%;
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	color: var(--ww-fg);
+	font-size: 0.62rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.3s, width 0.45s cubic-bezier(0.16, 1, 0.3, 1), height 0.45s cubic-bezier(0.16, 1, 0.3, 1), margin 0.45s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, border-color 0.3s, color 0.3s;
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+}
+
+.ww_cursor.is-on {
+	opacity: 1;
+}
+
+/* Over a card: a filled lime disc reading Play / Zoom. */
+.ww_cursor.is-card {
+	width: 6.5rem;
+	height: 6.5rem;
+	margin: -3.25rem 0 0 -3.25rem;
+	background: var(--ww-accent);
+	border-color: var(--ww-accent);
+	color: var(--ink, #231f20);
+	font-size: 0.75rem;
+}
+
+.ww_cursor span {
+	transition: transform 0.3s;
+}
+
+.ww_cursor.is-down span {
+	transform: scale(0.85);
+}
