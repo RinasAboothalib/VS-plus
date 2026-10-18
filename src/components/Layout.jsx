@@ -48,8 +48,12 @@ export default function Layout() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ location.pathname, reveal ] );
 
-	// Every page: the glass header bar appears once you leave the very top.
+	// Inner pages: the glass header bar appears once you leave the very top.
+	// (On home, as on ambercomm.ae, the hero's pinned timeline brings it in at the end.)
 	useEffect( () => {
+		if ( ! inner ) {
+			return undefined;
+		}
 		let shown = null;
 		const check = () => {
 			const want = window.scrollY > 40;
