@@ -214,8 +214,10 @@ body.bar-on .siteHeader_glass {
 }
 
 .siteBrand_text {
-	font-size: 0.85rem;
-	font-weight: 500;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
 	color: var(--white);
 	white-space: nowrap;
 	transition: color 0.4s;

@@ -79,7 +79,7 @@ export default function Layout() {
 						<TLink to="/" className="siteBrand" aria-label="Visual Studios Plus — home">
 							<span className="siteBrand_mark" aria-hidden="true"></span>
 						</TLink>
-						<p className="siteBrand_text">Creative Content Agency, Colombo</p>
+						<p className="siteBrand_text">Visual Studios+ · Creative Agency</p>
 					</div>
 				</header>
 				<Outlet />
