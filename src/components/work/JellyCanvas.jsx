@@ -41,7 +41,7 @@ function contour( w, h ) {
 	return pts;
 }
 
-export default function JellyCanvas() {
+export default function JellyCanvas( { selector = '.workPlaceholder' } ) {
 	const canvasRef = useRef( null );
 
 	useEffect( () => {
@@ -83,7 +83,7 @@ export default function JellyCanvas() {
 			ctx.clearRect( 0, 0, canvas.width, canvas.height );
 			ctx.fillStyle = '#ffffff';
 
-			section.querySelectorAll( '.workPlaceholder' ).forEach( ( ph ) => {
+			section.querySelectorAll( selector ).forEach( ( ph ) => {
 				const r = ph.getBoundingClientRect();
 				if ( r.bottom < -50 || r.top > window.innerHeight + 50 ) {
 					return;
@@ -172,12 +172,13 @@ export default function JellyCanvas() {
 
 		return () => {
 			cancelAnimationFrame( rafId );
+			// selector is fixed per instance
 			ro.disconnect();
 			io.disconnect();
 			window.removeEventListener( 'mousemove', onMove );
 			window.removeEventListener( 'scroll', kick );
 		};
-	}, [] );
+	}, [ selector ] );
 
 	return <canvas className="worksCanvas" ref={ canvasRef } aria-hidden="true" />;
 }

@@ -9,21 +9,9 @@ body.inner .page_content_wrap::before {
 	display: none;
 }
 
-body.inner .siteLogo,
-body.inner .siteText {
-	mix-blend-mode: difference;
-}
-
-body.inner .siteLogo_bg {
-	height: 3.6rem;
-}
-
 @media (max-width: 1240px) {
 	body.inner .MenuBulge_wrap {
 		mix-blend-mode: difference;
-	}
-	body.inner .siteLogo_bg {
-		height: 5.1rem;
 	}
 }
 
@@ -2267,4 +2255,871 @@ body.inner .siteLogo_bg {
 
 @media (max-height: 700px) {
 	.philosophy_head { position: static; }
+}
+
+/* Six flagship cards: three across on wide screens. */
+@media (min-width: 1101px) {
+	.flagGrid { grid-template-columns: repeat(3, 1fr); gap: 3vw; }
+	.flagCard h3 { font-size: 1.35rem; }
+	.flagCard .caseText { font-size: 0.85rem; }
+}
+
+@media (min-width: 801px) and (max-width: 1100px) {
+	.flagGrid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- studio feed: Instagram reels ---------- */
+
+.reelsRail {
+	position: relative;
+	z-index: 2;
+	background: var(--ink);
+	color: var(--white);
+	padding: 7rem 0;
+}
+
+.reelsRail .eyebrow {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.reelsRail_head {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 2rem;
+	max-width: var(--maxw);
+	margin: 0 auto 3rem;
+	padding: 0 var(--gutter);
+}
+
+@media (min-width: 1550px) {
+	.reelsRail_head { padding: 0; }
+}
+
+.reelsRail_track {
+	display: flex;
+	gap: 1.5rem;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	padding: 0 var(--gutter) 1.5rem;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+.reelCard {
+	flex: 0 0 clamp(14rem, 21vw, 19rem);
+	scroll-snap-align: start;
+}
+
+.reelCard_media {
+	position: relative;
+	display: block;
+	aspect-ratio: 9 / 16;
+	overflow: hidden;
+	border-radius: 14px;
+	background: #111;
+}
+
+.reelCard_media video,
+.reelCard_media img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reelCard:hover .reelCard_media video,
+.reelCard:hover .reelCard_media img {
+	transform: scale(1.03);
+}
+
+.reelCard_badge {
+	position: absolute;
+	top: 0.8rem;
+	left: 0.8rem;
+	font-size: 0.65rem;
+	font-weight: 500;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink);
+	background: var(--lime);
+	border-radius: 999px;
+	padding: 0.3rem 0.65rem;
+}
+
+.reelCard_play {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 3.4rem;
+	height: 3.4rem;
+	margin: -1.7rem 0 0 -1.7rem;
+	border-radius: 50%;
+	border: 1.5px solid rgba(255, 255, 255, 0.85);
+	transition: opacity 0.3s, transform 0.4s;
+}
+
+.reelCard_play::after {
+	content: '';
+	position: absolute;
+	left: 54%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-style: solid;
+	border-width: 0.5rem 0 0.5rem 0.8rem;
+	border-color: transparent transparent transparent #fff;
+}
+
+.reelCard:hover .reelCard_play {
+	opacity: 0;
+	transform: scale(1.3);
+}
+
+.reelCard_meta {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: 1rem;
+	font-size: 0.7rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.reelCard_title {
+	margin-top: 0.5rem;
+	font-size: 1.05rem;
+	font-weight: 500;
+	line-height: 1.25;
+}
+
+.reelCard_text {
+	margin-top: 0.4rem;
+	font-size: 0.82rem;
+	line-height: 1.45;
+	color: rgba(255, 255, 255, 0.65);
+}
+
+@media (max-width: 700px) {
+	.reelsRail { padding: 5rem 0; }
+	.reelsRail_head { flex-direction: column; align-items: flex-start; }
+	.reelCard { flex-basis: 70vw; }
+}
+
+/* ---------- services: big rows with floating hover preview ---------- */
+
+.svcRows {
+	position: relative;
+	z-index: 2;
+	background: #0b0b0b;
+	color: var(--white);
+	padding: 6rem var(--gutter);
+	overflow: hidden;
+}
+
+.svcRows .eyebrow {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.svcRows_head,
+.svcRows_list {
+	max-width: var(--maxw);
+	margin: 0 auto;
+}
+
+.svcRows_head {
+	margin-bottom: 3rem;
+}
+
+.svcRows_list {
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.svcRows_list li {
+	position: relative;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.svcRows_list li::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: rgba(255, 255, 255, 0.05);
+	transform: scaleY(0);
+	transform-origin: bottom;
+	transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.svcRows_list li.is-active::before {
+	transform: scaleY(1);
+}
+
+.svcRow {
+	position: relative;
+	display: grid;
+	grid-template-columns: 4rem 1fr minmax(14rem, 22rem) 3.2rem;
+	align-items: center;
+	gap: 2rem;
+	padding: 2.2rem 0;
+	text-decoration: none;
+}
+
+.svcRow_num {
+	font-size: 0.8rem;
+	color: rgba(255, 255, 255, 0.5);
+	transition: color 0.3s;
+}
+
+.svcRow_name {
+	font-size: clamp(2rem, 5.2vw, 4.6rem);
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: -0.04em;
+	transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.svcRow_points {
+	font-size: 0.85rem;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.svcRow_arrow {
+	display: grid;
+	place-items: center;
+	width: 3.2rem;
+	height: 3.2rem;
+	border-radius: 50%;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	transform: rotate(-45deg);
+	transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.4s;
+}
+
+.svcRows_list li.is-active .svcRow_num {
+	color: var(--lime);
+}
+
+.svcRows_list li.is-active .svcRow_name {
+	transform: translateX(1.5rem);
+}
+
+.svcRows_list li.is-active .svcRow_arrow {
+	background: var(--lime);
+	border-color: var(--lime);
+	color: var(--ink);
+	transform: rotate(0deg);
+}
+
+/* The floating preview follows the cursor (positioned by GSAP), centred on it. */
+.svcFloat {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 3;
+	width: clamp(15rem, 22vw, 20rem);
+	aspect-ratio: 4 / 5;
+	margin: calc(clamp(15rem, 22vw, 20rem) * -0.625) 0 0 calc(clamp(15rem, 22vw, 20rem) * -0.5);
+	pointer-events: none;
+}
+
+.svcFloat_inner {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	background: #000;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	transform: scale(0.6) rotate(-6deg);
+	transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.svcFloat.is-on .svcFloat_inner {
+	opacity: 1;
+	transform: scale(1) rotate(0deg);
+}
+
+.svcFloat_media {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transition: opacity 0.35s ease;
+}
+
+.svcFloat_media.is-on {
+	opacity: 1;
+}
+
+.svcFloat_ring {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 3rem;
+	height: 3rem;
+	margin: -1.5rem 0 0 -1.5rem;
+	border-radius: 50%;
+	border: 1.5px solid rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 900px) {
+	.svcRow { grid-template-columns: 2.5rem 1fr 2.6rem; gap: 1rem; padding: 1.6rem 0; }
+	.svcRow_points { grid-column: 2 / 3; grid-row: 2; }
+	.svcRow_arrow { width: 2.6rem; height: 2.6rem; }
+}
+
+/* ---------- social icons ---------- */
+
+.socialIcons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.socialIcons a {
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 50%;
+	border: 1px solid currentColor;
+	color: inherit;
+	opacity: 0.85;
+	text-decoration: none;
+	transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+}
+
+.socialIcons a:hover,
+.socialIcons a:focus-visible {
+	opacity: 1;
+	background: var(--lime);
+	border-color: var(--lime);
+	color: var(--ink);
+	transform: translateY(-3px);
+}
+
+/* Menu overlay: white glyphs on the dark backdrop (overrides the old text-link styling). */
+.menuWrap ul.socialLinks {
+	flex-direction: row;
+	gap: 0.6rem;
+}
+
+.menuWrap ul.socialLinks li a,
+.menuWrap ul.socialLinks li a:hover {
+	font-size: inherit;
+	transform: none;
+}
+
+.menuWrap ul.socialLinks li a::after {
+	display: none;
+}
+
+.menuWrap ul.socialLinks li a:hover {
+	color: var(--ink);
+	opacity: 1;
+}
+
+.socialIcons--footer {
+	margin-top: 0.4rem;
+}
+
+/* ---------- home hero (VS+ opening) ---------- */
+
+.vsHero {
+	color: var(--white);
+	background: #050505;
+	overflow: hidden;
+}
+
+.vsHero_media {
+	will-change: transform;
+}
+
+.vsHero_mediaIn {
+	position: absolute;
+	inset: 0;
+	transform-origin: 50% 50%;
+}
+
+.vsHero_poster,
+.vsHero_video {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.vsHero_poster {
+	opacity: 0.6;
+}
+
+.vsHero_shade {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.vsHero_shade--v {
+	background: linear-gradient(to bottom, rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.3) 45%, #050505);
+}
+
+.vsHero_shade--top {
+	inset: 0 0 auto 0;
+	height: 10rem;
+	background: linear-gradient(to bottom, rgba(5, 5, 5, 0.8), transparent);
+}
+
+.vsHero_shade--corner {
+	background: radial-gradient(ellipse at 30% 80%, rgba(5, 5, 5, 0.75), transparent 60%);
+}
+
+/* Film grain, stepped so it flickers like stock rather than sliding. */
+.vsHero_grain {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.vsHero_grain::after {
+	content: '';
+	position: absolute;
+	inset: -50%;
+	opacity: 0.07;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+	animation: grain 1.2s steps(6, end) infinite;
+}
+
+@keyframes grain {
+	0% { transform: translate(0, 0); }
+	20% { transform: translate(-5%, 3%); }
+	40% { transform: translate(4%, -6%); }
+	60% { transform: translate(-3%, 5%); }
+	80% { transform: translate(6%, 2%); }
+	100% { transform: translate(0, 0); }
+}
+
+.vsHero_spot {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.7s ease;
+	background:
+		radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.13), transparent 62%),
+		radial-gradient(900px circle at var(--mx, 50%) var(--my, 50%), transparent 30%, rgba(5, 5, 5, 0.42) 100%);
+}
+
+.vsHero_content {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	max-width: var(--maxw);
+	margin: 0 auto;
+	padding: 8rem var(--gutter) 6rem;
+}
+
+@media (min-width: 1550px) {
+	.vsHero_content { padding-inline: 0; }
+}
+
+.vsHero_eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 2.25rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.vsHero_eyebrow .dot {
+	width: 0.4rem;
+	height: 0.4rem;
+	border-radius: 50%;
+	background: var(--lime);
+}
+
+.vsHero_title {
+	margin: 0;
+	font-size: clamp(2.9rem, min(9.6vw, 14svh), 11.5rem);
+	font-weight: 900;
+	line-height: 0.92;
+	letter-spacing: -0.045em;
+}
+
+.vsHero_line {
+	display: block;
+	overflow: hidden;
+	padding-bottom: 0.06em;
+}
+
+.vsHero.is-in .vsHero_line {
+	overflow: visible;
+}
+
+.vsHero_line > span {
+	display: block;
+}
+
+.liftWord {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.liftLetter {
+	display: inline-block;
+	transform-origin: bottom;
+	transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: transform;
+}
+
+.vsHero_accent {
+	color: var(--lime);
+	padding-right: 0.08em;
+}
+
+/* Rolling phrase: every phrase shares one grid cell, sized by the longest. */
+.rotator {
+	position: relative;
+	display: inline-grid;
+	overflow: hidden;
+	vertical-align: bottom;
+}
+
+.rotSizer,
+.rotWord {
+	grid-area: 1 / 1;
+}
+
+.rotSizer {
+	visibility: hidden;
+}
+
+.vsHero.is-in .rotator {
+	overflow: hidden;
+}
+
+.vsHero_row {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 2rem;
+	margin-top: 3.5rem;
+}
+
+.vsHero_intro {
+	max-width: 36rem;
+	font-size: 1.2rem;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.vsHero_actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.vsHero_btn {
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	font-size: 0.78rem;
+	font-weight: 700;
+}
+
+.vsHero_play {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 1rem;
+	font: 400 0.9rem/1 var(--font);
+	letter-spacing: 0.02em;
+	color: var(--white);
+	background: none;
+	border: 0;
+	cursor: pointer;
+}
+
+.vsHero_playIcon {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 50%;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	transition: transform 0.5s, background 0.5s, border-color 0.5s;
+}
+
+.vsHero_playIcon::after {
+	content: '';
+	margin-left: 0.15rem;
+	border-style: solid;
+	border-width: 0.4rem 0 0.4rem 0.65rem;
+	border-color: transparent transparent transparent currentColor;
+}
+
+.vsHero_play:hover .vsHero_playIcon {
+	transform: scale(1.1);
+	background: var(--lime);
+	border-color: var(--lime);
+	color: var(--ink);
+}
+
+.vsHero_scroll {
+	position: absolute;
+	left: 50%;
+	bottom: 1.5rem;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	transform: translateX(-50%);
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.vsHero_scroll i {
+	position: relative;
+	display: block;
+	width: 1px;
+	height: 3rem;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.15);
+}
+
+.vsHero_scroll i::after {
+	content: '';
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 50%;
+	background: var(--white);
+	animation: scrollDrop 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollDrop {
+	from { transform: translateY(-100%); }
+	to { transform: translateY(200%); }
+}
+
+/* Showreel modal */
+.reelModal {
+	position: fixed;
+	inset: 0;
+	z-index: 1300;
+	display: grid;
+	place-items: center;
+	padding: 4rem var(--gutter);
+	background: rgba(5, 5, 5, 0.92);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+}
+
+.reelModal video {
+	width: min(100%, 1400px);
+	max-height: 80vh;
+	aspect-ratio: 16 / 9;
+	background: #000;
+}
+
+.reelModal_close {
+	position: absolute;
+	top: 1.25rem;
+	right: 1.25rem;
+	width: 2.8rem;
+	height: 2.8rem;
+	border-radius: 50%;
+	border: 0;
+	background: var(--lime);
+	color: var(--ink);
+	font-size: 1rem;
+	cursor: pointer;
+}
+
+@media (max-width: 767px) {
+	.vsHero_content { padding: 7rem var(--gutter) 5rem; }
+	.vsHero_row { flex-direction: column; align-items: flex-start; margin-top: 2rem; }
+	.vsHero_intro { font-size: 1rem; }
+	.vsHero_scroll { display: none; }
+}
+
+/* The capabilities section hosts the floating preview too. clip (not hidden) keeps its sticky heading working. */
+.servicesSection,
+.svcRows {
+	overflow: clip;
+}
+
+/* ---------- home portfolio slideshow ---------- */
+
+.photoStrip_ctrl {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.photoStrip_count {
+	min-width: 4.5rem;
+	font-size: 0.8rem;
+	font-variant-numeric: tabular-nums;
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.stripBtn {
+	display: grid;
+	place-items: center;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	background: transparent;
+	color: var(--white);
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.stripBtn:hover {
+	background: var(--lime);
+	border-color: var(--lime);
+	color: var(--ink);
+}
+
+.photoStrip_ctrl .btnLink {
+	margin-left: 1rem;
+}
+
+.photoStrip .photoStrip_track {
+	overflow: hidden;
+}
+
+.photoStrip .photoStrip_row {
+	will-change: transform;
+}
+
+.stripItem_img {
+	display: block;
+	height: calc(100% - 2.2rem);
+	overflow: hidden;
+}
+
+.stripItem .stripItem_img img {
+	height: 100%;
+	transform: scale(1.08);
+	transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s;
+	filter: brightness(0.75);
+}
+
+.stripItem.is-current .stripItem_img img,
+.stripItem:hover .stripItem_img img {
+	transform: scale(1);
+	filter: none;
+}
+
+.photoStrip_progress {
+	max-width: var(--maxw);
+	height: 2px;
+	margin: 2.5rem auto 0;
+	background: rgba(255, 255, 255, 0.12);
+	overflow: hidden;
+}
+
+.photoStrip_bar {
+	display: block;
+	height: 100%;
+	background: var(--lime);
+	transform-origin: left;
+	animation: stripProgress 3s linear forwards;
+}
+
+.photoStrip:hover .photoStrip_bar {
+	animation-play-state: paused;
+}
+
+@keyframes stripProgress {
+	from { transform: scaleX(0); }
+	to { transform: scaleX(1); }
+}
+
+@media (max-width: 900px) {
+	.photoStrip .photoStrip_track { overflow: hidden; scroll-snap-type: none; }
+	.photoStrip_ctrl .btnLink { margin-left: 0; }
+	.photoStrip_ctrl { flex-wrap: wrap; }
+}
+
+/* ---------- category card slideshow ---------- */
+
+.catSlides {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.catSlides img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transform: scale(1.08);
+	transition: opacity 1s ease, transform 4s ease-out;
+}
+
+.catSlides img.is-on {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.catCard:hover .catSlides img.is-on {
+	transform: scale(1.05);
+	transition: opacity 1s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.catSlides_dots {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0.8rem;
+	display: flex;
+	justify-content: center;
+	gap: 0.35rem;
+}
+
+.catSlides_dots i {
+	width: 0.35rem;
+	height: 0.35rem;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.5);
+	transition: width 0.4s, background 0.4s;
+}
+
+.catSlides_dots i.is-on {
+	width: 1.2rem;
+	border-radius: 999px;
+	background: var(--lime);
+}
+
+/* Jelly-edge canvases measure against their parent, so these wrappers anchor them. */
+.archiveInner,
+.capInner {
+	position: relative;
 }

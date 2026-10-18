@@ -4,10 +4,13 @@ import { pad, ScrollTrigger } from '../../lib/motion.js';
 import TLink from '../TLink.jsx';
 import HoverDot from '../HoverDot.jsx';
 import Megaphone from '../illustrations/Megaphone.jsx';
+import FloatPreview from '../FloatPreview.jsx';
 
 export default function ServicesAccordion() {
 	const [ open, setOpen ] = useState( 0 );
+	const [ hover, setHover ] = useState( null );
 	const list = useRef( null );
+	const section = useRef( null );
 
 	const toggle = ( i ) => {
 		setOpen( ( cur ) => ( cur === i ? -1 : i ) );
@@ -15,7 +18,7 @@ export default function ServicesAccordion() {
 	};
 
 	return (
-		<section className="servicesSection" id="services">
+		<section className="servicesSection" id="services" ref={ section } onMouseLeave={ () => setHover( null ) }>
 			<div className="servicesInner">
 				<div className="servicesHead">
 					<p className="eyebrow">(04) Capabilities overview</p>
@@ -24,10 +27,10 @@ export default function ServicesAccordion() {
 					<TLink className="btnLink" to="/services/">All capabilities</TLink>
 					<Megaphone className="illus--svc" />
 				</div>
-				<ul className="accordion" ref={ list }>
+				<ul className="accordion" ref={ list } onMouseLeave={ () => setHover( null ) }>
 					<HoverDot list={ list } center={ ( li ) => li.offsetTop + li.querySelector( 'button' ).offsetHeight / 2 } />
 					{ data.services.map( ( [ slug, name, statement ], i ) => (
-						<li key={ slug } className={ open === i ? 'is-open' : undefined }>
+						<li key={ slug } className={ open === i ? 'is-open' : undefined } onMouseEnter={ () => setHover( slug ) }>
 							<button type="button" aria-expanded={ open === i } aria-controls={ `svc-${ i }` } onClick={ () => toggle( i ) }>
 								<span className="accNum">{ pad( i + 1 ) }</span>
 								<span className="accName">{ name }</span>
@@ -40,6 +43,7 @@ export default function ServicesAccordion() {
 					) ) }
 				</ul>
 			</div>
+			<FloatPreview container={ section } active={ hover } />
 		</section>
 	);
 }

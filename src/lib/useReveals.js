@@ -3,6 +3,8 @@ import { gsap, reduced } from './motion.js';
 
 const REVEAL = '.sectionTitle, .resultItem, .caseRow, .featureCase, .catCard, .svcBlock_text, .capCard, .rosterItem, .missionTitle, .projectText';
 const PARALLAX = '.parallaxImg img, .svcBlock_img img, .missionImg img';
+/* Image frames that get the home page's unveil as they scroll in. */
+const FRAMES = '.workPlaceholder, .flagMedia, .catCard_img, .capCard_img, .svcBlock_img, .aboutGrid_img, .missionImg, .projectFilm_frame, .nextProject_img, .reelCard_media';
 
 /**
  * Scroll reveals, image parallax, the inner-page hero entrance and number
@@ -22,6 +24,20 @@ export default function useReveals( scope, deps = [] ) {
 					ease: 'power3.out',
 					scrollTrigger: { trigger: node, start: 'top 92%', once: true }
 				} );
+			} );
+
+			// Unveil: the frame opens from the bottom edge while it settles upward.
+			gsap.utils.toArray( FRAMES ).forEach( ( frame ) => {
+				if ( frame.closest( '.vsHero' ) ) {
+					return;
+				}
+				gsap.fromTo( frame,
+					{ clipPath: 'inset(100% 0% 0% 0%)', y: 60 },
+					{
+						clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: 1.4, ease: 'expo.out',
+						clearProps: 'clipPath',
+						scrollTrigger: { trigger: frame, start: 'top 92%', once: true }
+					} );
 			} );
 
 			gsap.utils.toArray( PARALLAX ).forEach( ( img ) => {

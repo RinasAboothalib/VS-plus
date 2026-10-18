@@ -13,7 +13,6 @@ export default function Layout() {
 	const location = useLocation();
 	const { page, inner } = usePageMeta();
 	const { reveal } = useTransition();
-	const bar = useRef( null );
 	const first = useRef( true );
 
 	useEffect( () => {
@@ -49,26 +48,19 @@ export default function Layout() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ location.pathname, reveal ] );
 
-	// Inner pages: a dark bar slides in behind the logo once you scroll.
+	// Every page: the glass header bar appears once you leave the very top.
 	useEffect( () => {
-		if ( ! inner ) {
-			return undefined;
-		}
-		let shown = false;
+		let shown = null;
 		const check = () => {
-			const want = window.scrollY > 60;
+			const want = window.scrollY > 40;
 			if ( want !== shown ) {
 				shown = want;
 				document.body.classList.toggle( 'bar-on', want );
-				gsap.to( bar.current, { yPercent: want ? 100 : 0, duration: 0.5, ease: 'power3.out' } );
 			}
 		};
 		window.addEventListener( 'scroll', check, { passive: true } );
 		check();
-		return () => {
-			window.removeEventListener( 'scroll', check );
-			gsap.set( bar.current, { yPercent: 0 } );
-		};
+		return () => window.removeEventListener( 'scroll', check );
 	}, [ inner, location.pathname ] );
 
 	return (
@@ -77,11 +69,13 @@ export default function Layout() {
 			<Nav />
 			<BackToTop />
 			<main id="main" className="page_content_wrap">
-				<div className="siteLogo_bg" ref={ bar }></div>
-				<div className="siteLogo">
-					<TLink to="/"><img src="/assets/img/VSP-Square-logo.png" alt="Visual Studios Plus — home" /></TLink>
-				</div>
-				<div className="siteText"><p>Creative Content Agency, Colombo</p></div>
+				<header className="siteHeader">
+					<div className="siteHeader_glass" aria-hidden="true"></div>
+					<TLink to="/" className="siteBrand" aria-label="Visual Studios Plus — home">
+						<span className="siteBrand_mark" aria-hidden="true"></span>
+						<span className="siteBrand_text">Creative Content Agency, Colombo</span>
+					</TLink>
+				</header>
 				<Outlet />
 				<Footer />
 			</main>

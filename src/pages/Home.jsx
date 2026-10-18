@@ -13,6 +13,7 @@ import PhotoStrip from '../components/home/PhotoStrip.jsx';
 import GradeCompare from '../components/home/GradeCompare.jsx';
 import Roster from '../components/home/Roster.jsx';
 import Flagship from '../components/home/Flagship.jsx';
+import ReelsRail from '../components/social/ReelsRail.jsx';
 
 export default function Home() {
 	const root = useRef( null );
@@ -26,7 +27,6 @@ export default function Home() {
 
 	return (
 		<div ref={ root }>
-			<h1 className="sr-only">Visual Studios Plus — Digital Creative Marketing Agency, Colombo</h1>
 			<Hero />
 			<ClientStrip />
 
@@ -35,6 +35,7 @@ export default function Home() {
 				<Flagship />
 			</div>
 
+			<ReelsRail />
 			<Showreel />
 			<Philosophy />
 			<ServicesAccordion />

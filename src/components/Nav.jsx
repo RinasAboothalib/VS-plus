@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import data from '../data/site.js';
 import { gsap, reduced, startScroll, stopScroll } from '../lib/motion.js';
 import { useTransition } from '../context/TransitionContext.jsx';
+import { SocialIcons } from './SocialIcon.jsx';
 
 const LINKS = [
 	[ '/work/', 'Work', 'work' ],
@@ -290,11 +291,7 @@ export default function Nav() {
 								</li>
 							) ) }
 						</ul>
-						<ul className="socialLinks">
-							{ data.site.socials.map( ( [ label, href ] ) => (
-								<li key={ label }><a href={ href } target="_blank" rel="noopener noreferrer">{ label }</a></li>
-							) ) }
-						</ul>
+						<SocialIcons items={ data.site.socials } className="socialLinks" size={ 22 } />
 					</div>
 				</div>
 			</div>

@@ -9,6 +9,8 @@ import TLink from '../components/TLink.jsx';
 import WorkCard from '../components/work/WorkCard.jsx';
 import JellyCanvas from '../components/work/JellyCanvas.jsx';
 import { CaseRow } from '../components/work/CaseItems.jsx';
+import ReelsRail from '../components/social/ReelsRail.jsx';
+import CatSlides from '../components/work/CatSlides.jsx';
 
 const COVERS = { food: 'CurryLeaf.webp', fashion: '7.webp', jewellery: 'DSC_1657-2.webp', hospitality: 'D85_3829-HDR.webp' };
 
@@ -56,7 +58,8 @@ export default function Work() {
 				<ul className="pageJump">
 					<li><TLink to="#films">(A) TVC &amp; Films</TLink></li>
 					<li><TLink to="#case-studies">(B) Flagship portfolio</TLink></li>
-					<li><TLink to="#archive">(C) Photography archive</TLink></li>
+					<li><TLink to="#studio-feed">(C) Latest from the studio</TLink></li>
+					<li><TLink to="#archive">(D) Photography archive</TLink></li>
 				</ul>
 			</PageHero>
 
@@ -100,11 +103,13 @@ export default function Work() {
 				</div>
 			</section>
 
+			<ReelsRail eyebrow="(C) Latest from the studio" />
+
 			<section className="archiveSection" id="archive" aria-labelledby="archiveTitle">
 				<div className="archiveInner">
 					<div className="caseHead">
 						<div>
-							<p className="eyebrow">(C) Commercial photography</p>
+							<p className="eyebrow">(D) Commercial photography</p>
 							<h2 className="sectionTitle" id="archiveTitle">The photography archive.</h2>
 						</div>
 						<div>
@@ -112,12 +117,15 @@ export default function Work() {
 							<TLink className="btnLink" to="/photography/">View all { photos.length } photographs →</TLink>
 						</div>
 					</div>
+					<JellyCanvas selector=".catCard_img" />
 					<div className="catGrid">
 						{ data.photoCategories.map( ( [ id, name ], i ) => {
 							const cover = photos.find( ( p ) => p.f === COVERS[ id ] );
 							return (
 								<TLink className="catCard" key={ id } to={ `/photography/?category=${ id }#gallery` }>
-									<span className="catCard_img"><img src={ `/assets/photos/thumb/${ cover.t }` } alt="" loading="lazy" decoding="async" /></span>
+									<span className="catCard_img">
+										<CatSlides delay={ i * 700 } images={ [ cover, ...photos.filter( ( p ) => p.c === id && p !== cover ).slice( 0, 5 ) ].map( ( p ) => `/assets/photos/thumb/${ p.t }` ) } />
+									</span>
 									<span className="catCard_meta">
 										<span className="catCard_name">{ name }</span>
 										<span className="catCard_count">{ photos.filter( ( p ) => p.c === id ).length } photographs</span>

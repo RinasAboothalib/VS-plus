@@ -5,6 +5,7 @@ import PageHero from '../components/PageHero.jsx';
 import TLink from '../components/TLink.jsx';
 import ClientStrip from '../components/home/ClientStrip.jsx';
 import Roster from '../components/home/Roster.jsx';
+import JellyCanvas from '../components/work/JellyCanvas.jsx';
 
 const STATS = [
 	[ '50+', 'Premier brands partnered' ],
@@ -98,6 +99,7 @@ export default function About() {
 							</div>
 							<TLink className="btnLink" to="/services/">Capabilities &amp; services</TLink>
 						</div>
+						<JellyCanvas selector=".capCard_img" />
 						<div className="capGrid">
 							{ CAPS.map( ( [ to, img, alt, name, sub, wide ] ) => (
 								<TLink key={ name } className={ `capCard${ wide ? ' capCard--wide' : '' }` } to={ to }>

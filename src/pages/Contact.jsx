@@ -7,6 +7,7 @@ import { thumb } from '../lib/motion.js';
 import { load, save } from '../lib/store.js';
 import PageHero from '../components/PageHero.jsx';
 import CopyEmail from '../components/CopyEmail.jsx';
+import { SocialIcons } from '../components/SocialIcon.jsx';
 
 const DRAFT_KEY = 'vs-brief-draft';
 const EMPTY = { name: '', email: '', company: '', message: '', interests: [] };
@@ -100,11 +101,7 @@ export default function Contact() {
 							</div>
 							<div className="contactInfo_block">
 								<p className="fLabel">Follow &amp; connect on direct channels</p>
-								<ul className="contactSocials">
-									{ site.socials.map( ( [ label, href ] ) => (
-										<li key={ label }><a href={ href } target="_blank" rel="noopener noreferrer">{ label } <span aria-hidden="true">↗</span></a></li>
-									) ) }
-								</ul>
+								<SocialIcons items={ site.socials } className="socialIcons--contact" size={ 22 } />
 							</div>
 						</div>
 

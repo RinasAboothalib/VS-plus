@@ -1,6 +1,12 @@
 /* Site content: every page renders from this one file. */
 const data = {
 	"site": {
+		"intro": "Colombo’s premier digital marketing, social media campaigns, and content creation agency. We partner with ambitious brands to command attention and deliver verified commercial growth.",
+		"headline": {
+			"lead": "We create content",
+			"rotating": [ "that moves", "that sells", "that connects", "that grows" ],
+			"tail": "brands."
+		},
 		"email": "info@visualstudiosplus.com",
 		"phones": [
 			"+94 74 043 6639",

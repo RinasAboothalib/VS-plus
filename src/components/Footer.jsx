@@ -2,6 +2,7 @@ import data from '../data/site.js';
 import TLink from './TLink.jsx';
 import CopyEmail from './CopyEmail.jsx';
 import { usePageMeta } from '../context/PageContext.jsx';
+import { SocialIcons } from './SocialIcon.jsx';
 
 export default function Footer() {
 	const { cta } = usePageMeta();
@@ -42,9 +43,7 @@ export default function Footer() {
 					<div className="footerCol">
 						<p className="fLabel">Direct channels</p>
 						<p className="fTitle">Follow the work</p>
-						{ site.socials.map( ( [ label, href ] ) => (
-							<a key={ label } className="fAction" href={ href } target="_blank" rel="noopener noreferrer">{ label }</a>
-						) ) }
+						<SocialIcons items={ site.socials } className="socialIcons--footer" size={ 22 } />
 					</div>
 				</div>
 

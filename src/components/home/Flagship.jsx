@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import data from '../../data/site.js';
+import social from '../../data/social.json';
 import { reduced, slugify } from '../../lib/motion.js';
 import TLink from '../TLink.jsx';
+import JellyCanvas from '../work/JellyCanvas.jsx';
 
 /* Plays its video only while at least a third of it is on screen. */
-function CaseVideo( { src, label } ) {
+function CaseVideo( { src, label, poster } ) {
 	const video = useRef( null );
 	useEffect( () => {
 		const v = video.current;
@@ -17,7 +19,7 @@ function CaseVideo( { src, label } ) {
 	}, [] );
 	return (
 		<video ref={ video } className="flagMedia_el" src={ src } muted loop playsInline preload="metadata"
-			controls={ reduced } aria-label={ label } />
+			poster={ poster } controls={ reduced } aria-label={ label } />
 	);
 }
 
@@ -54,6 +56,34 @@ function CaseSlides( { images, label } ) {
 	);
 }
 
+/* Campaigns from the VS+ Instagram, shown with their original reels and creative. */
+const FROM_SOCIAL = [
+	[ 'ritzbury-christmas', 'Content Creation', [ 'Food Videography', 'Festive Campaign', 'Detail-led Film' ] ],
+	[ 'heritance-tea-factory', 'Hospitality Film', [ 'Hospitality', 'Heritage', 'Videography' ] ],
+	[ 'mak-lubricants', 'CGI / AI Creative', [ 'AI Animation', 'Product Story', 'Technical' ] ],
+	[ 'feather-sri-lanka', 'Performance Campaign', [ 'Paid Media', 'Creative Testing', 'E-commerce' ] ]
+].map( ( [ slug, type, tags ] ) => {
+	const p = social.find( ( x ) => x.slug === slug );
+	return {
+		type, year: p.date.slice( -4 ), client: p.client, title: p.title, text: p.summary, tags,
+		metric: p.metric, metricLabel: p.metricLabel,
+		video: p.video, poster: p.cover, image: p.video ? null : p.cover,
+		instagram: p.url
+	};
+} );
+
+const ITEMS = [ ...data.flagship, ...FROM_SOCIAL ];
+
+function mediaTag( f ) {
+	if ( f.images ) {
+		return 'Photography';
+	}
+	if ( f.instagram ) {
+		return f.video ? 'Instagram reel' : 'Campaign creative';
+	}
+	return 'Campaign reel';
+}
+
 export default function Flagship() {
 	// Campaigns without published media yet are listed compactly under the cards.
 	const others = data.caseStudies.filter( ( c ) => [ 'Nescafé × Colombo Fashion Week', 'UNDP Sri Lanka — HackaDev Social Innovation' ].includes( c[ 3 ] ) );
@@ -66,12 +96,15 @@ export default function Flagship() {
 				<p className="lede">We blend high-fashion visual standards with aggressive social media reach, high-velocity turnaround, and conversion-driven storytelling.</p>
 			</div>
 
+			<JellyCanvas selector=".flagMedia" />
 			<div className="flagGrid">
-				{ data.flagship.map( ( f ) => (
+				{ ITEMS.map( ( f ) => (
 					<article className="flagCard featureCase" key={ f.title }>
 						<div className="flagMedia">
-							{ f.video ? <CaseVideo src={ f.video } label={ `${ f.title } — campaign reel` } /> : <CaseSlides images={ f.images } label={ f.title } /> }
-							<span className="flagMedia_tag">{ f.video ? 'Campaign reel' : 'Photography' }</span>
+							{ f.video && <CaseVideo src={ f.video } poster={ f.poster } label={ `${ f.title } — reel` } /> }
+							{ f.images && <CaseSlides images={ f.images } label={ f.title } /> }
+							{ f.image && <img className="flagMedia_el" src={ f.image } alt={ `${ f.title } — campaign creative` } loading="lazy" decoding="async" /> }
+							<span className="flagMedia_tag">{ mediaTag( f ) }</span>
 						</div>
 						<p className="eyebrow">{ f.type }{ f.year ? ` · ${ f.year }` : '' }</p>
 						<p className="caseClient">{ f.client }</p>
@@ -81,6 +114,7 @@ export default function Flagship() {
 						<ul className="pillList">{ f.tags.map( ( t ) => <li key={ t }>{ t }</li> ) }</ul>
 						{ f.metric && <p className="featureCase_metric"><span>{ f.metric }</span>{ f.metricLabel }</p> }
 						{ f.source && <a className="btnLink flagSource" href={ f.source } target="_blank" rel="noopener noreferrer">Full set on Behance ↗</a> }
+						{ f.instagram && <a className="btnLink flagSource" href={ f.instagram } target="_blank" rel="noopener noreferrer">See it on Instagram ↗</a> }
 					</article>
 				) ) }
 			</div>

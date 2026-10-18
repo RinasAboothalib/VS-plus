@@ -6,6 +6,7 @@ import { imgSrc, pad, ScrollTrigger } from '../lib/motion.js';
 import PageHero from '../components/PageHero.jsx';
 import TLink from '../components/TLink.jsx';
 import HoverDot from '../components/HoverDot.jsx';
+import ServiceRows from '../components/work/ServiceRows.jsx';
 
 export default function Services() {
 	const root = useRef( null );
@@ -39,6 +40,8 @@ export default function Services() {
 		<div ref={ root }>
 			<PageHero eyebrow="End-to-end capabilities & production disciplines" lines={ [ 'Studio', 'services' ] }
 				lede="Nine studio disciplines engineered under one roof in Colombo 04. Fast turnarounds, broadcast colour grading, and organic social dominance." />
+
+			<ServiceRows />
 
 			<div className="servicesPage">
 				<aside className="svcIndex" aria-label="Services index">
