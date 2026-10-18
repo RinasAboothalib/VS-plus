@@ -2839,6 +2839,11 @@ body.inner .page_content_wrap::before {
 	background: radial-gradient(ellipse at 30% 80%, rgba(5, 5, 5, 0.75), transparent 60%);
 }
 
+/* An even veil over the reel so the headline stays the focus. */
+.vsHero_shade--dim {
+	background: rgba(5, 5, 5, 0.3);
+}
+
 /* Film grain, stepped so it flickers like stock rather than sliding. */
 .vsHero_grain {
 	position: absolute;
@@ -2890,25 +2895,6 @@ body.inner .page_content_wrap::before {
 
 @media (min-width: 1550px) {
 	.vsHero_content { padding-inline: 0; }
-}
-
-.vsHero_eyebrow {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-	margin-bottom: 2.25rem;
-	font-size: 0.75rem;
-	font-weight: 700;
-	letter-spacing: 0.05em;
-	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.7);
-}
-
-.vsHero_eyebrow .dot {
-	width: 0.4rem;
-	height: 0.4rem;
-	border-radius: 50%;
-	background: var(--lime);
 }
 
 .vsHero_title {

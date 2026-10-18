@@ -6,7 +6,6 @@ import { LiftText, Spotlight, WordRotator } from './HeroText.jsx';
 const BLOB = 'M40.4,-70C49.7,-64.6,52.8,-48.4,61,-34.9C69.3,-21.5,82.7,-10.7,87.7,2.9C92.6,16.4,89,32.9,80,45C70.9,57,56.4,64.7,42.1,68C27.9,71.3,13.9,70.2,-0.8,71.5C-15.5,72.8,-30.9,76.6,-40.1,70.4C-49.3,64.1,-52.1,48,-60.3,34.6C-68.4,21.2,-81.8,10.6,-81.9,0C-82,-10.7,-68.7,-21.4,-60.7,-35C-52.7,-48.6,-50,-65.2,-40.7,-70.6C-31.4,-76.1,-15.7,-70.4,-0.1,-70.3C15.5,-70.1,31.1,-75.4,40.4,-70Z';
 
 /* Hero copy from visual-studio-wine.vercel.app. */
-const EYEBROW = 'Visual Studios+ · Creative Agency';
 const LEAD = 'We create content';
 const ROTATING = [ 'that moves', 'that sells', 'that connects', 'that grows' ];
 const TAIL = 'brands.';
@@ -48,7 +47,6 @@ export default function Hero() {
 			// Opening, timed to land as the nav's liquid wipe clears.
 			gsap.timeline( { delay: 0.6 } )
 				.fromTo( '.vsHero_mediaIn', { scale: 1.18 }, { scale: 1, duration: 2.4, ease: 'expo.out' }, 0 )
-				.from( '.vsHero_eyebrow', { opacity: 0, y: 20, duration: 0.7, ease: 'expo.out' }, 0.05 )
 				.from( '.vsHero_line > span', { yPercent: 105, duration: 1.1, ease: 'expo.out', stagger: 0.1 }, 0.1 )
 				.from( '.vsHero_intro', { y: 20, opacity: 0, duration: 0.7, ease: 'expo.out' }, 0.25 )
 				.from( '.vsHero_scroll', { opacity: 0, duration: 0.8 }, 1.2 )
@@ -99,12 +97,12 @@ export default function Hero() {
 				<div className="vsHero_shade vsHero_shade--v"></div>
 				<div className="vsHero_shade vsHero_shade--top"></div>
 				<div className="vsHero_shade vsHero_shade--corner"></div>
+				<div className="vsHero_shade vsHero_shade--dim"></div>
 			</div>
 			<div className="vsHero_grain" aria-hidden="true"></div>
 			<Spotlight />
 
 			<div className="vsHero_content">
-				<p className="vsHero_eyebrow"><span className="dot" aria-hidden="true"></span>{ EYEBROW }</p>
 				<h1 id="hero-title" className="vsHero_title">
 					<span className="sr-only">{ LEAD } { ROTATING[ 0 ] } { TAIL }</span>
 					<span aria-hidden="true">
