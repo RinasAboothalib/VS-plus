@@ -6,14 +6,14 @@
    ========================================================================== */
 
 :root {
-	--ink: #231f20;
-	--ink-2: #474748;
+	--ink: #0a0a0a;
+	--ink-2: #1c1c1c;
 	--lime: #dfff24;
 	--cream: #f8f6f5;
 	--hero-bg: #050505;
 	--white: #ffffff;
 	--muted: #8a8687;
-	--line: rgba(35, 31, 32, 0.18);
+	--line: rgba(10, 10, 10, 0.16);
 	--gutter: 6vw;
 	--maxw: 1550px;
 	--font: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;

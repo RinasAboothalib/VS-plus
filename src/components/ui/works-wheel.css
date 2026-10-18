@@ -2,7 +2,7 @@
    Colours come from --ww-* tokens so the wheel can sit on a light or dark section. */
 
 .ww {
-	--ww-bg: var(--ink, #231f20);
+	--ww-bg: var(--ink, #0a0a0a);
 	--ww-fg: #fff;
 	--ww-muted: rgba(255, 255, 255, 0.08);
 	--ww-muted-fg: rgba(255, 255, 255, 0.5);
@@ -80,7 +80,7 @@
 	padding: 0.25rem 0.625rem;
 	border-radius: 999px;
 	font-size: 0.7rem;
-	color: var(--ink, #231f20);
+	color: var(--ink, #0a0a0a);
 	background: var(--ww-accent);
 	opacity: 0;
 	transform: translateY(0.25rem);
@@ -208,7 +208,7 @@
 	margin: -3.25rem 0 0 -3.25rem;
 	background: var(--ww-accent);
 	border-color: var(--ww-accent);
-	color: var(--ink, #231f20);
+	color: var(--ink, #0a0a0a);
 	font-size: 0.75rem;
 }
 

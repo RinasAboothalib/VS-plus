@@ -1388,7 +1388,7 @@ body.inner .page_content_wrap::before {
 	left: 0;
 	bottom: 3.5rem;
 	width: min(92vw, 34rem);
-	background: #141213;
+	background: #050505;
 	color: var(--white);
 	border-radius: 1rem;
 	padding: 1rem;
@@ -2413,7 +2413,7 @@ body.inner .page_content_wrap::before {
 .svcRows {
 	position: relative;
 	z-index: 2;
-	background: #0b0b0b;
+	background: #050505;
 	color: var(--white);
 	padding: 6rem var(--gutter);
 	overflow: hidden;
