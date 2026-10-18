@@ -71,10 +71,12 @@ export default function Layout() {
 			<main id="main" className="page_content_wrap">
 				<header className="siteHeader">
 					<div className="siteHeader_glass" aria-hidden="true"></div>
-					<TLink to="/" className="siteBrand" aria-label="Visual Studios Plus — home">
-						<span className="siteBrand_mark" aria-hidden="true"></span>
-						<span className="siteBrand_text">Creative Content Agency, Colombo</span>
-					</TLink>
+					<div className="siteHeader_inner">
+						<TLink to="/" className="siteBrand" aria-label="Visual Studios Plus — home">
+							<span className="siteBrand_mark" aria-hidden="true"></span>
+						</TLink>
+						<p className="siteBrand_text">Creative Content Agency, Colombo</p>
+					</div>
 				</header>
 				<Outlet />
 				<Footer />
