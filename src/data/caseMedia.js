@@ -10,6 +10,7 @@ export default {
 	'Nescafé × Colombo Fashion Week': { img: C( 'nescafe' ) }, // Nestlé Lanka press photo, Fashion Café at CFW 2025
 	'UNDP Sri Lanka — HackaDev Social Innovation': { img: C( 'undp' ) }, // UNDP Sri Lanka, HackaDev cohort
 	'SOZO Sparkling Drinks — Identity & Can Design': { img: C( 'sozo' ), fit: 'contain' }, // sozoiced.com, Clouds sparkling can
+	'Too Good Dessert Chocolatier': { img: C( 'too-good' ), fit: 'contain' }, // toogood.lk, Pistachio Kunafection packaging
 	'Pond’s Super Light Gel Launch': { video: '/assets/cases/ponds-reel.mp4#t=2.5' },
 	'Dankotuwa Porcelain CGI World': { img: C( 'dankotuwa' ) },
 	'Ministry of Crab Gastronomy': { img: C( 'ministry-of-crab' ) },
