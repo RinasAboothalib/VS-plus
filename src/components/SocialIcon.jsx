@@ -25,7 +25,7 @@ export function SocialIcons( { items, className = '', size = 20 } ) {
 		<ul className={ `socialIcons ${ className }` }>
 			{ items.map( ( [ label, href ] ) => (
 				<li key={ label }>
-					<a href={ href } target="_blank" rel="noopener noreferrer" aria-label={ `${ label } (opens in a new tab)` } title={ label }>
+					<a href={ href } target="_blank" rel="noopener noreferrer" aria-label={ `${ label } (opens in a new tab)` } title={ label } data-brand={ label.toLowerCase() }>
 						<SocialIcon name={ label } size={ size } />
 					</a>
 				</li>
