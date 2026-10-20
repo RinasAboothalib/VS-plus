@@ -767,9 +767,10 @@ body.inner .page_content_wrap::before {
 .caseRow {
 	position: relative;
 	display: grid;
-	grid-template-columns: 3fr 6fr 3fr;
+	grid-template-columns: minmax(0, 2.2fr) minmax(0, 2.6fr) minmax(0, 5fr) minmax(0, 2.4fr);
 	gap: 2rem;
-	padding: 3rem 0;
+	align-items: start;
+	padding: 2.5rem 0;
 	border-top: 1px solid var(--line);
 	scroll-margin-top: 6rem;
 }
@@ -787,6 +788,41 @@ body.inner .page_content_wrap::before {
 
 .caseRow:hover::before {
 	transform: scaleY(1);
+}
+
+/* Cover: the client's image (or a monogram), zooming slightly as the row is hovered. */
+.caseThumb {
+	position: relative;
+	aspect-ratio: 4 / 5;
+	overflow: hidden;
+	border-radius: 0.6rem;
+	background: var(--ink);
+}
+
+.caseThumb img,
+.caseThumb video {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.caseRow:hover .caseThumb img,
+.caseRow:hover .caseThumb video {
+	transform: scale(1.06);
+}
+
+.caseThumb--mono {
+	display: grid;
+	place-items: center;
+}
+
+.caseThumb--mono span {
+	font-size: clamp(2.2rem, 4vw, 3.6rem);
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	color: var(--lime);
 }
 
 .caseRow h3 {
@@ -830,11 +866,18 @@ body.inner .page_content_wrap::before {
 	display: none;
 }
 
+@media (max-width: 1200px) and (min-width: 901px) {
+	/* Cover beside the details; the metric drops under the text. */
+	.caseRow { grid-template-columns: minmax(0, 2fr) minmax(0, 2.4fr) minmax(0, 4fr); }
+	.caseRow_right { grid-column: 3; text-align: left; }
+}
+
 @media (max-width: 900px) {
 	.caseSection, .archiveSection { padding: 5rem var(--gutter); }
 	.caseHead { grid-template-columns: 1fr; gap: 1.5rem; }
 	.caseRow { grid-template-columns: 1fr; gap: 1rem; padding: 2.25rem 0; }
 	.caseRow_right { text-align: left; }
+	.caseThumb { aspect-ratio: 16 / 10; }
 }
 
 /* ---------- work: archive cards ---------- */
@@ -2018,35 +2061,10 @@ body.inner .page_content_wrap::before {
 	color: #5b5758;
 }
 
-/* Same four-column grid as .footerCols: the about text spans the first two,
-   so Navigation and Services sit under the third and fourth contact columns. */
-.footerNav {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: clamp(1.5rem, 3vw, 3.5rem);
-	padding-top: 5rem;
-}
-
-.footerAbout {
-	grid-column: span 2;
-}
-
-.footerAbout_big {
-	font-size: 1.6rem;
-	font-weight: 500;
-	line-height: 1.2;
-	letter-spacing: -0.015em;
-	max-width: 22rem;
-	margin-bottom: 1rem;
-}
-
-.footerAbout p:not(.footerAbout_big) {
-	color: #5b5758;
-	font-size: 0.9rem;
-}
-
 .footerList {
-	margin-top: 0.9rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
 .footerList a {
@@ -2062,18 +2080,51 @@ body.inner .page_content_wrap::before {
 	transform: translateX(0.3rem);
 }
 
+/* Bottom bar: small mark · copyright · social icons. */
 .footerBar {
-	display: flex;
-	justify-content: space-between;
-	gap: 1rem;
-	padding-top: 1.5rem;
-	font-size: 0.75rem;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
+	gap: 1.5rem;
+	margin-top: 4.5rem;
+	padding-top: 1.75rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	font-size: 0.8rem;
 	color: var(--muted);
 }
 
-@media (max-width: 1000px) {
-	.footerNav { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 3rem; }
-	.footerAbout { grid-column: 1 / -1; }
+.footerBar_mark {
+	justify-self: start;
+	display: block;
+	line-height: 0;
+	transition: opacity 0.2s;
+}
+
+.footerBar_mark img {
+	width: auto;
+	height: 1.9rem;
+	filter: brightness(0);
+}
+
+.footerBar_mark:hover {
+	opacity: 0.6;
+}
+
+.footerBar_copy {
+	margin: 0;
+	text-align: center;
+}
+
+.footerBar .socialIcons {
+	justify-self: end;
+	gap: 0.45rem;
+}
+
+.footerBar .socialIcons a {
+	width: 2.25rem;
+	height: 2.25rem;
+	color: var(--ink);
+	border-color: rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 900px) {
@@ -2081,8 +2132,16 @@ body.inner .page_content_wrap::before {
 	.footerLead_row { flex-direction: column; align-items: flex-start; }
 }
 
-@media (max-width: 520px) {
-	.footerBar { flex-direction: column; }
+@media (max-width: 700px) {
+	.footerBar {
+		grid-template-columns: 1fr;
+		justify-items: center;
+		gap: 1.25rem;
+		margin-top: 3rem;
+	}
+	.footerBar_mark,
+	.footerBar .socialIcons { justify-self: center; }
+	.footerBar_copy { order: 3; }
 }
 
 /* Full stop that ends the big page titles. */
@@ -2635,7 +2694,7 @@ body.inner .page_content_wrap::before {
 }
 
 .socialIcons--footer {
-	margin-top: 0.4rem;
+	margin: 0;
 }
 
 /* The capabilities section hosts the floating preview too. clip (not hidden) keeps its sticky heading working. */

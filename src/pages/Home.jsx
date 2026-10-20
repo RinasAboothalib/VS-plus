@@ -4,15 +4,13 @@ import { usePage } from '../context/PageContext.jsx';
 import useReveals from '../lib/useReveals.js';
 import TLink from '../components/TLink.jsx';
 import Hero from '../components/home/Hero.jsx';
-import ClientStrip from '../components/home/ClientStrip.jsx';
-import WorksMasonry from '../components/home/WorksMasonry.jsx';
 import Showreel from '../components/home/Showreel.jsx';
 import Philosophy from '../components/home/Philosophy.jsx';
 import ServicesAccordion from '../components/home/ServicesAccordion.jsx';
 import PhotoStrip from '../components/home/PhotoStrip.jsx';
 import GradeCompare from '../components/home/GradeCompare.jsx';
 import Roster from '../components/home/Roster.jsx';
-import Flagship from '../components/home/Flagship.jsx';
+import CaseList from '../components/work/CaseList.jsx';
 import ReelsRail from '../components/social/ReelsRail.jsx';
 
 export default function Home() {
@@ -28,11 +26,9 @@ export default function Home() {
 	return (
 		<div ref={ root }>
 			<Hero />
-			<ClientStrip />
 
-			<div className="bg-white" id="work">
-				<WorksMasonry />
-				<Flagship />
+			<div id="work">
+				<CaseList eyebrow="(01) Flagship portfolio" id="flagship" />
 			</div>
 
 			<ReelsRail />
@@ -44,7 +40,7 @@ export default function Home() {
 
 			<section className="resultsSection" aria-labelledby="resultsTitle">
 				<div className="resultsInner">
-					<p className="eyebrow">(07) Commercial attributions</p>
+					<p className="eyebrow">(06) Commercial attributions</p>
 					<h2 className="sectionTitle" id="resultsTitle">Verified business impact.</h2>
 					<p className="lede lede--light">Every reel, campaign asset, and ad spend is audited against real commercial benchmarks and engagement lifts.</p>
 					<div className="resultsGrid">
@@ -59,7 +55,7 @@ export default function Home() {
 				</div>
 			</section>
 
-			<Roster eyebrow="(08) Commercial client roster" title="Trusted by market leaders & global brands." />
+			<Roster eyebrow="(07) Commercial client roster" title="Trusted by market leaders & global brands." />
 		</div>
 	);
 }

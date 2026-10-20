@@ -22,7 +22,7 @@ export default function Philosophy() {
 		<section className="philosophy" aria-labelledby="philTitle">
 			<div className="philosophy_inner">
 				<div className="philosophy_head">
-					<p className="eyebrow">(03) Agency operating philosophy</p>
+					<p className="eyebrow">(02) Agency operating philosophy</p>
 					<h2 className="sectionTitle" id="philTitle">We create. We strategize. We execute. We amplify. We measure. We grow.</h2>
 					<TeamCards className="illus--phil" />
 					<p className="philosophy_counter" aria-hidden="true"><span>{ pad( active + 1 ) }</span> / 06</p>

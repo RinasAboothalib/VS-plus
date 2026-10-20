@@ -91,7 +91,7 @@ export default function Flagship() {
 	return (
 		<section className="featureCases" aria-labelledby="casesTitle">
 			<div className="featureCases_head">
-				<p className="eyebrow">(02) Flagship portfolio</p>
+				<p className="eyebrow">(01) Flagship portfolio</p>
 				<h2 className="sectionTitle" id="casesTitle">Every brief is a growth partnership.</h2>
 				<p className="lede">We blend high-fashion visual standards with aggressive social media reach, high-velocity turnaround, and conversion-driven storytelling.</p>
 			</div>

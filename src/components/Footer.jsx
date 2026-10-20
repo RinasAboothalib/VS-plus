@@ -4,6 +4,11 @@ import CopyEmail from './CopyEmail.jsx';
 import { usePageMeta } from '../context/PageContext.jsx';
 import { SocialIcons } from './SocialIcon.jsx';
 
+/*
+ * Footer: the page's call to action, then one compact row (email, phones and
+ * two header-less link lists), and a bottom bar with the small VS+ mark,
+ * the copyright line and the social icons.
+ */
 export default function Footer() {
 	const { cta } = usePageMeta();
 	const { site, services } = data;
@@ -22,38 +27,16 @@ export default function Footer() {
 
 				<div className="footerCols">
 					<div className="footerCol">
-						<p className="fLabel">Got a brief?</p>
-						<p className="fTitle">Partner with us</p>
-						<TLink className="fAction" to="/contact/">Start a project brief</TLink>
-						<p className="fLabel fLabel--gap">Or email us on</p>
+						<p className="fLabel">Email the studio</p>
 						<CopyEmail email={ site.email } />
 					</div>
 					<div className="footerCol">
-						<p className="fLabel">Just want to say hi?</p>
-						<p className="fTitle">Call the studio</p>
+						<p className="fLabel">Call the studio</p>
 						{ site.phones.map( ( p ) => (
 							<a key={ p } className="fAction" href={ `tel:${ p.replace( /\s+/g, '' ) }` }>{ p }</a>
 						) ) }
 					</div>
-					<div className="footerCol">
-						<p className="fLabel">Visit Colombo studio</p>
-						<p className="fTitle">{ site.address[ 0 ] }<br />{ site.address[ 1 ] }, { site.address[ 2 ] }</p>
-						<a className="fAction" href={ site.maps } target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
-					</div>
-					<div className="footerCol">
-						<p className="fLabel">Direct channels</p>
-						<p className="fTitle">Follow the work</p>
-						<SocialIcons items={ site.socials } className="socialIcons--footer" size={ 22 } />
-					</div>
-				</div>
-
-				<div className="footerNav">
-					<div className="footerAbout">
-						<p className="footerAbout_big">We create content meant to be experienced. Not simply consumed.</p>
-						<p>Colombo’s premier creative, cinematography, and digital agency.</p>
-					</div>
-					<div>
-						<p className="fLabel">Navigation</p>
+					<nav className="footerCol" aria-label="Footer">
 						<ul className="footerList">
 							<li><TLink to="/">Home</TLink></li>
 							<li><TLink to="/work/">Projects &amp; Archive</TLink></li>
@@ -62,9 +45,8 @@ export default function Footer() {
 							<li><TLink to="/about/">About Studio</TLink></li>
 							<li><TLink to="/contact/">Contact Studio</TLink></li>
 						</ul>
-					</div>
-					<div>
-						<p className="fLabel">Services</p>
+					</nav>
+					<div className="footerCol">
 						<ul className="footerList">
 							{ services.map( ( s ) => (
 								<li key={ s[ 0 ] }><TLink to={ `/services/#${ s[ 0 ] }` }>{ s[ 1 ] }</TLink></li>
@@ -73,10 +55,12 @@ export default function Footer() {
 					</div>
 				</div>
 
-				<img className="footerMark" src="/assets/img/VSP-Square-logo.png" alt="" aria-hidden="true" />
 				<div className="footerBar">
-					<p>© { new Date().getFullYear() } Visual Studios Plus. All rights reserved. Made in Colombo.</p>
-					<p>Colombo, Sri Lanka</p>
+					<TLink className="footerBar_mark" to="/" aria-label="Visual Studios Plus — home">
+						<img src="/assets/img/VSP-Square-logo.png" alt="" />
+					</TLink>
+					<p className="footerBar_copy">© { new Date().getFullYear() } Visual Studios Plus. All rights reserved.</p>
+					<SocialIcons items={ site.socials } className="socialIcons--footer" size={ 16 } />
 				</div>
 			</div>
 		</footer>

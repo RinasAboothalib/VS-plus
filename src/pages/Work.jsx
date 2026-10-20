@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRef } from 'react';
 import data from '../data/site.js';
 import photos from '../data/photos.json';
 import { usePage } from '../context/PageContext.jsx';
 import useReveals from '../lib/useReveals.js';
-import { gsap, pad, reduced, ScrollTrigger, slugify, ytThumb } from '../lib/motion.js';
+import { pad, ytThumb } from '../lib/motion.js';
 import PageHero from '../components/PageHero.jsx';
 import TLink from '../components/TLink.jsx';
 import WorkCard from '../components/work/WorkCard.jsx';
 import JellyCanvas from '../components/work/JellyCanvas.jsx';
-import { CaseRow } from '../components/work/CaseItems.jsx';
+import CaseList from '../components/work/CaseList.jsx';
 import ReelsRail from '../components/social/ReelsRail.jsx';
 import CatSlides from '../components/work/CatSlides.jsx';
 
@@ -16,10 +16,6 @@ const COVERS = { food: 'CurryLeaf.webp', fashion: '7.webp', jewellery: 'DSC_1657
 
 export default function Work() {
 	const root = useRef( null );
-	const list = useRef( null );
-	const [ filter, setFilter ] = useState( 'all' );
-	const first = useRef( true );
-
 	usePage( {
 		page: 'work',
 		title: 'Work — Visual Studios Plus',
@@ -30,26 +26,6 @@ export default function Work() {
 		}
 	} );
 	useReveals( root );
-
-	const types = useMemo( () => [ ...new Set( data.caseStudies.map( ( c ) => c[ 0 ] ) ) ], [] );
-
-	useEffect( () => {
-		if ( first.current ) {
-			first.current = false;
-			return;
-		}
-		const shown = list.current.querySelectorAll( '.caseRow:not([hidden])' );
-		if ( ! reduced ) {
-			gsap.fromTo( shown, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.03, ease: 'power2.out' } );
-		}
-		ScrollTrigger.refresh();
-	}, [ filter ] );
-
-	const chip = ( key, label, count ) => (
-		<button key={ key } type="button" className={ `chip${ filter === key ? ' is-active' : '' }` } aria-pressed={ filter === key } onClick={ () => setFilter( key ) }>
-			{ label } <sup>{ count }</sup>
-		</button>
-	);
 
 	return (
 		<div ref={ root }>
@@ -82,26 +58,7 @@ export default function Work() {
 				</section>
 			</div>
 
-			<section className="caseSection" id="case-studies" aria-labelledby="casesTitle">
-				<div className="caseInner">
-					<div className="caseHead">
-						<div>
-							<p className="eyebrow">(B) Flagship portfolio</p>
-							<h2 className="sectionTitle" id="casesTitle">Projects engineered for verifiable business impact.</h2>
-						</div>
-						<p className="lede">Every client brief is treated as a growth partnership. We blend high-fashion visual standards with aggressive social media reach, high-velocity turnaround, and conversion-driven storytelling.</p>
-					</div>
-					<div className="chipRow caseFilters" role="group" aria-label="Filter projects">
-						{ chip( 'all', 'All', data.caseStudies.length ) }
-						{ types.map( ( t ) => chip( slugify( t ), t, data.caseStudies.filter( ( c ) => c[ 0 ] === t ).length ) ) }
-					</div>
-					<ol className="caseList" ref={ list }>
-						{ data.caseStudies.map( ( c, i ) => (
-							<CaseRow key={ c[ 3 ] } c={ c } index={ i } hidden={ filter !== 'all' && slugify( c[ 0 ] ) !== filter } />
-						) ) }
-					</ol>
-				</div>
-			</section>
+			<CaseList />
 
 			<ReelsRail eyebrow="(C) Latest from the studio" />
 

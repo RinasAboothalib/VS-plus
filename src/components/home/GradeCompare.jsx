@@ -41,7 +41,7 @@ export default function GradeCompare() {
 		<section className="gradeSection" aria-labelledby="gradeTitle">
 			<div className="gradeInner">
 				<div className="gradeHead">
-					<p className="eyebrow">(06) Colour grading</p>
+					<p className="eyebrow">(05) Colour grading</p>
 					<h2 className="sectionTitle" id="gradeTitle">From flat LOG to the finished frame.</h2>
 					<p className="lede">Drag across the frame. Every shoot is colour graded in-house in DaVinci Resolve before it reaches your feed.</p>
 				</div>

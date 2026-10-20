@@ -21,7 +21,7 @@ export default function ServicesAccordion() {
 		<section className="servicesSection" id="services" ref={ section } onMouseLeave={ () => setHover( null ) }>
 			<div className="servicesInner">
 				<div className="servicesHead">
-					<p className="eyebrow">(04) Capabilities overview</p>
+					<p className="eyebrow">(03) Capabilities overview</p>
 					<h2 className="sectionTitle">One full-service studio.<br />Zero creative fragmentation.</h2>
 					<p className="servicesLede">Need a custom agency retainer or dedicated production team? We work on project-by-project commissions and full-year creative retainers.</p>
 					<TLink className="btnLink" to="/services/">All capabilities</TLink>

@@ -1,4 +1,5 @@
 import { pad, slugify } from '../../lib/motion.js';
+import media from '../../data/caseMedia.js';
 
 /* Case study tuple: [type, year, client, title, line, tags, metric, metricLabel, text] */
 
@@ -17,10 +18,24 @@ export function FeatureCase( { c } ) {
 	);
 }
 
+/* Cover for a case row: the client's image, a still from the campaign reel, or a monogram. */
+function CaseThumb( { title, client } ) {
+	const m = media[ title ];
+	const initials = client.replace( /\(.*?\)/g, '' ).split( /[\s/&×—-]+/ ).filter( Boolean ).slice( 0, 2 ).map( ( w ) => w[ 0 ] ).join( '' );
+	return (
+		<div className={ `caseThumb${ m ? '' : ' caseThumb--mono' }` } aria-hidden="true">
+			{ m?.img && <img src={ m.img } alt="" loading="lazy" decoding="async" /> }
+			{ m?.video && <video src={ m.video } muted playsInline preload="metadata" tabIndex={ -1 } /> }
+			{ ! m && <span>{ initials }</span> }
+		</div>
+	);
+}
+
 export function CaseRow( { c, index, hidden = false } ) {
 	const [ type, year, client, title, line, tags, metric, label, text ] = c;
 	return (
 		<li className="caseRow" hidden={ hidden } data-type={ slugify( type ) } id={ `case-${ slugify( title ) }` }>
+			<CaseThumb title={ title } client={ client } />
 			<div className="caseRow_left">
 				<p className="eyebrow">{ type } · { year }</p>
 				<p className="caseClient">{ client }</p>
