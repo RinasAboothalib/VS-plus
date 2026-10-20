@@ -813,6 +813,16 @@ body.inner .page_content_wrap::before {
 	transform: scale(1.06);
 }
 
+/* Packshots on white: show the whole product on a white card instead of cropping it. */
+.caseThumb--product {
+	background: #fff;
+}
+
+.caseThumb--product img {
+	object-fit: contain;
+	padding: 8%;
+}
+
 .caseThumb--mono {
 	display: grid;
 	place-items: center;
@@ -2868,25 +2878,6 @@ body.inner .page_content_wrap::before {
 	overflow: hidden;
 }
 
-.vsHero_mediaIn {
-	position: absolute;
-	inset: 0;
-	transform-origin: 50% 50%;
-}
-
-.vsHero_poster,
-.vsHero_video {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.vsHero_poster {
-	opacity: 0.6;
-}
-
 .vsHero_shade {
 	position: absolute;
 	inset: 0;
@@ -2894,7 +2885,7 @@ body.inner .page_content_wrap::before {
 }
 
 .vsHero_shade--v {
-	background: linear-gradient(to bottom, rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.3) 45%, #050505);
+	background: linear-gradient(to bottom, rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.25) 45%, rgba(5, 5, 5, 0.92));
 }
 
 .vsHero_shade--top {
@@ -2909,7 +2900,7 @@ body.inner .page_content_wrap::before {
 
 /* An even veil over the reel so the headline stays the focus. */
 .vsHero_shade--dim {
-	background: rgba(5, 5, 5, 0.3);
+	background: rgba(5, 5, 5, 0.5);
 }
 
 /* Film grain, stepped so it flickers like stock rather than sliding. */
@@ -2936,17 +2927,6 @@ body.inner .page_content_wrap::before {
 	60% { transform: translate(-3%, 5%); }
 	80% { transform: translate(6%, 2%); }
 	100% { transform: translate(0, 0); }
-}
-
-.vsHero_spot {
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	opacity: 0;
-	transition: opacity 0.7s ease;
-	background:
-		radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.13), transparent 62%),
-		radial-gradient(900px circle at var(--mx, 50%) var(--my, 50%), transparent 30%, rgba(5, 5, 5, 0.42) 100%);
 }
 
 .vsHero_content {

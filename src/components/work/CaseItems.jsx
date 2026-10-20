@@ -23,7 +23,7 @@ function CaseThumb( { title, client } ) {
 	const m = media[ title ];
 	const initials = client.replace( /\(.*?\)/g, '' ).split( /[\s/&×—-]+/ ).filter( Boolean ).slice( 0, 2 ).map( ( w ) => w[ 0 ] ).join( '' );
 	return (
-		<div className={ `caseThumb${ m ? '' : ' caseThumb--mono' }` } aria-hidden="true">
+		<div className={ `caseThumb${ m ? '' : ' caseThumb--mono' }${ m?.fit === 'contain' ? ' caseThumb--product' : '' }` } aria-hidden="true">
 			{ m?.img && <img src={ m.img } alt="" loading="lazy" decoding="async" /> }
 			{ m?.video && <video src={ m.video } muted playsInline preload="metadata" tabIndex={ -1 } /> }
 			{ ! m && <span>{ initials }</span> }

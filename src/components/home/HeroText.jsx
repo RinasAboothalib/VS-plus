@@ -7,7 +7,6 @@ import { canHover, gsap, reduced } from '../../lib/motion.js';
  *                 cursor rise and grow (smoothstep falloff), easing back out.
  *   WordRotator — the accent line rolls to the next phrase every 2.6s
  *                 (new phrase rises from below while the old one exits above).
- *   Spotlight   — a soft light that trails the cursor across the section.
  */
 
 export function LiftText( { text } ) {
@@ -108,54 +107,4 @@ export function WordRotator( { words, interval = 2600, className = '' } ) {
 			) ) }
 		</span>
 	);
-}
-
-export function Spotlight() {
-	const ref = useRef( null );
-
-	useEffect( () => {
-		const el = ref.current;
-		const section = el && el.closest( 'section' );
-		if ( ! el || ! section || ! canHover || reduced ) {
-			return undefined;
-		}
-		const target = { x: 0, y: 0 };
-		const cur = { x: 0, y: 0 };
-		let raf = 0;
-		let started = false;
-		const step = () => {
-			cur.x += ( target.x - cur.x ) * 0.14;
-			cur.y += ( target.y - cur.y ) * 0.14;
-			el.style.setProperty( '--mx', `${ cur.x }px` );
-			el.style.setProperty( '--my', `${ cur.y }px` );
-			raf = Math.abs( target.x - cur.x ) + Math.abs( target.y - cur.y ) > 0.5 ? requestAnimationFrame( step ) : 0;
-		};
-		const move = ( e ) => {
-			if ( e.pointerType !== 'mouse' ) {
-				return;
-			}
-			const r = section.getBoundingClientRect();
-			target.x = e.clientX - r.left;
-			target.y = e.clientY - r.top;
-			if ( ! started ) {
-				cur.x = target.x;
-				cur.y = target.y;
-				started = true;
-			}
-			el.style.opacity = '1';
-			raf = raf || requestAnimationFrame( step );
-		};
-		const leave = () => {
-			el.style.opacity = '0';
-		};
-		section.addEventListener( 'pointermove', move );
-		section.addEventListener( 'pointerleave', leave );
-		return () => {
-			cancelAnimationFrame( raf );
-			section.removeEventListener( 'pointermove', move );
-			section.removeEventListener( 'pointerleave', leave );
-		};
-	}, [] );
-
-	return <div ref={ ref } className="vsHero_spot" aria-hidden="true" />;
 }
