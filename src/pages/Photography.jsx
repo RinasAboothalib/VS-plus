@@ -8,6 +8,7 @@ import useReveals from '../lib/useReveals.js';
 import { gsap, reduced, ScrollTrigger } from '../lib/motion.js';
 import PageHero from '../components/PageHero.jsx';
 import Lightbox from '../components/work/Lightbox.jsx';
+import JellyCanvas from '../components/work/JellyCanvas.jsx';
 
 const PAGE_SIZE = 24;
 const CATS = Object.fromEntries( data.photoCategories.map( ( c ) => [ c[ 0 ], c ] ) );
@@ -103,6 +104,8 @@ export default function Photography() {
 						</div>
 					</div>
 
+					{ /* Jelly edge (as on the Work page films): frames dent toward the cursor and spring back. */ }
+					<JellyCanvas selector=".galleryOpen" />
 					<div className="galleryGrid" ref={ grid } aria-live="polite">
 						{ cols.map( ( col, c ) => (
 							<div className="galleryCol" key={ c }>

@@ -694,7 +694,8 @@ body.nav-hidden .siteHeader {
 	transform: scaleX(0);
 }
 
-@media (max-width: 1240px) {
+/* Jelly edge needs a mouse and some room. */
+@media (max-width: 900px), (hover: none) {
 	.worksCanvas { opacity: 0 !important; }
 }
 

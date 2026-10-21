@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { reduced } from '../../lib/motion.js';
+import { canHover, reduced } from '../../lib/motion.js';
 
 /*
  * Jelly-edge mask over a grid section. Per card, paints white (the section
  * colour) between a rectangle 2px outside the image and a soft inner contour.
  * Contour points within 10vw of the cursor ease inward along their normal,
  * so the image edge dents toward the pointer and springs back when it leaves.
- * Desktop only (hidden under 1240px by CSS).
+ * Mouse pointers only, at 900px wide and up (hidden otherwise by CSS).
  */
 
 function contour( w, h ) {
@@ -45,7 +45,7 @@ export default function JellyCanvas( { selector = '.workPlaceholder' } ) {
 	const canvasRef = useRef( null );
 
 	useEffect( () => {
-		if ( reduced ) {
+		if ( reduced || ! canHover ) {
 			return undefined;
 		}
 		const canvas = canvasRef.current;
@@ -69,7 +69,7 @@ export default function JellyCanvas( { selector = '.workPlaceholder' } ) {
 		};
 
 		const frame = () => {
-			if ( ! active || window.innerWidth <= 1240 ) {
+			if ( ! active || window.innerWidth <= 900 ) {
 				running = false;
 				ctx.clearRect( 0, 0, canvas.width, canvas.height );
 				return;
