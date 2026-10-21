@@ -26,7 +26,7 @@ function CaseLogo( { title, client } ) {
 		return <div className="caseLogo caseLogo--tile"><img src={ m.tile } alt={ `${ client } logo` } loading="lazy" decoding="async" /></div>;
 	}
 	if ( m?.mark ) {
-		return <div className="caseLogo caseLogo--mark"><img src={ m.mark } alt={ `${ client } logo` } loading="lazy" decoding="async" /></div>;
+		return <div className={ `caseLogo caseLogo--mark${ m.dark ? ' caseLogo--dark' : '' }` }><img src={ m.mark } alt={ `${ client } logo` } loading="lazy" decoding="async" /></div>;
 	}
 	return <div className="caseLogo caseLogo--mono" aria-hidden="true"><span>{ initials }</span></div>;
 }

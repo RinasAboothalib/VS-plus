@@ -933,8 +933,8 @@ body.inner .page_content_wrap::before {
 .caseLogo {
 	display: grid;
 	place-items: center;
-	width: clamp(6.5rem, 10vw, 9rem);
-	aspect-ratio: 1;
+	width: clamp(9rem, 14vw, 12rem);
+	aspect-ratio: 4 / 3;
 	overflow: hidden;
 	border-radius: var(--r-md, 1rem);
 	background: var(--white);
@@ -954,12 +954,22 @@ body.inner .page_content_wrap::before {
 }
 
 .caseLogo--tile img {
-	object-fit: cover;
+	object-fit: contain;
+}
+
+/* Square profile marks sit centred in the landscape frame on their own colour. */
+.caseLogo--tile {
+	background: #161616;
 }
 
 .caseLogo--mark img {
 	object-fit: contain;
-	padding: 16%;
+	padding: 12% 14%;
+}
+
+.caseLogo--dark {
+	background: #161616;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 10px 30px -12px rgba(0, 0, 0, 0.6);
 }
 
 .caseLogo--mono {
