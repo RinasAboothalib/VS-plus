@@ -801,7 +801,7 @@ body.inner .page_content_wrap::before {
 	color: var(--white);
 }
 
-/* Backdrop: the cover, dimmed (no live blur, which is costly while scrolling), fades in behind an active card. */
+/* Backdrop: a soft lime glow fades in behind an active card. */
 .caseCard_bg {
 	position: absolute;
 	inset: 0;
@@ -810,24 +810,10 @@ body.inner .page_content_wrap::before {
 	transition: opacity 0.8s var(--ease);
 }
 
-.caseCard_bg img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 0;
-	opacity: 0.55;
-}
-
 .caseCard_bg::after {
 	content: '';
 	position: absolute;
 	inset: 0;
-	background:
-		radial-gradient(120% 90% at 85% 0%, rgba(223, 255, 36, 0.08), transparent 55%),
-		linear-gradient(100deg, rgba(10, 10, 10, 0.95) 35%, rgba(10, 10, 10, 0.72));
-}
-
-.caseCard_bg--plain::after {
 	background: radial-gradient(120% 90% at 85% 0%, rgba(223, 255, 36, 0.12), transparent 60%);
 }
 
@@ -943,46 +929,45 @@ body.inner .page_content_wrap::before {
 	color: var(--white);
 }
 
-/* Cover: the client's image (or a monogram), zooming slightly while its card is hovered. */
-.caseThumb {
-	position: relative;
-	aspect-ratio: 4 / 3;
+/* Client logo: square brand tiles fill the frame; transparent marks sit whole on white. */
+.caseLogo {
+	display: grid;
+	place-items: center;
+	width: clamp(6.5rem, 10vw, 9rem);
+	aspect-ratio: 1;
 	overflow: hidden;
 	border-radius: var(--r-md, 1rem);
-	background: #161616;
+	background: var(--white);
+	box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+	transition: transform 0.6s var(--ease, ease);
 }
 
-.caseThumb img,
-.caseThumb video {
+.caseCard:hover .caseLogo {
+	transform: translateY(-3px) rotate(-1.5deg);
+}
+
+.caseLogo img {
 	display: block;
 	width: 100%;
 	height: 100%;
+	border-radius: 0;
+}
+
+.caseLogo--tile img {
 	object-fit: cover;
-	transition: transform 0.9s var(--ease, ease);
 }
 
-.caseCard:hover .caseThumb img,
-.caseCard:hover .caseThumb video {
-	transform: scale(1.06);
-}
-
-/* Packshots on white: show the whole product on a white card instead of cropping it. */
-.caseThumb--product {
-	background: #fff;
-}
-
-.caseThumb--product img {
+.caseLogo--mark img {
 	object-fit: contain;
-	padding: 8%;
+	padding: 16%;
 }
 
-.caseThumb--mono {
-	display: grid;
-	place-items: center;
+.caseLogo--mono {
+	background: #161616;
 }
 
-.caseThumb--mono span {
-	font-size: clamp(2.2rem, 4vw, 3.4rem);
+.caseLogo--mono span {
+	font-size: clamp(1.8rem, 3vw, 2.6rem);
 	font-weight: 800;
 	letter-spacing: -0.04em;
 	color: var(--lime);
@@ -995,8 +980,7 @@ body.inner .page_content_wrap::before {
 	.caseCard_meta { grid-column: 1; grid-row: 2; }
 	.caseCard_num { grid-column: 2; grid-row: 1; }
 	.caseCard_bodyIn { grid-template-columns: 1fr; }
-	.caseCard_side { flex-direction: row; align-items: flex-end; }
-	.caseCard_side .caseThumb { flex: 0 0 55%; }
+	.caseCard_side { flex-direction: row; align-items: center; gap: 1.25rem; }
 }
 
 /* ---------- work: archive cards ---------- */
@@ -3370,7 +3354,6 @@ body.inner .page_content_wrap::before {
 .workPlaceholder,
 .gradeCompare,
 .gradeStage,
-.caseThumb,
 .ww_face,
 .rv_media,
 .floatPreview,
