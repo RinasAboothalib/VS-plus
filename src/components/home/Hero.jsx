@@ -80,7 +80,9 @@ export default function Hero() {
 			// Pinned sequence (~2 long): tiles rush past 0–1, manifesto from 0.95, the rest holds.
 			const tl = gsap.timeline( {
 				scrollTrigger: {
-					trigger: root.current, scrub: 1.2, pin: true, pinSpacing: true, start: 'top top', end: '+=300%'
+					trigger: root.current, scrub: 1.2, pin: true, pinSpacing: true, start: 'top top',
+					// Phones get a shorter hold: three screens of pinned scroll feels like dead space there.
+					end: () => ( window.innerWidth < 768 ? '+=160%' : '+=300%' ), invalidateOnRefresh: true
 				}
 			} );
 			tl.to( f, { ease: 'power2.in', rush: 3200, duration: 1 }, 0 )

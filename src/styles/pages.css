@@ -3145,7 +3145,8 @@ body.inner .page_content_wrap::before {
 }
 
 @media (max-width: 767px) {
-	.vsHero_content { padding: 7rem var(--gutter) 5rem; }
+	/* Phones: the copy sits in the middle of the screen instead of low under an empty band. */
+	.vsHero_content { justify-content: center; padding: 5.5rem var(--gutter) 2.5rem; }
 	.vsHero_intro { font-size: 1rem; margin-top: 2rem; }
 	.vsHero_scroll { display: none; }
 }
@@ -3426,4 +3427,27 @@ textarea {
 
 @media (max-width: 700px) {
 	:root { --r-md: 0.8rem; }
+}
+
+/* Phones: tighter vertical rhythm between the section cards. */
+@media (max-width: 520px) {
+	.caseSection,
+	.reelsRail,
+	.philosophy,
+	.servicesSection,
+	.photoStrip,
+	.gradeSection,
+	.resultsSection,
+	.rosterSection,
+	.archiveSection,
+	.gallerySection,
+	.ProjectsList,
+	.capSection,
+	.contactSection {
+		padding-top: 3.5rem;
+		padding-bottom: 3.5rem;
+	}
+	.reelsRail--wheel {
+		padding-bottom: 0;
+	}
 }
