@@ -33,8 +33,8 @@ let booted = false;
  * wipes away to black, where the tiles sit in a tight, deep stack at the
  * centre; the stack bursts outward toward the camera into a field that keeps
  * drifting forward and leans with the cursor. Scrolling pins the hero for
- * three viewports (scrub 0.4): the tiles rush past the camera into black,
- * the manifesto fades in span by span, and the header bar slides down.
+ * three viewports (scrub 1.2, so it eases after the wheel): the tiles rush past the camera into black,
+ * and the manifesto fades in span by span.
  */
 export default function Hero() {
 	const root = useRef( null );
@@ -44,7 +44,6 @@ export default function Hero() {
 	const [ loading, setLoading ] = useState( withLoader );
 
 	useLayoutEffect( () => {
-		const body = document.body;
 		const f = field.current.state;
 		const ctx = gsap.context( () => {
 			if ( reduced ) {
@@ -78,11 +77,10 @@ export default function Hero() {
 				// Let lifted letters spill over their line masks once the lines are in.
 				.add( () => root.current.classList.add( 'is-in' ) );
 
-			// Pinned sequence (~2 long): tiles rush past 0–1, manifesto from 0.95, header bar over the last 30%.
+			// Pinned sequence (~2 long): tiles rush past 0–1, manifesto from 0.95, the rest holds.
 			const tl = gsap.timeline( {
 				scrollTrigger: {
-					trigger: root.current, scrub: 0.4, pin: true, pinSpacing: true, start: 'top top', end: '+=300%',
-					onUpdate: ( self ) => body.classList.toggle( 'bar-on', self.progress > 0.7 )
+					trigger: root.current, scrub: 1.2, pin: true, pinSpacing: true, start: 'top top', end: '+=300%'
 				}
 			} );
 			tl.to( f, { ease: 'power2.in', rush: 3200, duration: 1 }, 0 )
@@ -93,7 +91,6 @@ export default function Hero() {
 		}, root );
 		return () => {
 			ctx.revert();
-			body.classList.remove( 'bar-on' );
 		};
 	}, [] );
 

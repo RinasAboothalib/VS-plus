@@ -48,24 +48,30 @@ export default function Layout() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ location.pathname, reveal ] );
 
-	// Inner pages: the glass header bar appears once you leave the very top.
-	// (On home, as on ambercomm.ae, the hero's pinned timeline brings it in at the end.)
+	// The header pill slides away while you scroll down and returns as soon as you scroll up.
 	useEffect( () => {
-		if ( ! inner ) {
-			return undefined;
-		}
-		let shown = null;
+		const body = document.body;
+		let last = window.scrollY;
+		let hidden = false;
 		const check = () => {
-			const want = window.scrollY > 40;
-			if ( want !== shown ) {
-				shown = want;
-				document.body.classList.toggle( 'bar-on', want );
+			const y = window.scrollY;
+			const dy = y - last;
+			if ( Math.abs( dy ) < 6 ) {
+				return;
 			}
+			const want = dy > 0 && y > 120;
+			if ( want !== hidden ) {
+				hidden = want;
+				body.classList.toggle( 'nav-hidden', want );
+			}
+			last = y;
 		};
 		window.addEventListener( 'scroll', check, { passive: true } );
-		check();
-		return () => window.removeEventListener( 'scroll', check );
-	}, [ inner, location.pathname ] );
+		return () => {
+			window.removeEventListener( 'scroll', check );
+			body.classList.remove( 'nav-hidden' );
+		};
+	}, [ location.pathname ] );
 
 	return (
 		<>

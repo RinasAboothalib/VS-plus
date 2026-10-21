@@ -75,11 +75,23 @@ const ProjectField = forwardRef( function ProjectField( { count = 30 }, ref ) {
 		const nodes = Array.from( el.children );
 		const lean = { x: 0, y: 0, tx: 0, ty: 0 };
 		let drift = 0;
+		let W = 1;
+		let H = 1;
+
+		// Measured on resize only: reading layout every frame (after writing styles) forces reflows.
+		const measure = () => {
+			W = el.clientWidth;
+			H = el.clientHeight;
+			const size = Math.max( W, 900 );
+			tiles.forEach( ( t, i ) => {
+				nodes[ i ].style.width = `${ t.w * size }px`;
+			} );
+		};
+		measure();
+		const ro = new ResizeObserver( measure );
+		ro.observe( el );
 
 		const render = () => {
-			const W = el.clientWidth;
-			const H = el.clientHeight;
-			const size = Math.max( W, 900 );
 			lean.x += ( lean.tx - lean.x ) * 0.06;
 			lean.y += ( lean.ty - lean.y ) * 0.06;
 			el.style.transform = `rotateX(${ lean.y * -4 }deg) rotateY(${ lean.x * 6 }deg)`;
@@ -96,15 +108,20 @@ const ProjectField = forwardRef( function ProjectField( { count = 30 }, ref ) {
 				const y = t.y * H * 0.62 * jitter;
 				const alpha = smooth( NEAR - DEPTH, NEAR - DEPTH + 700, z ) * ( 1 - smooth( NEAR - 260, NEAR + 120, z ) );
 				const n = nodes[ i ];
-				n.style.width = `${ t.w * size }px`;
-				n.style.transform = `translate3d(${ x }px, ${ y }px, ${ z }px) translate(-50%, -50%)`;
+				// Invisible tiles skip the transform write and drop out of compositing.
+				if ( alpha < 0.002 ) {
+					n.style.visibility = 'hidden';
+					return;
+				}
+				n.style.visibility = '';
+				n.style.transform = `translate3d(${ x.toFixed( 1 ) }px, ${ y.toFixed( 1 ) }px, ${ z.toFixed( 1 ) }px) translate(-50%, -50%)`;
 				n.style.opacity = alpha.toFixed( 3 );
 			} );
 		};
 
 		render();
 		if ( reduced ) {
-			return undefined;
+			return () => ro.disconnect();
 		}
 		const tick = ( time, dt ) => {
 			drift += dt * 0.055;
@@ -128,6 +145,7 @@ const ProjectField = forwardRef( function ProjectField( { count = 30 }, ref ) {
 		} );
 		io.observe( el.parentNode );
 		return () => {
+			ro.disconnect();
 			io.disconnect();
 			gsap.ticker.remove( tick );
 			window.removeEventListener( 'pointermove', move );

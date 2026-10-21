@@ -1,13 +1,14 @@
 import { useLayoutEffect } from 'react';
-import { gsap, reduced } from './motion.js';
+import { gsap, reduced, ScrollTrigger } from './motion.js';
 
-const REVEAL = '.sectionTitle, .resultItem, .caseRow, .featureCase, .catCard, .svcBlock_text, .capCard, .rosterItem, .missionTitle, .projectText';
+const REVEAL = '.sectionTitle, .resultItem, .featureCase, .catCard, .svcBlock_text, .capCard, .rosterItem, .missionTitle, .projectText';
 const PARALLAX = '.parallaxImg img, .svcBlock_img img, .missionImg img';
 /* Image frames that get the home page's unveil as they scroll in. */
+const settle = gsap.parseEase( 'power2.out' );
 const FRAMES = '.workPlaceholder, .flagMedia, .catCard_img, .capCard_img, .svcBlock_img, .aboutGrid_img, .missionImg, .projectFilm_frame, .nextProject_img, .reelCard_media';
 
 /**
- * Scroll reveals, image parallax, the inner-page hero entrance and number
+ * Scroll reveals, section zoom, image parallax, the inner-page hero entrance and number
  * count-ups for everything inside `scope`. Everything is reverted on unmount.
  */
 export default function useReveals( scope, deps = [] ) {
@@ -45,6 +46,26 @@ export default function useReveals( scope, deps = [] ) {
 					yPercent: 6,
 					ease: 'none',
 					scrollTrigger: { trigger: img.parentNode, start: 'top bottom', end: 'bottom top', scrub: true }
+				} );
+			} );
+
+			// Section zoom: each card settles from 94% to full size as its top
+			// rises into view. Scaled from the top edge so trigger positions stay
+			// true, and the transform is dropped once it is at full size.
+			const blocks = gsap.utils.toArray( 'section, .featuredSection, .servicesPage' )
+				.filter( ( el ) => ! el.matches( '.vsHero' ) && ! el.parentElement.closest( 'section, .featuredSection, .servicesPage' ) );
+			blocks.forEach( ( el ) => {
+				el.style.transformOrigin = '50% 0';
+				ScrollTrigger.create( {
+					trigger: el,
+					start: 'top bottom',
+					end: 'top 45%',
+					onUpdate: ( { progress } ) => {
+						el.style.transform = progress >= 1 ? '' : `scale(${ 0.94 + 0.06 * settle( progress ) })`;
+					},
+					onRefresh: ( { progress } ) => {
+						el.style.transform = progress >= 1 ? '' : `scale(${ 0.94 + 0.06 * progress })`;
+					}
 				} );
 			} );
 

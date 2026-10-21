@@ -31,25 +31,49 @@ function CaseThumb( { title, client } ) {
 	);
 }
 
-export function CaseRow( { c, index, hidden = false } ) {
+/* Blurred, dimmed copy of the cover that fills an active card behind its content. */
+function CaseBackdrop( { title } ) {
+	const m = media[ title ];
+	if ( ! m?.img || m.fit === 'contain' ) {
+		return <div className="caseCard_bg caseCard_bg--plain" aria-hidden="true" />;
+	}
+	return (
+		<div className="caseCard_bg" aria-hidden="true">
+			<img src={ m.img } alt="" loading="lazy" decoding="async" />
+		</div>
+	);
+}
+
+/*
+ * One case study as a card (after cuberto.com's "What we do"): collapsed it is a
+ * light bar with the title, type and number; once active (CaseList decides, as
+ * it scrolls into view) it turns dark over the blurred cover and opens to show
+ * the story, tags, cover and result.
+ */
+export function CaseRow( { c, index, hidden = false, active = false } ) {
 	const [ type, year, client, title, line, tags, metric, label, text ] = c;
 	return (
-		<li className="caseRow" hidden={ hidden } data-type={ slugify( type ) } id={ `case-${ slugify( title ) }` }>
-			<CaseThumb title={ title } client={ client } />
-			<div className="caseRow_left">
-				<p className="eyebrow">{ type } · { year }</p>
-				<p className="caseClient">{ client }</p>
-			</div>
-			<div className="caseRow_mid">
+		<li className={ `caseCard${ active ? ' is-active' : '' }` } hidden={ hidden } data-index={ index }
+			data-type={ slugify( type ) } id={ `case-${ slugify( title ) }` }>
+			<CaseBackdrop title={ title } />
+			<div className="caseCard_head">
 				<h3>{ title }</h3>
-				<p className="caseLine">{ line }</p>
-				{ text && <p className="caseText">{ text }</p> }
-				<ul className="pillList">{ tags.map( ( t ) => <li key={ t }>{ t }</li> ) }</ul>
+				<p className="caseCard_meta">{ type } · { year }</p>
+				<span className="caseCard_num">{ pad( index + 1 ) }</span>
 			</div>
-			<div className="caseRow_right">
-				{ metric
-					? <><p className="caseMetric">{ metric }</p><p className="caseMetric_label">{ label }</p></>
-					: <p className="caseIndex">{ pad( index + 1 ) }</p> }
+			<div className="caseCard_body">
+				<div className="caseCard_bodyIn">
+					<div className="caseCard_text">
+						<p className="caseClient">{ client }</p>
+						<p className="caseLine">{ line }</p>
+						{ text && <p className="caseText">{ text }</p> }
+						<ul className="pillList">{ tags.map( ( t ) => <li key={ t }>{ t }</li> ) }</ul>
+					</div>
+					<div className="caseCard_side">
+						<CaseThumb title={ title } client={ client } />
+						{ metric && <p className="caseCard_metric"><span>{ metric }</span>{ label }</p> }
+					</div>
+				</div>
 			</div>
 		</li>
 	);

@@ -9,13 +9,38 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 	const [ filter, setFilter ] = useState( 'all' );
 	const first = useRef( true );
 	const types = useMemo( () => [ ...new Set( data.caseStudies.map( ( c ) => c[ 0 ] ) ) ], [] );
+	const [ active, setActive ] = useState( () => new Set() );
+
+	/*
+	 * A card opens once its top rises past 75% of the viewport and stays open
+	 * while you read on; it only closes again when it drops back below that line
+	 * (scrolling up). Never closing at the top keeps the page from jumping.
+	 */
+	useEffect( () => {
+		const io = new IntersectionObserver( ( entries ) => {
+			setActive( ( prev ) => {
+				const next = new Set( prev );
+				entries.forEach( ( e ) => {
+					const i = Number( e.target.dataset.index );
+					if ( e.isIntersecting ) {
+						next.add( i );
+					} else if ( e.boundingClientRect.top > ( e.rootBounds?.bottom ?? window.innerHeight * 0.75 ) ) {
+						next.delete( i );
+					}
+				} );
+				return next;
+			} );
+		}, { rootMargin: '0px 0px -25% 0px' } );
+		list.current.querySelectorAll( '.caseCard' ).forEach( ( el ) => io.observe( el ) );
+		return () => io.disconnect();
+	}, [] );
 
 	useEffect( () => {
 		if ( first.current ) {
 			first.current = false;
 			return;
 		}
-		const shown = list.current.querySelectorAll( '.caseRow:not([hidden])' );
+		const shown = list.current.querySelectorAll( '.caseCard:not([hidden])' );
 		if ( ! reduced ) {
 			gsap.fromTo( shown, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.03, ease: 'power2.out' } );
 		}
@@ -44,7 +69,8 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 				</div>
 				<ol className="caseList" ref={ list }>
 					{ data.caseStudies.map( ( c, i ) => (
-						<CaseRow key={ c[ 3 ] } c={ c } index={ i } hidden={ filter !== 'all' && slugify( c[ 0 ] ) !== filter } />
+						<CaseRow key={ c[ 3 ] } c={ c } index={ i } active={ active.has( i ) || reduced }
+							hidden={ filter !== 'all' && slugify( c[ 0 ] ) !== filter } />
 					) ) }
 				</ol>
 			</div>
