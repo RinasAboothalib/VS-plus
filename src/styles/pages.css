@@ -438,7 +438,7 @@ body.inner .page_content_wrap::before {
 .stripItem {
 	position: relative;
 	display: block;
-	height: 62vh;
+	height: clamp(14rem, 36vh, 24rem);
 	aspect-ratio: var(--ar);
 	max-width: 70vw;
 	text-decoration: none;
@@ -469,13 +469,7 @@ body.inner .page_content_wrap::before {
 @media (max-width: 900px) {
 	.photoStrip { padding: 5rem 0; }
 	.photoStrip_head { flex-direction: column; align-items: flex-start; margin-bottom: 2.5rem; }
-	.photoStrip_track {
-		overflow-x: auto;
-		scroll-snap-type: x mandatory;
-		scrollbar-width: none;
-	}
-	.photoStrip_track::-webkit-scrollbar { display: none; }
-	.stripItem { height: 52vh; scroll-snap-align: start; }
+	.stripItem { height: clamp(11rem, 30vh, 16rem); }
 }
 
 /* ---------- home: grade compare ---------- */
@@ -2833,19 +2827,12 @@ body.inner .page_content_wrap::before {
 	overflow: clip;
 }
 
-/* ---------- home portfolio slideshow ---------- */
+/* ---------- home portfolio flow ---------- */
 
 .photoStrip_ctrl {
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-}
-
-.photoStrip_count {
-	min-width: 4.5rem;
-	font-size: 0.8rem;
-	font-variant-numeric: tabular-nums;
-	color: rgba(255, 255, 255, 0.6);
 }
 
 .stripBtn {
@@ -2876,6 +2863,11 @@ body.inner .page_content_wrap::before {
 	overflow: hidden;
 }
 
+/* Two flowing rows, one under the other. */
+.photoStrip .photoStrip_track + .photoStrip_track {
+	margin-top: 1.25rem;
+}
+
 .photoStrip .photoStrip_row {
 	will-change: transform;
 }
@@ -2888,44 +2880,16 @@ body.inner .page_content_wrap::before {
 
 .stripItem .stripItem_img img {
 	height: 100%;
-	transform: scale(1.08);
-	transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s;
-	filter: brightness(0.75);
+	transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s;
+	filter: brightness(0.82);
 }
 
-.stripItem.is-current .stripItem_img img,
 .stripItem:hover .stripItem_img img {
-	transform: scale(1);
+	transform: scale(1.05);
 	filter: none;
 }
 
-.photoStrip_progress {
-	max-width: var(--maxw);
-	height: 2px;
-	margin: 2.5rem auto 0;
-	background: rgba(255, 255, 255, 0.12);
-	overflow: hidden;
-}
-
-.photoStrip_bar {
-	display: block;
-	height: 100%;
-	background: var(--lime);
-	transform-origin: left;
-	animation: stripProgress 3s linear forwards;
-}
-
-.photoStrip:hover .photoStrip_bar {
-	animation-play-state: paused;
-}
-
-@keyframes stripProgress {
-	from { transform: scaleX(0); }
-	to { transform: scaleX(1); }
-}
-
 @media (max-width: 900px) {
-	.photoStrip .photoStrip_track { overflow: hidden; scroll-snap-type: none; }
 	.photoStrip_ctrl .btnLink { margin-left: 0; }
 	.photoStrip_ctrl { flex-wrap: wrap; }
 }
