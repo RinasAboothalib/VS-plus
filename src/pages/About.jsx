@@ -3,7 +3,6 @@ import { usePage } from '../context/PageContext.jsx';
 import useReveals from '../lib/useReveals.js';
 import PageHero from '../components/PageHero.jsx';
 import TLink from '../components/TLink.jsx';
-import ClientStrip from '../components/home/ClientStrip.jsx';
 import Roster from '../components/home/Roster.jsx';
 import JellyCanvas from '../components/work/JellyCanvas.jsx';
 
@@ -113,7 +112,6 @@ export default function About() {
 				</section>
 			</div>
 
-			<ClientStrip />
 			<Roster eyebrow="(04) Commercial client roster" title="Brands that trust our lens and strategy." />
 		</div>
 	);
