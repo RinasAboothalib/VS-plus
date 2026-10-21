@@ -35,6 +35,13 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 		return () => io.disconnect();
 	}, [] );
 
+	// Opening or closing cards changes the page height; once their 0.75s transition
+	// settles, re-measure every ScrollTrigger below (e.g. the philosophy phases).
+	useEffect( () => {
+		const t = setTimeout( () => ScrollTrigger.refresh(), 850 );
+		return () => clearTimeout( t );
+	}, [ active ] );
+
 	useEffect( () => {
 		if ( first.current ) {
 			first.current = false;

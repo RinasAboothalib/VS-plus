@@ -31,7 +31,7 @@ function CaseThumb( { title, client } ) {
 	);
 }
 
-/* Blurred, dimmed copy of the cover that fills an active card behind its content. */
+/* Dimmed copy of the cover that fills an active card behind its content. */
 function CaseBackdrop( { title } ) {
 	const m = media[ title ];
 	if ( ! m?.img || m.fit === 'contain' ) {
@@ -47,7 +47,7 @@ function CaseBackdrop( { title } ) {
 /*
  * One case study as a card (after cuberto.com's "What we do"): collapsed it is a
  * light bar with the title, type and number; once active (CaseList decides, as
- * it scrolls into view) it turns dark over the blurred cover and opens to show
+ * it scrolls into view) it turns dark over its dimmed cover and opens to show
  * the story, tags, cover and result.
  */
 export function CaseRow( { c, index, hidden = false, active = false } ) {

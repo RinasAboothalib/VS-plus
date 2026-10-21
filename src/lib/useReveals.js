@@ -53,7 +53,9 @@ export default function useReveals( scope, deps = [] ) {
 			// rises into view. Scaled from the top edge so trigger positions stay
 			// true, and the transform is dropped once it is at full size.
 			const blocks = gsap.utils.toArray( 'section, .featuredSection, .servicesPage' )
-				.filter( ( el ) => ! el.matches( '.vsHero' ) && ! el.parentElement.closest( 'section, .featuredSection, .servicesPage' ) );
+				.filter( ( el ) => ! el.matches( '.vsHero' ) && ! el.parentElement.closest( 'section, .featuredSection, .servicesPage' ) )
+				// Very tall sections barely show the zoom, and scaling them costs a full repaint each frame.
+				.filter( ( el ) => el.offsetHeight < window.innerHeight * 1.6 );
 			blocks.forEach( ( el ) => {
 				el.style.transformOrigin = '50% 0';
 				ScrollTrigger.create( {

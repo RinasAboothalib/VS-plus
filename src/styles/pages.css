@@ -782,7 +782,7 @@ body.inner .page_content_wrap::before {
 	color: var(--white);
 }
 
-/* Backdrop: the cover, blurred and dimmed, fades in behind an active card. */
+/* Backdrop: the cover, dimmed (no live blur, which is costly while scrolling), fades in behind an active card. */
 .caseCard_bg {
 	position: absolute;
 	inset: 0;
@@ -796,8 +796,7 @@ body.inner .page_content_wrap::before {
 	height: 100%;
 	object-fit: cover;
 	border-radius: 0;
-	filter: blur(28px) saturate(1.3);
-	transform: scale(1.25);
+	opacity: 0.55;
 }
 
 .caseCard_bg::after {
@@ -806,7 +805,7 @@ body.inner .page_content_wrap::before {
 	inset: 0;
 	background:
 		radial-gradient(120% 90% at 85% 0%, rgba(223, 255, 36, 0.08), transparent 55%),
-		linear-gradient(100deg, rgba(10, 10, 10, 0.92) 30%, rgba(10, 10, 10, 0.55));
+		linear-gradient(100deg, rgba(10, 10, 10, 0.95) 35%, rgba(10, 10, 10, 0.72));
 }
 
 .caseCard_bg--plain::after {
@@ -3362,11 +3361,6 @@ body.inner .page_content_wrap::before {
 /* The footer sits on the last card, so only its top corners show. */
 .siteFooter {
 	border-radius: var(--r-section) var(--r-section) 0 0;
-}
-
-/* Header glass bar: soft bottom corners. */
-.siteHeader_glass {
-	border-radius: 0 0 var(--r-lg) var(--r-lg);
 }
 
 /* Media frames clip their contents to the corner. */
