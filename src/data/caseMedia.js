@@ -8,29 +8,35 @@
  *          where the client has no website logo to use; fills the frame
  *
  * A case without an entry gets a monogram tile instead.
+ *
+ *   photo — the card's main picture (/assets/cases/main): the studio's own
+ *           shot where we have one, otherwise the brand's own campaign or
+ *           product imagery from its official site or Instagram
+ *   more  — a further verified result, from the home page's results list
  */
 const B = ( name ) => `/assets/brands/${ name }`;
+const P = ( name ) => `/assets/cases/main/${ name }.webp`;
 
 export default {
-	'Nescafé × Colombo Fashion Week': { mark: B( 'nescafe-logo.webp' ), dark: true }, // nescafe.com
-	'Pond’s Super Light Gel Launch': { mark: B( 'ponds-logo.webp' ) }, // ponds.in (Unilever)
-	'UNDP Sri Lanka — HackaDev Social Innovation': { mark: B( 'undp-logo.svg' ) }, // undp.org
-	'Dankotuwa Porcelain CGI World': { mark: B( 'dankotuwa-logo.webp' ) }, // dankotuwa.com
-	'Ministry of Crab Gastronomy': { mark: B( 'ministry-of-crab-logo.webp' ), dark: true }, // ministryofcrab.com
-	'American Express × Swim Week Colombo': { mark: B( 'amex-logo.svg' ) }, // americanexpress.com
-	'Knorr Mother’s Day Campaign': { mark: B( 'knorr-logo.webp' ) }, // knorr.com (Unilever)
-	'Munchee CBL — Festive AI & Lego Campaign': { mark: B( 'munchee-logo.webp' ) },
-	'Ahmad Tea London — Digital Channel Retainer': { mark: B( 'ahmad-tea-logo.webp' ) }, // ahmadtea.com
-	'Swisstek Aluminium — Technical & Solar Strategy': { mark: B( 'swisstek-logo.webp' ) }, // swisstekceylon.com
-	'Swadeshi Khomba — Natural Herbal Digital Presence': { mark: B( 'swadeshi-logo.webp' ) }, // swadeshiherbal.com
-	'Imorich Ice Cream — 5-Year Creative Partnership': { tile: B( 'imorich.webp' ) },
-	'SOZO Sparkling Drinks — Identity & Can Design': { mark: B( 'sozo.svg' ) },
-	'Too Good Dessert Chocolatier': { mark: B( 'too-good.webp' ) },
-	'CBW (Cairns Bicycle Works) — Australia': { tile: B( 'cbw.webp' ) },
-	'Te Dalu — Boutique Hotel Ella': { tile: B( 'te-dalu.webp' ) },
-	'Viva Malted Food Drink — Avurudu Series': { tile: B( 'viva.webp' ) },
-	'MintPay — Digital Vouchers Commercial': { mark: B( 'mintpay-logo.webp' ) }, // mintpay.lk
-	'Swadeshi Khomba — Women’s Day TVC': { mark: B( 'swadeshi-logo.webp' ) },
-	'DSI Footwear — Everyday Journeys': { tile: B( 'dsi.webp' ) },
-	'Sapphire Dragon Chinese Restaurant': { mark: B( 'hilton-logo.webp' ) }
+	'Nescafé × Colombo Fashion Week': { mark: B( 'nescafe-logo.webp' ), dark: true, photo: P( 'nescafe' ), more: [ '1.2M+', 'Campaign reach in 48h' ] }, // nescafe.com
+	'Pond’s Super Light Gel Launch': { mark: B( 'ponds-logo.webp' ), photo: P( 'ponds' ) }, // ponds.in (Unilever)
+	'UNDP Sri Lanka — HackaDev Social Innovation': { mark: B( 'undp-logo.svg' ), photo: P( 'undp' ) }, // undp.org
+	'Dankotuwa Porcelain CGI World': { mark: B( 'dankotuwa-logo.webp' ), photo: P( 'dankotuwa' ) }, // dankotuwa.com
+	'Ministry of Crab Gastronomy': { mark: B( 'ministry-of-crab-logo.webp' ), dark: true, photo: P( 'moc' ) }, // ministryofcrab.com
+	'American Express × Swim Week Colombo': { mark: B( 'amex-logo.svg' ), photo: P( 'amex' ) }, // americanexpress.com
+	'Knorr Mother’s Day Campaign': { mark: B( 'knorr-logo.webp' ), photo: P( 'knorr' ) }, // knorr.com (Unilever)
+	'Munchee CBL — Festive AI & Lego Campaign': { mark: B( 'munchee-logo.webp' ), photo: P( 'munchee' ), more: [ '320K+', 'Direct social interactions' ] },
+	'Ahmad Tea London — Digital Channel Retainer': { mark: B( 'ahmad-tea-logo.webp' ), photo: P( 'ahmad' ), more: [ '+68%', 'YoY social follower growth' ] }, // ahmadtea.com
+	'Swisstek Aluminium — Technical & Solar Strategy': { mark: B( 'swisstek-logo.webp' ), photo: P( 'swisstek' ) }, // swisstekceylon.com
+	'Swadeshi Khomba — Natural Herbal Digital Presence': { mark: B( 'swadeshi-logo.webp' ), photo: P( 'khomba' ) }, // swadeshiherbal.com
+	'Imorich Ice Cream — 5-Year Creative Partnership': { tile: B( 'imorich.webp' ), photo: P( 'imorich' ) },
+	'SOZO Sparkling Drinks — Identity & Can Design': { mark: B( 'sozo.svg' ), photo: P( 'sozo' ) },
+	'Too Good Dessert Chocolatier': { mark: B( 'too-good.webp' ), photo: P( 'toogood' ) },
+	'CBW (Cairns Bicycle Works) — Australia': { tile: B( 'cbw.webp' ), photo: P( 'cbw' ) },
+	'Te Dalu — Boutique Hotel Ella': { tile: B( 'te-dalu.webp' ), photo: P( 'tedalu' ) },
+	'Viva Malted Food Drink — Avurudu Series': { tile: B( 'viva.webp' ), photo: P( 'viva' ) },
+	'MintPay — Digital Vouchers Commercial': { mark: B( 'mintpay-logo.webp' ), photo: P( 'mintpay' ) }, // mintpay.lk
+	'Swadeshi Khomba — Women’s Day TVC': { mark: B( 'swadeshi-logo.webp' ), photo: P( 'khombatvc' ) },
+	'DSI Footwear — Everyday Journeys': { tile: B( 'dsi.webp' ), photo: P( 'dsi' ) },
+	'Sapphire Dragon Chinese Restaurant': { mark: B( 'hilton-logo.webp' ), photo: P( 'sapphire' ) }
 };
