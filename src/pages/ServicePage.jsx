@@ -121,7 +121,7 @@ function ServicePage( { kind } ) {
 					) }
 					{ p.showcase && (
 						<figure className="svcPage_show">
-							<img src={ p.showcase.img } alt="" loading="lazy" />
+							<img src={ p.showcase.img } alt="" loading="lazy" width="512" height="640" />
 							<figcaption>{ p.showcase.caption }</figcaption>
 						</figure>
 					) }

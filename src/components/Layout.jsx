@@ -48,6 +48,29 @@ export default function Layout() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ location.pathname, reveal ] );
 
+	// Late-loading images (or anything else) that change the page's height move every section
+	// below them; re-measure the scroll triggers once the height settles, or their entrances
+	// fire early, off screen.
+	useEffect( () => {
+		const main = document.getElementById( 'main' );
+		let last = main.offsetHeight;
+		let t = 0;
+		const ro = new ResizeObserver( () => {
+			const h = main.offsetHeight;
+			if ( Math.abs( h - last ) < 2 ) {
+				return;
+			}
+			last = h;
+			clearTimeout( t );
+			t = setTimeout( () => ScrollTrigger.refresh(), 200 );
+		} );
+		ro.observe( main );
+		return () => {
+			ro.disconnect();
+			clearTimeout( t );
+		};
+	}, [] );
+
 	// The header pill slides away while you scroll down and returns as soon as you scroll up.
 	useEffect( () => {
 		const body = document.body;
