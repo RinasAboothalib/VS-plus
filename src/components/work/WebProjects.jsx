@@ -77,17 +77,19 @@ export default function WebProjects( { eyebrow = '(03) Selected web projects' } 
 		const ctx = gsap.context( () => {
 			gsap.utils.toArray( '.webProj' ).forEach( ( row ) => {
 				const shot = row.querySelector( '.webProj_browser' );
-				const tl = gsap.timeline( { scrollTrigger: { trigger: row, start: 'top 78%', once: true } } );
-				// Each half glides in from its own side: the screens from the side they sit on, the copy from the other.
+				const tl = gsap.timeline( { scrollTrigger: { trigger: row, start: 'top 88%', once: true } } );
+				// Each half glides in from its own side, as the home project cards do: the screens from the
+				// side they sit on, the copy from the other side, its lines following one after another.
 				const fromRight = row.classList.contains( 'webProj--flip' );
-				tl.fromTo( row.querySelector( '.webProj_media' ), { x: fromRight ? 160 : -160, rotate: fromRight ? 2 : -2, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, duration: 1.4, ease: 'expo.out' }, 0 )
-					.fromTo( row.querySelector( '.webProj_body' ), { x: fromRight ? -120 : 120, opacity: 0 }, { x: 0, opacity: 1, duration: 1.4, ease: 'expo.out' }, 0.1 );
+				const side = ( d ) => ( fromRight ? d : -d );
+				tl.fromTo( row.querySelector( '.webProj_media' ), { x: side( 240 ), rotate: side( 3 ), opacity: 0 }, { x: 0, rotate: 0, opacity: 1, duration: 1.5, ease: 'expo.out' }, 0 )
+					.fromTo( row.querySelector( '.webProj_body' ), { x: side( -200 ), opacity: 0 }, { x: 0, opacity: 1, duration: 1.5, ease: 'expo.out' }, 0.08 );
 				// The browser window opens out of a smaller rounded mask while the screenshot settles from a zoom.
 				tl.fromTo( shot, { clipPath: 'inset(14% 10% 14% 10% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 1.4, ease: 'expo.inOut' }, 0 )
 					.fromTo( row.querySelector( '.webProj_shot img' ), { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, 0.1 )
 					// The phone rises in, tilted, and straightens.
 					.fromTo( row.querySelector( '.webProj_phone' ), { y: 140, rotate: 8, opacity: 0 }, { y: 0, rotate: 0, opacity: 1, duration: 1.3, ease: 'expo.out' }, 0.55 )
-					.from( row.querySelectorAll( '.webProj_body > *' ), { y: 36, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.07 }, 0.25 )
+					.from( row.querySelectorAll( '.webProj_body > *' ), { x: side( -60 ), opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.07 }, 0.2 )
 					.add( () => row.querySelectorAll( '[data-count]' ).forEach( countUp ), 0.6 );
 				// Then the phone drifts against the scroll (pointer devices only; on phones it would scrub every frame).
 				canHover && gsap.to( row.querySelector( '.webProj_phoneWrap' ), { yPercent: -14, ease: 'none', scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: 1 } } );
