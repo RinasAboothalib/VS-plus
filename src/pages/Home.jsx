@@ -5,13 +5,10 @@ import useReveals from '../lib/useReveals.js';
 import TLink from '../components/TLink.jsx';
 import Hero from '../components/home/Hero.jsx';
 import Showreel from '../components/home/Showreel.jsx';
-import Philosophy from '../components/home/Philosophy.jsx';
 import ServicesAccordion from '../components/home/ServicesAccordion.jsx';
 import PhotoStrip from '../components/home/PhotoStrip.jsx';
-import GradeCompare from '../components/home/GradeCompare.jsx';
 import Roster from '../components/home/Roster.jsx';
 import CaseList from '../components/work/CaseList.jsx';
-import ReelsRail from '../components/social/ReelsRail.jsx';
 
 export default function Home() {
 	const root = useRef( null );
@@ -26,21 +23,18 @@ export default function Home() {
 	return (
 		<div ref={ root }>
 			<Hero />
+			<ServicesAccordion eyebrow="(01) Our services" />
 
 			<div id="work">
-				<CaseList eyebrow="(01) Flagship portfolio" id="flagship" />
+				<CaseList eyebrow="(02) Flagship portfolio" id="flagship" />
 			</div>
 
-			<ReelsRail />
 			<Showreel />
-			<Philosophy />
-			<ServicesAccordion />
 			<PhotoStrip />
-			<GradeCompare />
 
 			<section className="resultsSection" aria-labelledby="resultsTitle">
 				<div className="resultsInner">
-					<p className="eyebrow">(06) Commercial attributions</p>
+					<p className="eyebrow">(04) Commercial attributions</p>
 					<h2 className="sectionTitle" id="resultsTitle">Verified business impact.</h2>
 					<p className="lede lede--light">Every reel, campaign asset, and ad spend is audited against real commercial benchmarks and engagement lifts.</p>
 					<div className="resultsGrid">
@@ -55,7 +49,7 @@ export default function Home() {
 				</div>
 			</section>
 
-			<Roster eyebrow="(07) Commercial client roster" title="Trusted by market leaders & global brands." />
+			<Roster eyebrow="(05) Commercial client roster" title="Trusted by market leaders & global brands." />
 		</div>
 	);
 }

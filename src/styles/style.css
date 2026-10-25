@@ -9,6 +9,7 @@
 	--ink: #0a0a0a;
 	--ink-2: #1c1c1c;
 	--lime: #dfff24;
+	--hi: #ffd400; /* highlight yellow: scroll-lit and marked key words */
 	--cream: #f8f6f5;
 	--hero-bg: #050505;
 	--white: #ffffff;
@@ -354,9 +355,16 @@ body.nav-hidden .siteHeader {
 	font: inherit;
 }
 
-.introText span {
+.mWord {
 	display: inline;
 	opacity: 0;
+	color: var(--white);
+}
+
+/* Facts rise in after the manifesto has been read. */
+.introFacts li {
+	opacity: 0;
+	transform: translateY(0.75rem);
 }
 
 .introFacts {
@@ -380,7 +388,7 @@ body.nav-hidden .siteHeader {
 	font-size: 1.6rem;
 	font-weight: 700;
 	letter-spacing: -0.03em;
-	color: var(--lime);
+	color: var(--hi);
 }
 
 @media (min-width: 1550px) {
@@ -1412,6 +1420,7 @@ body.nav-hidden .siteHeader {
 	.clientele_list[aria-hidden="true"] { display: none; }
 	.clientele_list { flex-wrap: wrap; justify-content: center; padding: 0 var(--gutter); gap: 2rem 3rem; }
 	.vsHero_video, .vsHero_grain::after { display: none; }
-	.introText span { opacity: 1; }
+	.mWord, .introFacts li { opacity: 1; transform: none; }
+	.mWord--key { color: var(--hi); }
 	*, *::before, *::after { transition-duration: 0.01ms !important; }
 }

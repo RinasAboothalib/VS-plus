@@ -3,6 +3,7 @@ import TLink from './TLink.jsx';
 import CopyEmail from './CopyEmail.jsx';
 import { usePageMeta } from '../context/PageContext.jsx';
 import { SocialIcons } from './SocialIcon.jsx';
+import FooterBrief from './FooterBrief.jsx';
 
 /*
  * Footer: the page's call to action, then one compact row (email, phones and
@@ -10,7 +11,7 @@ import { SocialIcons } from './SocialIcon.jsx';
  * the copyright line and the social icons.
  */
 export default function Footer() {
-	const { cta } = usePageMeta();
+	const { cta, page } = usePageMeta();
 	const { site, services } = data;
 
 	return (
@@ -19,9 +20,12 @@ export default function Footer() {
 				<div className="footerLead">
 					<p className="eyebrow">Accepting select commercial briefs for 2026</p>
 					<h2 className="footerTitle">{ cta.title }</h2>
-					<div className="footerLead_row">
+					{ /* The contact page has its own brief form, so the footer keeps its plain call to action there. */ }
+					<div className={ `footerLead_row${ page === 'contact' ? '' : ' footerLead_row--form' }` }>
 						<p>{ cta.text }</p>
-						<TLink className="pillBtn" to="/contact/">{ cta.button }</TLink>
+						{ page === 'contact'
+							? <TLink className="pillBtn" to="/contact/#brief">{ cta.button }</TLink>
+							: <FooterBrief /> }
 					</div>
 				</div>
 
@@ -39,6 +43,8 @@ export default function Footer() {
 					<nav className="footerCol" aria-label="Footer">
 						<ul className="footerList">
 							<li><TLink to="/">Home</TLink></li>
+							<li><TLink to="/social-media-marketing/">Social Media Marketing</TLink></li>
+							<li><TLink to="/web-development/">Web Development</TLink></li>
 							<li><TLink to="/work/">Projects &amp; Archive</TLink></li>
 							<li><TLink to="/photography/">Photography</TLink></li>
 							<li><TLink to="/services/">Capabilities &amp; Services</TLink></li>

@@ -7,6 +7,7 @@ import Photography from './pages/Photography.jsx';
 import Services from './pages/Services.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
+import { SocialMediaMarketing, WebDevelopment } from './pages/ServicePage.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 export default function App() {
@@ -18,6 +19,8 @@ export default function App() {
 				<Route path="work/:slug" element={ <Project /> } />
 				<Route path="photography" element={ <Photography /> } />
 				<Route path="services" element={ <Services /> } />
+				<Route path="social-media-marketing" element={ <SocialMediaMarketing /> } />
+				<Route path="web-development" element={ <WebDevelopment /> } />
 				<Route path="about" element={ <About /> } />
 				<Route path="contact" element={ <Contact /> } />
 				<Route path="*" element={ <NotFound /> } />

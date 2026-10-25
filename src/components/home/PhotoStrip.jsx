@@ -49,7 +49,7 @@ export default function PhotoStrip() {
 		<section className="photoStrip" aria-labelledby="stripTitle" ref={ section }>
 			<div className="photoStrip_head">
 				<div>
-					<p className="eyebrow">(04) Our photography</p>
+					<p className="eyebrow">(03) Our photography</p>
 					<h2 className="sectionTitle" id="stripTitle">Portfolio</h2>
 					<p className="lede">Tactile luxury across Gastronomy, Architecture, and High Fashion.</p>
 				</div>

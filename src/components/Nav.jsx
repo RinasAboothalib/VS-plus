@@ -5,10 +5,10 @@ import { gsap, reduced, startScroll, stopScroll } from '../lib/motion.js';
 import { useTransition } from '../context/TransitionContext.jsx';
 import { SocialIcons } from './SocialIcon.jsx';
 
+/* Menu per the client revision (Oct 24): the two lead services, then About and Contact. */
 const LINKS = [
-	[ '/work/', 'Work', 'work' ],
-	[ '/photography/', 'Photography', 'photography' ],
-	[ '/services/', 'Services', 'services' ],
+	[ '/social-media-marketing/', 'Social Media Marketing', 'social-media-marketing' ],
+	[ '/web-development/', 'Web Development', 'web-development' ],
 	[ '/about/', 'About', 'about' ],
 	[ '/contact/', 'Contact', 'contact' ]
 ];

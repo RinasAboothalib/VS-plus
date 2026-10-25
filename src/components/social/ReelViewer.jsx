@@ -77,7 +77,7 @@ export default function ReelViewer( { items, index, onIndex, onClose } ) {
 		<div className="rv" role="dialog" aria-modal="true" aria-label={ item.title } ref={ root }>
 			<div className="rv_backdrop" onClick={ onClose } />
 			<div className="rv_body">
-				<div className={ `rv_media rv_media--${ item.video ? 'reel' : 'image' }` } ref={ media }>
+				<div className={ `rv_media rv_media--${ item.video ? ( item.wide ? 'film' : 'reel' ) : 'image' }` } ref={ media }>
 					{ item.video ? (
 						<video key={ item.video } src={ item.video } poster={ item.image } controls autoPlay playsInline loop />
 					) : (
@@ -97,8 +97,8 @@ export default function ReelViewer( { items, index, onIndex, onClose } ) {
 					<p className="rv_meta"><span>{ item.kind }</span><span>{ item.date }</span></p>
 					<h3 className="rv_title">{ item.title }</h3>
 					{ item.summary && <p className="rv_text">{ item.summary }</p> }
-					<p className="rv_hint">{ item.video ? 'Reel playing with sound — use the player controls.' : 'Click the image to zoom; move to look around.' }</p>
-					<a className="pillBtn rv_link" href={ item.url } target="_blank" rel="noopener noreferrer">Open on Instagram ↗</a>
+					<p className="rv_hint">{ item.video ? `${ item.wide ? 'Film' : 'Reel' } playing with sound — use the player controls.` : 'Click the image to zoom; move to look around.' }</p>
+					{ item.url && <a className="pillBtn rv_link" href={ item.url } target="_blank" rel="noopener noreferrer">Open on Instagram ↗</a> }
 					<div className="rv_nav">
 						<button type="button" className="stripBtn" onClick={ () => go( -1 ) } aria-label="Previous post">←</button>
 						<span>{ String( index + 1 ).padStart( 2, '0' ) } / { String( items.length ).padStart( 2, '0' ) }</span>

@@ -10,6 +10,21 @@ const ROTATING = [ 'that moves', 'that sells', 'that connects', 'that grows' ];
 const TAIL = 'brands.';
 const INTRO = 'Colombo’s premier digital marketing, social media campaigns, and content creation agency. We partner with ambitious brands to command attention and deliver verified commercial growth.';
 
+/*
+ * The manifesto, as [text, key] pieces: read word by word as you scroll, key
+ * phrases light up yellow.
+ */
+const MANIFESTO = [
+	[ 'Every frame is made to ' ], [ 'move something.', true ],
+	[ ' Visual Studios Plus is Colombo’s ' ], [ 'content creation and curation agency', true ],
+	[ ' — ' ], [ 'commercial videography', true ], [ ', ' ], [ 'advertising photography', true ],
+	[ ' and ' ], [ 'social-first campaigns', true ], [ ' for ' ], [ 'FMCG', true ], [ ', ' ],
+	[ 'food & beverage', true ], [ ', ' ], [ 'fashion', true ], [ ' and ' ], [ 'luxury hospitality', true ],
+	[ ' brands. From strategy to shoot to the final colour grade, it’s all ' ], [ 'made in-house', true ],
+	[ ', and all measured against ' ], [ 'real commercial results.', true ]
+];
+const MANIFESTO_TEXT = MANIFESTO.map( ( [ t ] ) => t ).join( '' );
+
 /* Company facts that land on the closed frame after the manifesto (from the About page). */
 const INTRO_FACTS = [
 	[ 'Colombo 04', 'Studio, Sri Lanka' ],
@@ -77,17 +92,34 @@ export default function Hero() {
 				// Let lifted letters spill over their line masks once the lines are in.
 				.add( () => root.current.classList.add( 'is-in' ) );
 
-			// Pinned sequence (~2 long): tiles rush past 0–1, manifesto from 0.95, the rest holds.
+			// Once the manifesto is in view it reads itself on a clock (~4.5s), not with the scroll:
+			// word by word, key phrases turning yellow, then the facts land. Scrolling back up resets it.
+			const words = gsap.utils.toArray( '.mWord', root.current );
+			const step = 3.4 / Math.max( words.length, 1 );
+			const read = gsap.timeline( { paused: true } )
+				.to( words, { ease: 'none', opacity: 1, stagger: step, duration: 0.35 }, 0 )
+				.to( '.mWord--key', { ease: 'power1.out', color: 'var(--hi)', stagger: step * 1.6, duration: 0.4 }, 0.1 )
+				.to( '.introFacts li', { ease: 'expo.out', opacity: 1, y: 0, stagger: 0.12, duration: 0.7 }, '>-0.2' );
+
+			// Pinned sequence: tiles rush past 0–1, the manifesto fades in dim, then a hold while it reads.
 			const tl = gsap.timeline( {
 				scrollTrigger: {
 					trigger: root.current, scrub: 1.2, pin: true, pinSpacing: true, start: 'top top',
 					// Phones get a shorter hold: three screens of pinned scroll feels like dead space there.
-					end: () => ( window.innerWidth < 768 ? '+=160%' : '+=300%' ), invalidateOnRefresh: true
+					end: () => ( window.innerWidth < 768 ? '+=200%' : '+=300%' ), invalidateOnRefresh: true,
+					onUpdate: ( self ) => {
+						if ( self.progress > 0.62 && read.reversed() ) {
+							read.timeScale( 1 ).play();
+						} else if ( self.progress < 0.45 && ! read.reversed() ) {
+							read.timeScale( 3 ).reverse();
+						}
+					}
 				}
 			} );
+			read.reversed( true );
 			tl.to( f, { ease: 'power2.in', rush: 3200, duration: 1 }, 0 )
-				.to( '.introText span', { ease: 'none', opacity: 1, stagger: 0.04, duration: 0.6 }, 0.95 )
-				.to( {}, { duration: 0.25 } );
+				.to( words, { ease: 'none', opacity: 0.16, duration: 0.15 }, 0.9 )
+				.to( {}, { duration: 0.6 } );
 			tl.to( '.vsHero_content, .vsHero_scroll', { ease: 'none', yPercent: -25, opacity: 0, duration: 0.5 }, 0 );
 			tl.to( document.querySelector( '.page_content_wrap' ), { ease: 'none', '--scrim-opacity': 0, duration: 1.2 }, 0 );
 		}, root );
@@ -125,12 +157,12 @@ export default function Hero() {
 			<div id="homeBanner_intro" className="introWrap">
 				<div className="introText">
 					<h2 className="introLead">
-						<span>Every frame is made to move something.</span>{ ' ' }
-						<span>Visual Studios Plus is Colombo’s content creation and curation agency —</span>{ ' ' }
-						<span>commercial videography, advertising photography and social-first campaigns</span>{ ' ' }
-						<span>for FMCG, food &amp; beverage, fashion and luxury hospitality brands.</span>{ ' ' }
-						<span>From strategy to shoot to the final colour grade, it’s all made in-house,</span>{ ' ' }
-						<span>and all measured against real commercial results.</span>
+						<span className="sr-only">{ MANIFESTO_TEXT }</span>
+						<span aria-hidden="true">
+							{ MANIFESTO.flatMap( ( [ text, key ], i ) => text.split( /(\s+)/ ).map( ( w, j ) => (
+								/^\s+$/.test( w ) || ! w ? w : <span key={ `${ i }-${ j }` } className={ `mWord${ key ? ' mWord--key' : '' }` }>{ w }</span>
+							) ) ) }
+						</span>
 					</h2>
 					<ul className="introFacts">
 						{ INTRO_FACTS.map( ( [ num, label ] ) => (

@@ -4,9 +4,25 @@ import { pad, ScrollTrigger } from '../../lib/motion.js';
 import TLink from '../TLink.jsx';
 import HoverDot from '../HoverDot.jsx';
 import Megaphone from '../illustrations/Megaphone.jsx';
-import FloatPreview from '../FloatPreview.jsx';
+import FloatPreview, { SERVICE_MEDIA } from '../FloatPreview.jsx';
 
-export default function ServicesAccordion() {
+/* Hover preview for each of the eleven services, reusing the studio's reels and stills. */
+const LIST_MEDIA = {
+	'social-media-marketing': SERVICE_MEDIA[ 'social-media' ],
+	'digital-retainers': SERVICE_MEDIA[ 'digital-campaigns' ],
+	'branding-strategy': SERVICE_MEDIA.branding,
+	'performance-marketing': SERVICE_MEDIA.strategy,
+	'web-app-development': { img: '/assets/social/ai-ready-websites.jpg' },
+	'tv-commercials': SERVICE_MEDIA[ 'tvc-commercials' ],
+	'reels-tiktok': SERVICE_MEDIA[ 'content-creation' ],
+	'influencer-marketing': { img: '/assets/social/product-stories.jpg' },
+	'corporate-brand-films': SERVICE_MEDIA.videography,
+	'ai-video-campaigns': SERVICE_MEDIA[ 'cgi-ai-creative' ],
+	'commercial-photography': SERVICE_MEDIA.photography
+};
+
+/* "Our Services": the eleven services as an accordion, each opening to its description and a link. */
+export default function ServicesAccordion( { eyebrow = '(01) Our services' } ) {
 	const [ open, setOpen ] = useState( 0 );
 	const [ hover, setHover ] = useState( null );
 	const list = useRef( null );
@@ -21,15 +37,15 @@ export default function ServicesAccordion() {
 		<section className="servicesSection" id="services" ref={ section } onMouseLeave={ () => setHover( null ) }>
 			<div className="servicesInner">
 				<div className="servicesHead">
-					<p className="eyebrow">(03) Capabilities overview</p>
-					<h2 className="sectionTitle">One full-service studio.<br />Zero creative fragmentation.</h2>
-					<p className="servicesLede">Need a custom agency retainer or dedicated production team? We work on project-by-project commissions and full-year creative retainers.</p>
-					<TLink className="btnLink" to="/services/">All capabilities</TLink>
+					<p className="eyebrow">{ eyebrow }</p>
+					<h2 className="sectionTitle">Our services.</h2>
+					<p className="servicesLede">Eleven disciplines under one roof in Colombo 04 — from social and performance marketing to TV commercials, web builds and photography. Project by project, or as a full-year retainer.</p>
+					<TLink className="btnLink" to="/contact/">Start a project</TLink>
 					<Megaphone className="illus--svc" />
 				</div>
 				<ul className="accordion" ref={ list } onMouseLeave={ () => setHover( null ) }>
 					<HoverDot list={ list } center={ ( li ) => li.offsetTop + li.querySelector( 'button' ).offsetHeight / 2 } />
-					{ data.services.map( ( [ slug, name, statement ], i ) => (
+					{ data.serviceList.map( ( [ slug, name, description, link ], i ) => (
 						<li key={ slug } className={ open === i ? 'is-open' : undefined } onMouseEnter={ () => setHover( slug ) }>
 							<button type="button" aria-expanded={ open === i } aria-controls={ `svc-${ i }` } onClick={ () => toggle( i ) }>
 								<span className="accNum">{ pad( i + 1 ) }</span>
@@ -37,13 +53,13 @@ export default function ServicesAccordion() {
 								<span className="accIcon" aria-hidden="true"></span>
 							</button>
 							<div className="accPanel" id={ `svc-${ i }` } role="region">
-								<div><p>{ statement } <TLink to={ `/services/#${ slug }` }>Explore { name } →</TLink></p></div>
+								<div><p>{ description } <TLink to={ link }>Explore { name } →</TLink></p></div>
 							</div>
 						</li>
 					) ) }
 				</ul>
 			</div>
-			<FloatPreview container={ section } active={ hover } />
+			<FloatPreview container={ section } active={ hover } media={ LIST_MEDIA } />
 		</section>
 	);
 }

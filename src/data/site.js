@@ -874,4 +874,23 @@ data.flagship = [
 	}
 ];
 
+
+/*
+ * "Our Services" (client revision, Oct 24): the eleven services shown on the
+ * home page, each as [slug, name, description, link].
+ */
+data.serviceList = [
+	[ 'social-media-marketing', 'Social Media Marketing', 'Planning, creating, and managing content across social media platforms.', '/social-media-marketing/' ],
+	[ 'digital-retainers', 'Digital Marketing Retainers', 'Ongoing management of your digital marketing activities under one service plan.', '/services/#digital-campaigns' ],
+	[ 'branding-strategy', 'Branding & Strategy', 'Brand identity development, visual direction, and brand positioning.', '/services/#branding' ],
+	[ 'performance-marketing', 'Performance Marketing', 'Paid advertising campaigns, audience targeting, and performance tracking.', '/services/#digital-campaigns' ],
+	[ 'web-app-development', 'Web & App Development', 'Website design, web application development, and custom digital solutions.', '/web-development/' ],
+	[ 'tv-commercials', 'TV Commercials', 'Concept development, filming, and production of television advertisements.', '/services/#tvc-commercials' ],
+	[ 'reels-tiktok', 'Reels & TikTok Campaigns', 'Short-form video production for Instagram Reels, TikTok, and other platforms.', '/social-media-marketing/' ],
+	[ 'influencer-marketing', 'Influencer Marketing', 'Influencer selection, campaign coordination, content creation, and execution.', '/social-media-marketing/' ],
+	[ 'corporate-brand-films', 'Corporate & Brand Films', 'Corporate videos, company profiles, brand stories, and business documentaries.', '/services/#videography' ],
+	[ 'ai-video-campaigns', 'AI Video Campaigns', 'AI-assisted video production, visual generation, and advertising content.', '/services/#cgi-ai-creative' ],
+	[ 'commercial-photography', 'Commercial Photography', 'Product, food, lifestyle, corporate, and advertising photography.', '/photography/' ]
+];
+
 export default data;
