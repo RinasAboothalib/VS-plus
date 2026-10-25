@@ -78,9 +78,9 @@ export function CaseSlide( { c, index, hidden = false, low = false, onOpen } ) {
 	const m = media[ title ] || {};
 	return (
 		<li className={ `caseSlide${ low ? ' caseSlide--low' : '' }` } hidden={ hidden } data-index={ index } id={ `case-${ slugify( title ) }` }>
-			{ /* Every frame is square; the picture sits whole inside it, over a soft blurred copy of itself. */ }
-			<button type="button" className="caseSlide_media" onClick={ onOpen } aria-label={ `${ title } — read the case study` }>
-				{ m.photo && <img className="caseSlide_fill" src={ m.photo.src } alt="" aria-hidden="true" loading="lazy" decoding="async" /> }
+			{ /* Every card is the same 4:5 portrait frame; each picture is framed on its subject. */ }
+			<button type="button" className="caseSlide_media" onClick={ onOpen } aria-label={ `${ title } — read the case study` }
+				style={ m.photo ? { '--focus': m.photo.focus } : undefined }>
 				{ m.photo
 					? <img className="caseSlide_img" src={ m.photo.src } alt="" loading="lazy" decoding="async" width={ m.photo.w } height={ m.photo.h } />
 					: <span className="caseSlide_panel" aria-hidden="true"><span>{ client }</span></span> }

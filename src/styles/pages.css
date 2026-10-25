@@ -4141,8 +4141,10 @@ textarea {
 .casePairs {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: clamp(3rem, 6vw, 5.5rem) 6vw;
-	margin: 0;
+	gap: clamp(3rem, 6vw, 5.5rem) 7vw;
+	/* A little narrower than the page, so the pictures sit a size smaller. */
+	max-width: 66rem;
+	margin: 0 auto;
 	padding: 0;
 	list-style: none;
 }
@@ -4159,8 +4161,8 @@ textarea {
 	position: relative;
 	display: block;
 	width: 100%;
-	/* Equal square frames; the picture inside is never cropped (see .caseSlide_img). */
-	aspect-ratio: 1;
+	/* One card size for every project: 4:5 portrait. */
+	aspect-ratio: 4 / 5;
 	padding: 0;
 	overflow: hidden;
 	border: 0;
@@ -4175,20 +4177,10 @@ textarea {
 	display: block;
 	width: 100%;
 	height: 100%;
-	object-fit: contain;
+	object-fit: cover;
+	object-position: var(--focus, 50% 50%);
 	border-radius: 0;
 	transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Behind it, the same picture blurred and dimmed fills the rest of the square. */
-.caseSection .caseSlide_fill {
-	position: absolute;
-	inset: -8%;
-	width: 116%;
-	height: 116%;
-	object-fit: cover;
-	border-radius: 0;
-	filter: blur(28px) brightness(0.62) saturate(1.1);
 }
 
 .caseSlide_media:hover .caseSlide_img,

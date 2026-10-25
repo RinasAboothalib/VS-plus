@@ -40,7 +40,15 @@ const SIZE = {
 	toogood: [ 1000, 808 ],
 	mintpay: [ 1400, 743 ]
 };
-const P = ( name ) => ( { src: `/assets/cases/main/${ name }.webp`, w: SIZE[ name ][ 0 ], h: SIZE[ name ][ 1 ] } );
+/*
+ * Where each picture's subject sits, so the 4:5 card frame keeps it in view
+ * (object-position; centre when not listed).
+ */
+const FOCUS = {
+	nescafe: '66% 50%', ponds: '62% 50%', mintpay: '86% 40%', swisstek: '50% 60%',
+	moc: '50% 62%', dankotuwa: '50% 58%', viva: '50% 45%', khombatvc: '50% 40%'
+};
+const P = ( name ) => ( { src: `/assets/cases/main/${ name }.webp`, w: SIZE[ name ][ 0 ], h: SIZE[ name ][ 1 ], focus: FOCUS[ name ] || '50% 50%' } );
 
 export default {
 	'Nescafé × Colombo Fashion Week': { mark: B( 'nescafe-logo.webp' ), dark: true, photo: P( 'nescafe' ), more: [ '1.2M+', 'Campaign reach in 48h' ] }, // nescafe.com
