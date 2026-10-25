@@ -78,8 +78,12 @@ export default function WebProjects( { eyebrow = '(03) Selected web projects' } 
 			gsap.utils.toArray( '.webProj' ).forEach( ( row ) => {
 				const shot = row.querySelector( '.webProj_browser' );
 				const tl = gsap.timeline( { scrollTrigger: { trigger: row, start: 'top 78%', once: true } } );
+				// Each half glides in from its own side: the screens from the side they sit on, the copy from the other.
+				const fromRight = row.classList.contains( 'webProj--flip' );
+				tl.fromTo( row.querySelector( '.webProj_media' ), { x: fromRight ? 160 : -160, rotate: fromRight ? 2 : -2, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, duration: 1.4, ease: 'expo.out' }, 0 )
+					.fromTo( row.querySelector( '.webProj_body' ), { x: fromRight ? -120 : 120, opacity: 0 }, { x: 0, opacity: 1, duration: 1.4, ease: 'expo.out' }, 0.1 );
 				// The browser window opens out of a smaller rounded mask while the screenshot settles from a zoom.
-				tl.fromTo( shot, { clipPath: 'inset(14% 10% 14% 10% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 1.4, ease: 'expo.inOut' } )
+				tl.fromTo( shot, { clipPath: 'inset(14% 10% 14% 10% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 1.4, ease: 'expo.inOut' }, 0 )
 					.fromTo( row.querySelector( '.webProj_shot img' ), { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, 0.1 )
 					// The phone rises in, tilted, and straightens.
 					.fromTo( row.querySelector( '.webProj_phone' ), { y: 140, rotate: 8, opacity: 0 }, { y: 0, rotate: 0, opacity: 1, duration: 1.3, ease: 'expo.out' }, 0.55 )

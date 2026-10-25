@@ -3,39 +3,44 @@ import data from '../../data/site.js';
 import { gsap, reduced, ScrollTrigger, slugify } from '../../lib/motion.js';
 import { CaseDialog, CaseSlide } from './CaseItems.jsx';
 
-/* Pairs shown before "Show all". */
-const FIRST = 6;
-
 /*
  * The flagship portfolio in pairs, laid out like the Work page's "TVC & films":
- * two columns of big rounded pictures, the second of each pair set lower, title
- * and tags beneath, each project's headline result pinned on its picture. Type
+ * two columns of whole pictures, the second of each pair set lower, title and
+ * tags beneath, each project's headline result pinned on its picture. Cards
+ * glide in from their own side as you scroll and the logo pops onto the corner. Type
  * chips filter it; a card opens the full case study.
  */
 export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'case-studies' } ) {
 	const section = useRef( null );
 	const grid = useRef( null );
 	const [ filter, setFilter ] = useState( 'all' );
-	const [ all, setAll ] = useState( false );
 	const [ open, setOpen ] = useState( null );
 	const types = useMemo( () => [ ...new Set( data.caseStudies.map( ( c ) => c[ 0 ] ) ) ], [] );
 	const matching = useMemo( () => data.caseStudies.map( ( c, i ) => i ).filter( ( i ) => filter === 'all' || slugify( data.caseStudies[ i ][ 0 ] ) === filter ), [ filter ] );
-	const shown = all ? matching : matching.slice( 0, FIRST );
 
-	// Cards rise in as each one scrolls into view.
+	// Each card glides in from its own side as it scrolls into view (left column from the left,
+	// right column from the right), then its logo pops onto the picture's corner.
+	const enter = ( card, extra = {} ) => {
+		const fromRight = card.classList.contains( 'caseSlide--low' );
+		return gsap.timeline( extra )
+			.fromTo( card, { x: fromRight ? 140 : -140, rotate: fromRight ? 2.5 : -2.5, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, duration: 1.3, ease: 'expo.out' } )
+			.fromTo( card.querySelector( '.caseLogo' ), { scale: 0, rotate: -18 }, { scale: 1, rotate: 0, duration: 0.8, ease: 'back.out(2.2)' }, 0.45 )
+			.fromTo( card.querySelector( '.caseSlide_result' ), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out' }, 0.6 );
+	};
+
 	useLayoutEffect( () => {
 		if ( reduced ) {
 			return undefined;
 		}
 		const ctx = gsap.context( () => {
 			gsap.utils.toArray( '.caseSlide' ).forEach( ( card ) => {
-				gsap.from( card, { y: 80, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: card, start: 'top 92%', once: true } } );
+				enter( card, { scrollTrigger: { trigger: card, start: 'top 88%', once: true } } );
 			} );
 		}, section );
 		return () => ctx.revert();
 	}, [] );
 
-	// A new filter, or "Show all": the newly shown cards fade up, and every trigger below is re-measured.
+	// A new filter: the cards now shown glide in again, and every trigger below is re-measured.
 	const firstRun = useRef( true );
 	useEffect( () => {
 		if ( firstRun.current ) {
@@ -43,10 +48,10 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 			return;
 		}
 		if ( ! reduced ) {
-			gsap.fromTo( grid.current.querySelectorAll( '.caseSlide:not([hidden])' ), { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', stagger: 0.05 } );
+			grid.current.querySelectorAll( '.caseSlide:not([hidden])' ).forEach( ( card, n ) => enter( card, { delay: Math.min( n, 6 ) * 0.06 } ) );
 		}
 		ScrollTrigger.refresh();
-	}, [ filter, all ] );
+	}, [ filter ] );
 
 	// Previous / next inside the open case study follow the current filter.
 	const step = useCallback( ( d ) => setOpen( ( cur ) => {
@@ -55,12 +60,8 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 	} ), [ matching ] );
 	const close = useCallback( () => setOpen( null ), [] );
 
-	const pick = ( key ) => {
-		setFilter( key );
-		setAll( false );
-	};
 	const chip = ( key, label, count ) => (
-		<button key={ key } type="button" className={ `chip${ filter === key ? ' is-active' : '' }` } aria-pressed={ filter === key } onClick={ () => pick( key ) }>
+		<button key={ key } type="button" className={ `chip${ filter === key ? ' is-active' : '' }` } aria-pressed={ filter === key } onClick={ () => setFilter( key ) }>
 			{ label } <sup>{ count }</sup>
 		</button>
 	);
@@ -81,16 +82,9 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 				</div>
 				<ol className="casePairs" ref={ grid } aria-label="Flagship projects">
 					{ data.caseStudies.map( ( c, i ) => (
-						<CaseSlide key={ c[ 3 ] } c={ c } index={ i } hidden={ ! shown.includes( i ) } low={ shown.indexOf( i ) % 2 === 1 } onOpen={ () => setOpen( i ) } />
+						<CaseSlide key={ c[ 3 ] } c={ c } index={ i } hidden={ ! matching.includes( i ) } low={ matching.indexOf( i ) % 2 === 1 } onOpen={ () => setOpen( i ) } />
 					) ) }
 				</ol>
-				{ matching.length > FIRST && (
-					<div className="casePairs_more">
-						<button type="button" className="pillBtn" onClick={ () => setAll( ( a ) => ! a ) } aria-expanded={ all }>
-							{ all ? 'Show fewer projects' : `Show all ${ matching.length } projects` }
-						</button>
-					</div>
-				) }
 			</div>
 			{ open !== null && <CaseDialog c={ data.caseStudies[ open ] } onClose={ close } onStep={ step } /> }
 		</section>

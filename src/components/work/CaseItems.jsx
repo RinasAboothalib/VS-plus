@@ -70,7 +70,7 @@ export function CaseRow( { c, index, hidden = false, active = false } ) {
 
 /*
  * One case study as a carousel card (after the Work page's "TVC & films"): the
- * main picture with the client's logo and the headline result on it, then the
+ * whole main picture with the client's logo popped onto its corner and the headline result on it, then the
  * title and its tags. Opening it shows the full story (CaseDialog).
  */
 export function CaseSlide( { c, index, hidden = false, low = false, onOpen } ) {
@@ -78,9 +78,11 @@ export function CaseSlide( { c, index, hidden = false, low = false, onOpen } ) {
 	const m = media[ title ] || {};
 	return (
 		<li className={ `caseSlide${ low ? ' caseSlide--low' : '' }` } hidden={ hidden } data-index={ index } id={ `case-${ slugify( title ) }` }>
+			{ /* Every frame is square; the picture sits whole inside it, over a soft blurred copy of itself. */ }
 			<button type="button" className="caseSlide_media" onClick={ onOpen } aria-label={ `${ title } — read the case study` }>
+				{ m.photo && <img className="caseSlide_fill" src={ m.photo.src } alt="" aria-hidden="true" loading="lazy" decoding="async" /> }
 				{ m.photo
-					? <img src={ m.photo } alt="" loading="lazy" decoding="async" width="960" height="720" />
+					? <img className="caseSlide_img" src={ m.photo.src } alt="" loading="lazy" decoding="async" width={ m.photo.w } height={ m.photo.h } />
 					: <span className="caseSlide_panel" aria-hidden="true"><span>{ client }</span></span> }
 				<span className="caseSlide_logo"><CaseLogo title={ title } client={ client } /></span>
 				{ metric && <span className="caseSlide_result"><b>{ metric }</b>{ label }</span> }
@@ -134,7 +136,7 @@ export function CaseDialog( { c, onClose, onStep } ) {
 			<div className="caseDialog_backdrop" onClick={ onClose } />
 			<div className="caseDialog_panel">
 				<div className="caseDialog_media">
-					{ m.photo ? <img src={ m.photo } alt={ `${ client } — ${ title }` } /> : <span className="caseSlide_panel"><span>{ client }</span></span> }
+					{ m.photo ? <img src={ m.photo.src } alt={ `${ client } — ${ title }` } /> : <span className="caseSlide_panel"><span>{ client }</span></span> }
 				</div>
 				<div className="caseDialog_text">
 					<p className="eyebrow">{ type } · { year }</p>
