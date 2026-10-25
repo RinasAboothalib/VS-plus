@@ -3860,44 +3860,6 @@ textarea {
 	will-change: transform, clip-path;
 }
 
-.webProj_bar {
-	display: flex;
-	align-items: center;
-	gap: 0.4rem;
-	height: 2.1rem;
-	padding: 0 0.9rem;
-	background: #202020;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.webProj_bar i {
-	width: 0.6rem;
-	height: 0.6rem;
-	border-radius: 50%;
-	background: #ff5f57;
-}
-
-.webProj_bar i:nth-child(2) { background: #febc2e; }
-.webProj_bar i:nth-child(3) { background: #28c840; }
-
-.webProj_browser {
-	text-decoration: none;
-}
-
-.webProj_bar span {
-	flex: 0 1 18rem;
-	margin: 0 auto;
-	padding: 0.2rem 0.8rem;
-	overflow: hidden;
-	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.07);
-	color: rgba(255, 255, 255, 0.6);
-	font-size: 0.7rem;
-	text-align: center;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
 .webProj_shot {
 	display: block;
 	aspect-ratio: 16 / 10;
@@ -4122,7 +4084,6 @@ textarea {
 @media (max-width: 480px) {
 	.webProj_brand { gap: 1rem; }
 	.webProj_logo { width: 6.5rem; }
-	.webProj_bar span { font-size: 0.62rem; }
 }
 
 /* ---------- flagship portfolio in pairs (after the Work page's "TVC & films") ---------- */

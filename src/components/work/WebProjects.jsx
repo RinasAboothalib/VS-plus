@@ -49,8 +49,6 @@ const PROJECTS = [
 	}
 ];
 
-const host = ( url ) => new URL( url ).host;
-
 /* "a **b** c" → text with <mark> around b. */
 function Marked( { text } ) {
 	return text.split( /\*\*(.+?)\*\*/ ).map( ( part, i ) => ( i % 2 ? <mark key={ i } className="webProj_hi">{ part }</mark> : <Fragment key={ i }>{ part }</Fragment> ) );
@@ -123,7 +121,6 @@ export default function WebProjects( { eyebrow = '(03) Selected web projects' } 
 						<li className={ `webProj${ i % 2 ? ' webProj--flip' : '' }` } key={ p.id }>
 							<div className="webProj_media" onMouseMove={ tilt } onMouseLeave={ untilt }>
 								<a className="webProj_browser" href={ p.url } target="_blank" rel="noopener noreferrer" aria-label={ `Open the ${ p.name } website` }>
-									<span className="webProj_bar" aria-hidden="true"><i /><i /><i /><span>{ host( p.url ) }</span></span>
 									<span className="webProj_shot"><img src={ `/assets/web/${ p.id }-desk.webp` } alt={ `${ p.name } website, home page on desktop` } loading="lazy" decoding="async" width="2400" height="1500" /></span>
 								</a>
 								<div className="webProj_phoneWrap" aria-hidden="true">
