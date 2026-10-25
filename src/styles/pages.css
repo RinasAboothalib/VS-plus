@@ -754,10 +754,6 @@ body.inner .page_content_wrap::before {
 	margin-bottom: 2.5rem;
 }
 
-.caseSection--rail .caseFilters {
-	margin-bottom: 3rem;
-}
-
 /* Case cards (after cuberto.com "What we do"): light bars that turn dark and open as they scroll in. */
 .caseList {
 	display: flex;
@@ -4129,89 +4125,38 @@ textarea {
 	.webProj_bar span { font-size: 0.62rem; }
 }
 
-/* ---------- flagship portfolio as a carousel (after the Work page's "TVC & films") ---------- */
+/* ---------- flagship portfolio in pairs (after the Work page's "TVC & films") ---------- */
 
-.caseSection--rail {
-	padding-left: 0;
-	padding-right: 0;
+.caseSection--pairs {
 	background: var(--white);
-	overflow: hidden;
 }
 
-.caseSection--rail .caseInner {
-	padding: 0 var(--gutter);
+.caseSection--pairs .caseFilters {
+	margin-bottom: 3.5rem;
 }
 
-/* Arrows sit over the track's edges at picture height, as on the films section. */
-.caseRail_wrap {
-	position: relative;
-	--card: clamp(17rem, 38vw, 36rem);
-}
-
-.caseRail_arrow {
-	position: absolute;
-	top: calc(var(--card) * 0.375);
-	z-index: 3;
-	translate: 0 -50%;
+/* Two columns; the second card of each pair sits lower, as in the films section. */
+.casePairs {
 	display: grid;
-	place-items: center;
-	width: 3.25rem;
-	height: 3.25rem;
-	border: 1px solid var(--ink);
-	border-radius: 50%;
-	background: var(--ink);
-	color: var(--white);
-	font-size: 1.1rem;
-	cursor: pointer;
-	transition: background 0.3s, color 0.3s, opacity 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.caseRail_arrow:hover:not(:disabled) {
-	background: var(--lime);
-	border-color: var(--lime);
-	color: var(--ink);
-	transform: scale(1.06);
-}
-
-.caseRail_arrow--prev { left: calc(var(--gutter) * 0.35); }
-.caseRail_arrow--next { right: calc(var(--gutter) * 0.35); }
-
-.caseRail_arrow:disabled {
-	opacity: 0;
-	pointer-events: none;
-}
-
-/* The track runs edge to edge; its first card lines up with the heading. */
-.caseRail {
-	display: flex;
-	align-items: flex-start;
-	column-gap: clamp(1.5rem, 4vw, 4.5rem);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: clamp(3rem, 6vw, 5.5rem) 6vw;
 	margin: 0;
-	padding: 0 var(--gutter) 1rem;
+	padding: 0;
 	list-style: none;
-	overflow-x: auto;
-	overscroll-behavior-x: contain;
-	scroll-snap-type: x mandatory;
-	scroll-padding-inline: var(--gutter);
-	scrollbar-width: none;
-}
-
-.caseRail::-webkit-scrollbar {
-	display: none;
-}
-
-.caseSlide {
-	flex: 0 0 var(--card);
-	scroll-snap-align: start;
 }
 
 .caseSlide[hidden] {
 	display: none;
 }
 
-/* Every second card sits lower, as in the films section. */
 .caseSlide--low {
-	margin-top: clamp(3rem, 8vw, 7.5rem);
+	margin-top: clamp(4rem, 9vw, 8rem);
+}
+
+.casePairs_more {
+	display: flex;
+	justify-content: center;
+	margin-top: clamp(3.5rem, 6vw, 5rem);
 }
 
 .caseSlide_media {
@@ -4500,9 +4445,8 @@ textarea {
 }
 
 @media (max-width: 760px) {
-	.caseRail_wrap { --card: 78vw; }
-	.caseSlide--low { margin-top: 2.5rem; }
-	.caseRail_arrow { width: 2.75rem; height: 2.75rem; }
+	.casePairs { grid-template-columns: 1fr; }
+	.caseSlide--low { margin-top: 0; }
 	.caseDialog { padding: 0.75rem; }
 	.caseDialog_panel { grid-template-columns: 1fr; overflow-y: auto; }
 	.caseDialog_media { aspect-ratio: 4 / 3; min-height: 0; }
