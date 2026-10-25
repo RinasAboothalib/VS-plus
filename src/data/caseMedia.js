@@ -18,7 +18,7 @@
 const B = ( name ) => `/assets/brands/${ name }`;
 /* Pixel size of each main picture. */
 const SIZE = {
-	nescafe: [ 1448, 817 ],
+	nescafe: [ 1400, 1750 ],
 	ponds: [ 1106, 1100 ],
 	undp: [ 1000, 675 ],
 	dankotuwa: [ 720, 1280 ],
@@ -45,7 +45,7 @@ const SIZE = {
  * (object-position; centre when not listed).
  */
 const FOCUS = {
-	nescafe: '66% 50%', ponds: '62% 50%', mintpay: '86% 40%', swisstek: '50% 60%',
+	ponds: '62% 50%', mintpay: '86% 40%', swisstek: '50% 60%',
 	moc: '50% 62%', dankotuwa: '50% 58%', viva: '50% 45%', khombatvc: '50% 40%'
 };
 const P = ( name ) => ( { src: `/assets/cases/main/${ name }.webp`, w: SIZE[ name ][ 0 ], h: SIZE[ name ][ 1 ], focus: FOCUS[ name ] || '50% 50%' } );
