@@ -3,7 +3,7 @@ import { gsap, reduced, canHover } from '../../lib/motion.js';
 
 /*
  * Sites the studio has designed and built. Screenshots are the live sites at
- * 2x (desktop) and 3x (phone), lightly sharpened. Text in **double stars**
+ * 2x (desktop) and at the iPhone 18's 402 x 874 pt viewport (phone), lightly sharpened. Text in **double stars**
  * is picked out in highlight yellow; figures come from each live site.
  */
 const PROJECTS = [
@@ -124,7 +124,7 @@ export default function WebProjects( { eyebrow = '(03) Selected web projects' } 
 									<span className="webProj_shot"><img src={ `/assets/web/${ p.id }-desk.webp` } alt={ `${ p.name } website, home page on desktop` } loading="lazy" decoding="async" width="2400" height="1500" /></span>
 								</a>
 								<div className="webProj_phoneWrap" aria-hidden="true">
-									<span className="webProj_phone"><img src={ `/assets/web/${ p.id }-mob.webp` } alt="" loading="lazy" decoding="async" width="780" height="1688" /></span>
+									<span className="webProj_phone"><span className="webProj_phone_screen"><img src={ `/assets/web/${ p.id }-mob.webp` } alt="" loading="lazy" decoding="async" width="804" height="1748" /></span></span>
 								</div>
 							</div>
 							<div className="webProj_body">
