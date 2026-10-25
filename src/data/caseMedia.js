@@ -18,7 +18,7 @@
 const B = ( name ) => `/assets/brands/${ name }`;
 /* Pixel size of each main picture. */
 const SIZE = {
-	nescafe: [ 1400, 1750 ],
+	nescafe: [ 1600, 903 ],
 	ponds: [ 1106, 1100 ],
 	undp: [ 1000, 675 ],
 	dankotuwa: [ 720, 1280 ],
@@ -41,12 +41,14 @@ const SIZE = {
 	mintpay: [ 1400, 743 ]
 };
 /*
- * Where each picture's subject sits, so the 4:5 card frame keeps it in view
- * (object-position; centre when not listed).
+ * Where each picture's subject sits, so the horizontal 16:10 card frame keeps it
+ * in view (object-position; centre when not listed). Portrait originals are
+ * framed on their subject until horizontal originals replace them.
  */
 const FOCUS = {
-	ponds: '62% 50%', mintpay: '86% 40%', swisstek: '50% 60%',
-	moc: '50% 62%', dankotuwa: '50% 58%', viva: '50% 45%', khombatvc: '50% 40%'
+	nescafe: '62% 50%', ponds: '60% 55%', dankotuwa: '50% 55%', moc: '50% 60%', amex: '50% 32%',
+	ahmad: '50% 60%', khomba: '50% 30%', viva: '50% 42%', mintpay: '80% 40%', khombatvc: '50% 34%',
+	dsi: '50% 55%', sapphire: '50% 34%', tedalu: '50% 55%', cbw: '50% 58%'
 };
 const P = ( name ) => ( { src: `/assets/cases/main/${ name }.webp`, w: SIZE[ name ][ 0 ], h: SIZE[ name ][ 1 ], focus: FOCUS[ name ] || '50% 50%' } );
 

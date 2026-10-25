@@ -798,7 +798,7 @@ body.inner .page_content_wrap::before {
 	content: '';
 	position: absolute;
 	inset: 0;
-	background: radial-gradient(120% 90% at 85% 0%, rgba(223, 255, 36, 0.12), transparent 60%);
+	background: radial-gradient(120% 90% at 85% 0%, rgba(255, 212, 0, 0.12), transparent 60%);
 }
 
 .caseCard.is-active .caseCard_bg {
@@ -2103,7 +2103,7 @@ body.inner .page_content_wrap::before {
 	outline: none;
 	border-bottom-width: 2px;
 	border-bottom-color: var(--ink);
-	background: rgba(223, 255, 36, 0.18);
+	background: rgba(255, 212, 0, 0.18);
 }
 
 .briefError {
@@ -3407,7 +3407,7 @@ textarea {
 .field input:focus,
 .field textarea:focus {
 	border: 1px solid var(--ink);
-	background: rgba(223, 255, 36, 0.18);
+	background: rgba(255, 212, 0, 0.18);
 }
 
 @media (max-width: 700px) {
@@ -3455,9 +3455,9 @@ textarea {
 	gap: 0.25rem;
 	min-width: 9.5rem;
 	padding: 0.85rem 1.1rem 0.8rem 1.6rem;
-	border: 1px solid rgba(223, 255, 36, 0.35);
+	border: 1px solid rgba(255, 212, 0, 0.35);
 	border-radius: 0.9rem;
-	background: linear-gradient(135deg, rgba(223, 255, 36, 0.14), rgba(223, 255, 36, 0.03));
+	background: linear-gradient(135deg, rgba(255, 212, 0, 0.14), rgba(255, 212, 0, 0.03));
 }
 
 .caseSocial strong {
@@ -3467,7 +3467,7 @@ textarea {
 	letter-spacing: -0.03em;
 	color: var(--lime);
 	font-variant-numeric: tabular-nums;
-	text-shadow: 0 0 22px rgba(223, 255, 36, 0.35);
+	text-shadow: 0 0 22px rgba(255, 212, 0, 0.35);
 }
 
 .caseSocial li > span:last-child {
@@ -3484,14 +3484,14 @@ textarea {
 	height: 0.45rem;
 	border-radius: 50%;
 	background: var(--lime);
-	box-shadow: 0 0 0 0 rgba(223, 255, 36, 0.6);
+	box-shadow: 0 0 0 0 rgba(255, 212, 0, 0.6);
 	animation: socialPulse 2s ease-out infinite;
 }
 
 @keyframes socialPulse {
-	0% { box-shadow: 0 0 0 0 rgba(223, 255, 36, 0.55); }
-	70% { box-shadow: 0 0 0 0.6rem rgba(223, 255, 36, 0); }
-	100% { box-shadow: 0 0 0 0 rgba(223, 255, 36, 0); }
+	0% { box-shadow: 0 0 0 0 rgba(255, 212, 0, 0.55); }
+	70% { box-shadow: 0 0 0 0.6rem rgba(255, 212, 0, 0); }
+	100% { box-shadow: 0 0 0 0 rgba(255, 212, 0, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3855,7 +3855,7 @@ textarea {
 	overflow: hidden;
 	border-radius: 16px;
 	background: #1a1a1a;
-	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 50px 100px -40px rgba(0, 0, 0, 0.9), 0 0 120px -40px rgba(223, 255, 36, 0.18);
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 50px 100px -40px rgba(0, 0, 0, 0.9), 0 0 120px -40px rgba(255, 212, 0, 0.18);
 	transform-style: preserve-3d;
 	will-change: transform, clip-path;
 }
@@ -4147,8 +4147,8 @@ textarea {
 	position: relative;
 	display: block;
 	width: 100%;
-	/* One card size for every project: 4:5 portrait. */
-	aspect-ratio: 4 / 5;
+	/* One card size for every project: horizontal 16:10. */
+	aspect-ratio: 16 / 10;
 	padding: 0;
 	overflow: hidden;
 	border: 0;
@@ -4196,7 +4196,7 @@ textarea {
 	width: 100%;
 	height: 100%;
 	padding: 2rem;
-	background: radial-gradient(120% 90% at 80% 10%, rgba(223, 255, 36, 0.22), transparent 60%), var(--ink);
+	background: radial-gradient(120% 90% at 80% 10%, rgba(255, 212, 0, 0.22), transparent 60%), var(--ink);
 	color: var(--white);
 	font-size: clamp(1.4rem, 2.6vw, 2.2rem);
 	font-weight: 700;

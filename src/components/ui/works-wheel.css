@@ -6,7 +6,7 @@
 	--ww-fg: #fff;
 	--ww-muted: rgba(255, 255, 255, 0.08);
 	--ww-muted-fg: rgba(255, 255, 255, 0.5);
-	--ww-accent: var(--lime, #dfff24);
+	--ww-accent: var(--lime, #ffd400);
 
 	position: relative;
 	width: 100%;

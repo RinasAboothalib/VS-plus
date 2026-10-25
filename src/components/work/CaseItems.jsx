@@ -78,7 +78,7 @@ export function CaseSlide( { c, index, hidden = false, low = false, onOpen } ) {
 	const m = media[ title ] || {};
 	return (
 		<li className={ `caseSlide${ low ? ' caseSlide--low' : '' }` } hidden={ hidden } data-index={ index } id={ `case-${ slugify( title ) }` }>
-			{ /* Every card is the same 4:5 portrait frame; each picture is framed on its subject. */ }
+			{ /* Every card is the same horizontal 16:10 frame; each picture is framed on its subject. */ }
 			<button type="button" className="caseSlide_media" onClick={ onOpen } aria-label={ `${ title } — read the case study` }
 				style={ m.photo ? { '--focus': m.photo.focus } : undefined }>
 				{ m.photo
