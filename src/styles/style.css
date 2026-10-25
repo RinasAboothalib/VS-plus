@@ -342,6 +342,9 @@ body.nav-hidden .siteHeader {
 	position: absolute;
 	left: 0;
 	top: 0;
+	/* Shown and hidden by the hero's scroll timeline only, so it can never sit over the headline. */
+	opacity: 0;
+	visibility: hidden;
 	width: min(860px, 88vw);
 	transform: translate(-50%, -50%);
 	color: var(--white);
@@ -357,7 +360,7 @@ body.nav-hidden .siteHeader {
 
 .mWord {
 	display: inline;
-	opacity: 0;
+	opacity: 0.16;
 	color: var(--white);
 }
 
@@ -1420,7 +1423,7 @@ body.nav-hidden .siteHeader {
 	.clientele_list[aria-hidden="true"] { display: none; }
 	.clientele_list { flex-wrap: wrap; justify-content: center; padding: 0 var(--gutter); gap: 2rem 3rem; }
 	.vsHero_video, .vsHero_grain::after { display: none; }
-	.mWord, .introFacts li { opacity: 1; transform: none; }
+	.introText, .mWord, .introFacts li { opacity: 1; visibility: visible; transform: none; }
 	.mWord--key { color: var(--hi); }
 	*, *::before, *::after { transition-duration: 0.01ms !important; }
 }

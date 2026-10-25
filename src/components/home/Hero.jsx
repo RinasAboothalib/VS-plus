@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { gsap, reduced } from '../../lib/motion.js';
+import { gsap, reduced, canHover } from '../../lib/motion.js';
 import { LiftText, WordRotator } from './HeroText.jsx';
 import ProjectField from './ProjectField.jsx';
 
@@ -66,6 +66,8 @@ export default function Hero() {
 				gsap.set( '.introWrap', { display: 'none' } );
 				return;
 			}
+			// Touch scrolling is already smooth natively; a scrub lag on top of it feels sluggish.
+			const touch = ! canHover;
 			const first = withLoader;
 			const intro = gsap.timeline( { delay: first ? 0 : 0.45 } );
 			if ( first ) {
@@ -93,7 +95,9 @@ export default function Hero() {
 				.add( () => root.current.classList.add( 'is-in' ) );
 
 			// Once the manifesto is in view it reads itself on a clock (~4.5s), not with the scroll:
-			// word by word, key phrases turning yellow, then the facts land. Scrolling back up resets it.
+			// word by word, key phrases turning yellow, then the facts land. The block itself is
+			// shown and hidden only by the scroll timeline below, and the read is reset (not
+			// rewound) once that block is hidden again, so the two can never overlap the headline.
 			const words = gsap.utils.toArray( '.mWord', root.current );
 			const step = 3.4 / Math.max( words.length, 1 );
 			const read = gsap.timeline( { paused: true } )
@@ -101,24 +105,27 @@ export default function Hero() {
 				.to( '.mWord--key', { ease: 'power1.out', color: 'var(--hi)', stagger: step * 1.6, duration: 0.4 }, 0.1 )
 				.to( '.introFacts li', { ease: 'expo.out', opacity: 1, y: 0, stagger: 0.12, duration: 0.7 }, '>-0.2' );
 
-			// Pinned sequence: tiles rush past 0–1, the manifesto fades in dim, then a hold while it reads.
+			// Pinned sequence: tiles rush past 0–1 while the headline lifts away, the manifesto block
+			// fades in once the headline is gone, then a hold while it reads.
 			const tl = gsap.timeline( {
-				scrollTrigger: {
-					trigger: root.current, scrub: 1.2, pin: true, pinSpacing: true, start: 'top top',
-					// Phones get a shorter hold: three screens of pinned scroll feels like dead space there.
-					end: () => ( window.innerWidth < 768 ? '+=200%' : '+=300%' ), invalidateOnRefresh: true,
-					onUpdate: ( self ) => {
-						if ( self.progress > 0.62 && read.reversed() ) {
-							read.timeScale( 1 ).play();
-						} else if ( self.progress < 0.45 && ! read.reversed() ) {
-							read.timeScale( 3 ).reverse();
-						}
+				// Driven by the timeline's own (scrubbed) progress, so a lagging scrub can't start the read early.
+				onUpdate: () => {
+					const p = tl.progress();
+					if ( p > 0.58 && read.progress() === 0 && ! read.isActive() ) {
+						read.play( 0 );
+					} else if ( p < 0.5 && read.progress() > 0 ) {
+						read.pause( 0 );
 					}
+				},
+				scrollTrigger: {
+					trigger: root.current, scrub: touch ? true : 1.2, pin: true, pinSpacing: true, start: 'top top',
+					anticipatePin: 1,
+					// Phones get a shorter hold: three screens of pinned scroll feels like dead space there.
+					end: () => ( window.innerWidth < 768 ? '+=200%' : '+=300%' ), invalidateOnRefresh: true
 				}
 			} );
-			read.reversed( true );
 			tl.to( f, { ease: 'power2.in', rush: 3200, duration: 1 }, 0 )
-				.to( words, { ease: 'none', opacity: 0.16, duration: 0.15 }, 0.9 )
+				.fromTo( '.introText', { autoAlpha: 0 }, { autoAlpha: 1, ease: 'none', duration: 0.15, immediateRender: false }, 0.9 )
 				.to( {}, { duration: 0.6 } );
 			tl.to( '.vsHero_content, .vsHero_scroll', { ease: 'none', yPercent: -25, opacity: 0, duration: 0.5 }, 0 );
 			tl.to( document.querySelector( '.page_content_wrap' ), { ease: 'none', '--scrim-opacity': 0, duration: 1.2 }, 0 );

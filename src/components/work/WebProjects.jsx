@@ -85,8 +85,8 @@ export default function WebProjects( { eyebrow = '(03) Selected web projects' } 
 					.fromTo( row.querySelector( '.webProj_phone' ), { y: 140, rotate: 8, opacity: 0 }, { y: 0, rotate: 0, opacity: 1, duration: 1.3, ease: 'expo.out' }, 0.55 )
 					.from( row.querySelectorAll( '.webProj_body > *' ), { y: 36, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.07 }, 0.25 )
 					.add( () => row.querySelectorAll( '[data-count]' ).forEach( countUp ), 0.6 );
-				// Then the phone drifts against the scroll.
-				gsap.to( row.querySelector( '.webProj_phoneWrap' ), { yPercent: -14, ease: 'none', scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: 1 } } );
+				// Then the phone drifts against the scroll (pointer devices only; on phones it would scrub every frame).
+				canHover && gsap.to( row.querySelector( '.webProj_phoneWrap' ), { yPercent: -14, ease: 'none', scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: 1 } } );
 			} );
 		}, root );
 		return () => ctx.revert();

@@ -1,5 +1,4 @@
 import { forwardRef, useImperativeHandle, useLayoutEffect, useMemo, useRef } from 'react';
-import data from '../../data/site.js';
 import { gsap, reduced } from '../../lib/motion.js';
 
 /* Work shown in the field: client covers, studio-feed covers and portfolio stills. */
@@ -63,8 +62,8 @@ const ProjectField = forwardRef( function ProjectField( { count = 30 }, ref ) {
 				lag: r() * 0.35
 			};
 		} );
-		// The showreel plays in one large tile a little right of centre.
-		list.splice( 3, 0, { video: data.site.showreel, poster: '/assets/img/Cover.jpeg', x: 0.34, y: -0.08, z: -260, w: 0.27, ratio: 1.6, lag: 0 } );
+		// The showreel plays in one large tile a little right of centre (a light 640px cut; the full reel is further down).
+		list.splice( 3, 0, { video: '/assets/video/showreel-hero.mp4', poster: '/assets/img/cover-hero.webp', x: 0.34, y: -0.08, z: -260, w: 0.27, ratio: 1.6, lag: 0 } );
 		return list;
 	}, [ count ] );
 

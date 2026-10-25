@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { gsap, reduced, ScrollTrigger } from './motion.js';
+import { gsap, reduced, canHover, ScrollTrigger } from './motion.js';
 
 const REVEAL = '.sectionTitle, .resultItem, .featureCase, .catCard, .svcBlock_text, .capCard, .rosterItem, .missionTitle, .projectText';
 const PARALLAX = '.parallaxImg img, .svcBlock_img img, .missionImg img';
@@ -41,7 +41,11 @@ export default function useReveals( scope, deps = [] ) {
 					} );
 			} );
 
-			gsap.utils.toArray( PARALLAX ).forEach( ( img ) => {
+			// Phones: no scrubbed parallax or section zoom. Both repaint large layers on every
+			// scroll frame, which is what makes touch scrolling stutter.
+			const touch = ! canHover;
+
+			( touch ? [] : gsap.utils.toArray( PARALLAX ) ).forEach( ( img ) => {
 				gsap.fromTo( img, { yPercent: -6, scale: 1.12 }, {
 					yPercent: 6,
 					ease: 'none',
@@ -52,7 +56,7 @@ export default function useReveals( scope, deps = [] ) {
 			// Section zoom: each card settles from 94% to full size as its top
 			// rises into view. Scaled from the top edge so trigger positions stay
 			// true, and the transform is dropped once it is at full size.
-			const blocks = gsap.utils.toArray( 'section, .featuredSection, .servicesPage' )
+			const blocks = ( touch ? [] : gsap.utils.toArray( 'section, .featuredSection, .servicesPage' ) )
 				.filter( ( el ) => ! el.matches( '.vsHero' ) && ! el.parentElement.closest( 'section, .featuredSection, .servicesPage' ) )
 				// Very tall sections barely show the zoom, and scaling them costs a full repaint each frame.
 				.filter( ( el ) => el.offsetHeight < window.innerHeight * 1.6 );
