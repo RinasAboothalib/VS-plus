@@ -64,7 +64,7 @@ export default function Services() {
 								<h2 className="svcBlock_title" id={ `${ slug }-title` }>{ name }</h2>
 								<p className="svcBlock_statement">{ statement }</p>
 								<ul className="svcBlock_list">{ bullets.map( ( b ) => <li key={ b }>{ b }</li> ) }</ul>
-								{ see && <TLink className="btnLink" to={ see }>See the work</TLink> }
+								{ see && <TLink className="btnLink" to={ see }>{ /^https?:/.test( see ) ? 'See the work on Instagram ↗' : 'See the work' }</TLink> }
 							</div>
 							<figure className="svcBlock_img"><img src={ imgSrc( img ) } alt={ alt } loading="lazy" decoding="async" /></figure>
 						</section>

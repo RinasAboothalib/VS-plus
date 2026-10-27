@@ -53,7 +53,7 @@ export default function ServicesAccordion( { eyebrow = '(01) Our services' } ) {
 								<span className="accIcon" aria-hidden="true"></span>
 							</button>
 							<div className="accPanel" id={ `svc-${ i }` } role="region">
-								<div><p>{ description } <TLink to={ link }>Explore { name } →</TLink></p></div>
+								<div><p>{ description } <TLink to={ link }>{ /^https?:/.test( link ) ? `See our ${ name } work on Instagram ↗` : `Explore ${ name } →` }</TLink></p></div>
 							</div>
 						</li>
 					) ) }

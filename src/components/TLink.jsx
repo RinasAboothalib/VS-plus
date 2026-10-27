@@ -33,5 +33,10 @@ export default function TLink( { to, children, onClick, ...rest } ) {
 		}, 0 );
 	}
 
+	// Links to other sites (e.g. an Instagram post) open in a new tab, without the transition.
+	if ( /^https?:\/\//.test( to ) ) {
+		return <a href={ to } target="_blank" rel="noopener noreferrer" onClick={ onClick } { ...rest }>{ children }</a>;
+	}
+
 	return <Link to={ to } onClick={ handle } { ...rest }>{ children }</Link>;
 }

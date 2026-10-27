@@ -615,7 +615,8 @@ const data = {
 			[
 				"Tiesh-7077-1.webp",
 				"Fashion portrait photographed by Visual Studios Plus"
-			]
+			],
+			"https://www.instagram.com/p/DeyLklIkzx2/?img_index=1"
 		],
 		[
 			"digital-campaigns",
@@ -629,7 +630,8 @@ const data = {
 			[
 				"yt-Nv1hYJFlshM.jpg",
 				"Still from the Exclusive Lines product launch campaign film"
-			]
+			],
+			"https://www.instagram.com/p/DebkAUFjiG9/?img_index=1"
 		],
 		[
 			"content-creation",
@@ -687,7 +689,8 @@ const data = {
 			[
 				"DSC_1657-2.webp",
 				"Jewellery campaign portrait of a model wearing a ruby ring"
-			]
+			],
+			"https://www.instagram.com/p/DLhjA0HTAg6/?img_index=1"
 		],
 		[
 			"tvc-commercials",
@@ -880,9 +883,9 @@ data.flagship = [
  * home page, each as [slug, name, description, link].
  */
 data.serviceList = [
-	[ 'social-media-marketing', 'Social Media Marketing', 'Planning, creating, and managing content across social media platforms.', '/social-media-marketing/' ],
-	[ 'digital-retainers', 'Digital Marketing Retainers', 'Ongoing management of your digital marketing activities under one service plan.', '/services/#digital-campaigns' ],
-	[ 'branding-strategy', 'Branding & Strategy', 'Brand identity development, visual direction, and brand positioning.', '/services/#branding' ],
+	[ 'social-media-marketing', 'Social Media Marketing', 'Planning, creating, and managing content across social media platforms.', 'https://www.instagram.com/p/DeyLklIkzx2/?img_index=1' ],
+	[ 'digital-retainers', 'Digital Marketing Retainers', 'Ongoing management of your digital marketing activities under one service plan.', 'https://www.instagram.com/p/DebkAUFjiG9/?img_index=1' ],
+	[ 'branding-strategy', 'Branding & Strategy', 'Brand identity development, visual direction, and brand positioning.', 'https://www.instagram.com/p/DLhjA0HTAg6/?img_index=1' ],
 	[ 'performance-marketing', 'Performance Marketing', 'Paid advertising campaigns, audience targeting, and performance tracking.', '/services/#digital-campaigns' ],
 	[ 'web-app-development', 'Web & App Development', 'Website design, web application development, and custom digital solutions.', '/web-development/' ],
 	[ 'tv-commercials', 'TV Commercials', 'Concept development, filming, and production of television advertisements.', '/services/#tvc-commercials' ],
