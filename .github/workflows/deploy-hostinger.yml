@@ -3,12 +3,15 @@
 #
 # One-time setup, in GitHub → Settings → Secrets and variables → Actions:
 #   Secrets:   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD  (from hPanel → Files → FTP Accounts)
-#   Variables (optional):
-#     FTP_SERVER_DIR — folder the site lives in on the server, default "public_html/"
-#     FTP_PROTOCOL   — "ftps" (default, encrypted) or "ftp" if the host refuses TLS
+#   Optional (variable or secret):
+#     FTP_SERVER_DIR — the site's folder as seen from the FTP login. The main Hostinger
+#                      FTP login opens at the account root, where this site lives in
+#                      "domains/visualstudiosplus.com/public_html/" (the default).
+#     FTP_PROTOCOL   — variable: "ftps" (default, encrypted) or "ftp" if the host refuses TLS
 #
 # Only changed files are uploaded after the first run; the action keeps a small
-# .ftp-deploy-sync-state.json on the server to know what is already there.
+# .ftp-deploy-sync-state.json on the server to know what is already there. The last
+# step checks the live site really serves this build, so a wrong folder fails loudly.
 
 name: Deploy to Hostinger
 
@@ -46,4 +49,15 @@ jobs:
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           security: loose
           local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || secrets.FTP_SERVER_DIR || 'domains/visualstudiosplus.com/public_html/' }}
+
+      - name: Check the live site serves this build
+        run: |
+          want=$(grep -oE '/assets/index-[A-Za-z0-9_-]+\.js' dist/index.html)
+          for i in 1 2 3 4 5 6; do
+            got=$(curl -s --max-time 20 "https://visualstudiosplus.com/?deploy=${GITHUB_RUN_ID}-$i" | grep -oE '/assets/index-[A-Za-z0-9_-]+\.js' || true)
+            [ "$got" = "$want" ] && { echo "Live site serves $want"; exit 0; }
+            sleep 10
+          done
+          echo "::error::Upload finished, but visualstudiosplus.com still serves ${got:-nothing} instead of $want. The files went to a folder the site is not served from: check FTP_SERVER_DIR."
+          exit 1
