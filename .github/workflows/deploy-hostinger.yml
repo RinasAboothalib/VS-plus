@@ -53,8 +53,8 @@ jobs:
         run: |
           ip="${S#ftp://}"; ip="${ip%%/*}"; ip="${ip//[[:space:]]/}"
           ls_ftp() { curl -sS --max-time 30 --ssl-reqd --connect-to "ftp.hstgr.io:21:$ip:21" --user "$U:$P" --list-only "ftp://ftp.hstgr.io/$1"; }
-          root=$(ls_ftp "") || { echo "::error::Could not list the FTP login folder."; exit 1; }
-          seen=$(echo "$root" | tr -s '\r\n' ' ')
+          root=$(ls_ftp "" | tr -d '\r') || { echo "::error::Could not list the FTP login folder."; exit 1; }
+          seen=$(echo "$root" | tr -s '\n' ' ')
           if [ -n "$FIXED" ]; then dir="$FIXED"
           elif ls_ftp "domains/visualstudiosplus.com/public_html/" > /dev/null 2>&1; then dir="domains/visualstudiosplus.com/public_html/"
           elif echo "$root" | grep -qx 'public_html' && echo "$root" | grep -qx 'DO_NOT_UPLOAD_HERE'; then dir="public_html/"
