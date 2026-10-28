@@ -4137,6 +4137,11 @@ textarea {
 	margin-bottom: 3.5rem;
 }
 
+/* The jelly-edge canvas measures and draws relative to this box, so it must be its positioned parent. */
+.caseSection--pairs .caseInner {
+	position: relative;
+}
+
 .projGroup {
 	max-width: 72rem;
 	margin: 0 auto;
@@ -4378,18 +4383,6 @@ textarea {
 
 .caseSlide_data .taglist {
 	margin-top: 0.6rem;
-}
-
-.projCard_line {
-	margin-top: 0.65rem;
-	max-width: 34rem;
-	font-size: 0.88rem;
-	line-height: 1.5;
-	color: #5b5758;
-}
-
-.projCard--reel .projCard_line {
-	font-size: 0.8rem;
 }
 
 .projCard_link {

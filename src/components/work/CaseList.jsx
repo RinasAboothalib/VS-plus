@@ -3,6 +3,7 @@ import projects from '../../data/projects.js';
 import { gsap, reduced, ScrollTrigger } from '../../lib/motion.js';
 import { ProjectCard } from './CaseItems.jsx';
 import ReelViewer from '../social/ReelViewer.jsx';
+import JellyCanvas from './JellyCanvas.jsx';
 
 const GROUPS = [ [ 'reel', 'Reels' ], [ 'film', 'Films & campaigns' ] ];
 
@@ -79,6 +80,8 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 					</div>
 					<p className="lede">Every client brief is treated as a growth partnership. We blend high-fashion visual standards with aggressive social media reach, high-velocity turnaround, and conversion-driven storytelling.</p>
 				</div>
+				{ /* Jelly edge (as on the photography archive): video frames dent toward the cursor and spring back. */ }
+				<JellyCanvas selector=".projCard_media" />
 				<div className="chipRow caseFilters" role="group" aria-label="Filter projects">
 					{ chip( 'all', 'All', projects.length ) }
 					{ GROUPS.map( ( [ key, label ] ) => chip( key, label, projects.filter( ( p ) => p.group === key ).length ) ) }

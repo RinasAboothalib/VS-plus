@@ -109,7 +109,6 @@ export function ProjectCard( { p, index, hidden = false, side = 'left', low = fa
 			<div className="caseSlide_data">
 				<h3><button type="button" onClick={ onOpen }>{ p.title }</button></h3>
 				<ul className="taglist"><li>{ p.client }</li><li>{ p.format }</li><li>{ pad( index + 1 ) }</li></ul>
-				<p className="projCard_line">{ p.line }</p>
 				<a className="btnLink projCard_link" href={ p.url } target="_blank" rel="noopener noreferrer">Watch on { where } ↗</a>
 			</div>
 		</li>
