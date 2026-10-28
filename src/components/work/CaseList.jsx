@@ -1,27 +1,35 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import data from '../../data/site.js';
-import { gsap, reduced, ScrollTrigger, slugify } from '../../lib/motion.js';
-import { CaseDialog, CaseSlide } from './CaseItems.jsx';
+import projects from '../../data/projects.js';
+import { gsap, reduced, ScrollTrigger } from '../../lib/motion.js';
+import { ProjectCard } from './CaseItems.jsx';
+import ReelViewer from '../social/ReelViewer.jsx';
+
+const GROUPS = [ [ 'reel', 'Reels' ], [ 'film', 'Films & campaigns' ] ];
+
+/* What the full-screen viewer shows for each project. */
+const VIEW = projects.map( ( p ) => ( {
+	title: p.title, kind: p.client, date: `${ p.format } · ${ p.date }`, summary: p.line,
+	video: p.video, yt: p.yt, image: p.poster, shape: p.shape,
+	url: p.url, linkLabel: `Open on ${ p.yt ? 'YouTube' : 'Instagram' } ↗`
+} ) );
 
 /*
- * The flagship portfolio in pairs, laid out like the Work page's "TVC & films":
- * two columns of whole pictures, the second of each pair set lower, title and
- * tags beneath, each project's headline result pinned on its picture. Cards
- * glide in from their own side as you scroll and the logo pops onto the corner. Type
- * chips filter it; a card opens the full case study.
+ * The flagship portfolio: the studio's campaign videos. Vertical reels sit in
+ * one row of equal 9:16 cards; landscape and square films in staggered pairs,
+ * each at its own shape so nothing is cropped. Cards glide in from their own
+ * side as you scroll and the logo pops onto the corner. Chips filter by kind;
+ * a card opens the video full screen with sound.
  */
 export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'case-studies' } ) {
 	const section = useRef( null );
-	const grid = useRef( null );
 	const [ filter, setFilter ] = useState( 'all' );
 	const [ open, setOpen ] = useState( null );
-	const types = useMemo( () => [ ...new Set( data.caseStudies.map( ( c ) => c[ 0 ] ) ) ], [] );
-	const matching = useMemo( () => data.caseStudies.map( ( c, i ) => i ).filter( ( i ) => filter === 'all' || slugify( data.caseStudies[ i ][ 0 ] ) === filter ), [ filter ] );
+	const shown = useMemo( () => projects.map( ( p, i ) => i ).filter( ( i ) => filter === 'all' || projects[ i ].group === filter ), [ filter ] );
 
-	// Each card glides in from its own side as it scrolls into view (left column from the left,
-	// right column from the right), then its logo pops onto the picture's corner.
+	// Each card glides in from its own side as it scrolls into view, then its logo pops
+	// onto the picture's corner and the result rises in.
 	const enter = ( card, extra = {} ) => {
-		const fromRight = card.classList.contains( 'caseSlide--low' );
+		const fromRight = card.dataset.side === 'right';
 		return gsap.timeline( extra )
 			.fromTo( card, { x: fromRight ? 140 : -140, rotate: fromRight ? 2.5 : -2.5, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, duration: 1.3, ease: 'expo.out' } )
 			.fromTo( card.querySelector( '.caseLogo' ), { scale: 0, rotate: -18 }, { scale: 1, rotate: 0, duration: 0.8, ease: 'back.out(2.2)' }, 0.45 )
@@ -33,7 +41,7 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 			return undefined;
 		}
 		const ctx = gsap.context( () => {
-			gsap.utils.toArray( '.caseSlide' ).forEach( ( card ) => {
+			gsap.utils.toArray( '.projCard' ).forEach( ( card ) => {
 				enter( card, { scrollTrigger: { trigger: card, start: 'top 88%', once: true } } );
 			} );
 		}, section );
@@ -48,16 +56,11 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 			return;
 		}
 		if ( ! reduced ) {
-			grid.current.querySelectorAll( '.caseSlide:not([hidden])' ).forEach( ( card, n ) => enter( card, { delay: Math.min( n, 6 ) * 0.06 } ) );
+			section.current.querySelectorAll( '.projCard:not([hidden])' ).forEach( ( card, n ) => enter( card, { delay: Math.min( n, 6 ) * 0.06 } ) );
 		}
 		ScrollTrigger.refresh();
 	}, [ filter ] );
 
-	// Previous / next inside the open case study follow the current filter.
-	const step = useCallback( ( d ) => setOpen( ( cur ) => {
-		const at = matching.indexOf( cur );
-		return matching[ ( at + d + matching.length ) % matching.length ];
-	} ), [ matching ] );
 	const close = useCallback( () => setOpen( null ), [] );
 
 	const chip = ( key, label, count ) => (
@@ -77,16 +80,33 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 					<p className="lede">Every client brief is treated as a growth partnership. We blend high-fashion visual standards with aggressive social media reach, high-velocity turnaround, and conversion-driven storytelling.</p>
 				</div>
 				<div className="chipRow caseFilters" role="group" aria-label="Filter projects">
-					{ chip( 'all', 'All', data.caseStudies.length ) }
-					{ types.map( ( t ) => chip( slugify( t ), t, data.caseStudies.filter( ( c ) => c[ 0 ] === t ).length ) ) }
+					{ chip( 'all', 'All', projects.length ) }
+					{ GROUPS.map( ( [ key, label ] ) => chip( key, label, projects.filter( ( p ) => p.group === key ).length ) ) }
 				</div>
-				<ol className="casePairs" ref={ grid } aria-label="Flagship projects">
-					{ data.caseStudies.map( ( c, i ) => (
-						<CaseSlide key={ c[ 3 ] } c={ c } index={ i } hidden={ ! matching.includes( i ) } low={ matching.indexOf( i ) % 2 === 1 } onOpen={ () => setOpen( i ) } />
-					) ) }
-				</ol>
+				{ GROUPS.map( ( [ key, label ] ) => {
+					const members = projects.map( ( p, i ) => i ).filter( ( i ) => projects[ i ].group === key );
+					return (
+						<div className="projGroup" key={ key } hidden={ filter !== 'all' && filter !== key }>
+							<p className="projGroup_label">{ label }</p>
+							<ol className={ `projGrid projGrid--${ key }` } aria-label={ label }>
+								{ members.map( ( i, n ) => {
+									// Reels: the left half of the row comes from the left; films: the right column from the right.
+									const right = key === 'reel' ? n % 4 >= 2 : n % 2 === 1;
+									return (
+										<ProjectCard key={ projects[ i ].id } p={ projects[ i ] } index={ i } side={ right ? 'right' : 'left' }
+											low={ key === 'film' && n % 2 === 1 } onOpen={ () => setOpen( i ) } />
+									);
+								} ) }
+							</ol>
+						</div>
+					);
+				} ) }
 			</div>
-			{ open !== null && <CaseDialog c={ data.caseStudies[ open ] } onClose={ close } onStep={ step } /> }
+			{ /* The viewer steps through the projects the current filter shows. */ }
+			{ open !== null && (
+				<ReelViewer items={ shown.map( ( i ) => VIEW[ i ] ) } index={ shown.indexOf( open ) }
+					onIndex={ ( k ) => setOpen( shown[ k ] ) } onClose={ close } />
+			) }
 		</section>
 	);
 }

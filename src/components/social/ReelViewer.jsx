@@ -1,11 +1,14 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { gsap, reduced, startScroll, stopScroll } from '../../lib/motion.js';
+import { gsap, reduced, startScroll, stopScroll, ytEmbed } from '../../lib/motion.js';
 
 /*
- * Full-screen viewer for a studio-feed post. Reels play (with sound and
- * controls); image posts open zoomed in and can be clicked to zoom further,
- * the zoomed image panning with the cursor. Arrows / Esc / backdrop work.
+ * Full-screen viewer for a studio-feed post or a project. Reels and films play
+ * (with sound and controls) from our own file or, for `yt` items, YouTube's
+ * player; image posts open zoomed in and can be clicked to zoom further, the
+ * zoomed image panning with the cursor. Arrows / Esc / backdrop work.
+ *
+ * Item shape: 'reel' (9:16), 'film' (16:9) or 'square'; `wide` means 'film'.
  */
 export default function ReelViewer( { items, index, onIndex, onClose } ) {
 	const root = useRef( null );
@@ -14,6 +17,8 @@ export default function ReelViewer( { items, index, onIndex, onClose } ) {
 	const closeBtn = useRef( null );
 	const [ zoomed, setZoomed ] = useState( false );
 	const item = items[ index ];
+	const playable = item.video || item.yt;
+	const shape = item.shape || ( item.wide ? 'film' : 'reel' );
 	const go = ( d ) => onIndex( ( index + d + items.length ) % items.length );
 
 	// Open: backdrop fades in, the media rises and settles.
@@ -77,10 +82,13 @@ export default function ReelViewer( { items, index, onIndex, onClose } ) {
 		<div className="rv" role="dialog" aria-modal="true" aria-label={ item.title } ref={ root }>
 			<div className="rv_backdrop" onClick={ onClose } />
 			<div className="rv_body">
-				<div className={ `rv_media rv_media--${ item.video ? ( item.wide ? 'film' : 'reel' ) : 'image' }` } ref={ media }>
-					{ item.video ? (
-						<video key={ item.video } src={ item.video } poster={ item.image } controls autoPlay playsInline loop />
-					) : (
+				<div className={ `rv_media rv_media--${ playable ? shape : 'image' }` } ref={ media }>
+					{ item.yt && (
+						<iframe key={ item.yt } src={ ytEmbed( item.yt, 'autoplay=1' ) } title={ item.title }
+							allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+					) }
+					{ item.video && <video key={ item.video } src={ item.video } poster={ item.image } controls autoPlay playsInline loop /> }
+					{ ! playable && (
 						<button type="button" className={ `rv_zoom${ zoomed ? ' is-zoomed' : '' }` }
 							aria-label={ zoomed ? 'Zoom out' : 'Zoom in' }
 							onClick={ ( e ) => {
@@ -97,8 +105,8 @@ export default function ReelViewer( { items, index, onIndex, onClose } ) {
 					<p className="rv_meta"><span>{ item.kind }</span><span>{ item.date }</span></p>
 					<h3 className="rv_title">{ item.title }</h3>
 					{ item.summary && <p className="rv_text">{ item.summary }</p> }
-					<p className="rv_hint">{ item.video ? `${ item.wide ? 'Film' : 'Reel' } playing with sound — use the player controls.` : 'Click the image to zoom; move to look around.' }</p>
-					{ item.url && <a className="pillBtn rv_link" href={ item.url } target="_blank" rel="noopener noreferrer">Open on Instagram ↗</a> }
+					<p className="rv_hint">{ playable ? `${ shape === 'reel' ? 'Reel' : 'Film' } playing with sound — use the player controls.` : 'Click the image to zoom; move to look around.' }</p>
+					{ item.url && <a className="pillBtn rv_link" href={ item.url } target="_blank" rel="noopener noreferrer">{ item.linkLabel || 'Open on Instagram ↗' }</a> }
 					<div className="rv_nav">
 						<button type="button" className="stripBtn" onClick={ () => go( -1 ) } aria-label="Previous post">←</button>
 						<span>{ String( index + 1 ).padStart( 2, '0' ) } / { String( items.length ).padStart( 2, '0' ) }</span>

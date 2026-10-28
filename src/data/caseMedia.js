@@ -8,70 +8,29 @@
  *          where the client has no website logo to use; fills the frame
  *
  * A case without an entry gets a monogram tile instead.
- *
- *   photo — the card's main picture (/assets/cases/main), never cropped: the
- *           studio's own campaign artwork or shot where we have one (Nescafé is
- *           the CFW key visual), otherwise the brand's own imagery from its
- *           official site or Instagram
- *   more  — a further verified result, from the home page's results list
  */
 const B = ( name ) => `/assets/brands/${ name }`;
-/* Pixel size of each main picture. */
-const SIZE = {
-	nescafe: [ 1600, 903 ],
-	ponds: [ 1106, 1100 ],
-	undp: [ 1000, 675 ],
-	dankotuwa: [ 720, 1280 ],
-	moc: [ 1400, 2485 ],
-	amex: [ 1280, 1280 ],
-	knorr: [ 1400, 2100 ],
-	munchee: [ 1050, 900 ],
-	ahmad: [ 1024, 1280 ],
-	swisstek: [ 1024, 396 ],
-	khomba: [ 1400, 1400 ],
-	imorich: [ 1400, 1456 ],
-	cbw: [ 1280, 1280 ],
-	tedalu: [ 1018, 1280 ],
-	viva: [ 722, 1280 ],
-	khombatvc: [ 1400, 1400 ],
-	dsi: [ 1024, 1280 ],
-	sapphire: [ 1024, 1280 ],
-	sozo: [ 1400, 1697 ],
-	toogood: [ 1000, 808 ],
-	mintpay: [ 1400, 743 ]
-};
-/*
- * Where each picture's subject sits, so the horizontal 16:10 card frame keeps it
- * in view (object-position; centre when not listed). Portrait originals are
- * framed on their subject until horizontal originals replace them.
- */
-const FOCUS = {
-	nescafe: '62% 50%', ponds: '60% 55%', dankotuwa: '50% 55%', moc: '50% 60%', amex: '50% 32%',
-	ahmad: '50% 60%', khomba: '50% 30%', viva: '50% 42%', mintpay: '80% 40%', khombatvc: '50% 34%',
-	dsi: '50% 55%', sapphire: '50% 34%', tedalu: '50% 55%', cbw: '50% 58%'
-};
-const P = ( name ) => ( { src: `/assets/cases/main/${ name }.webp`, w: SIZE[ name ][ 0 ], h: SIZE[ name ][ 1 ], focus: FOCUS[ name ] || '50% 50%' } );
 
 export default {
-	'Nescafé × Colombo Fashion Week': { mark: B( 'nescafe-logo.webp' ), dark: true, photo: P( 'nescafe' ), more: [ '1.2M+', 'Campaign reach in 48h' ] }, // nescafe.com
-	'Pond’s Super Light Gel Launch': { mark: B( 'ponds-logo.webp' ), photo: P( 'ponds' ) }, // ponds.in (Unilever)
-	'UNDP Sri Lanka — HackaDev Social Innovation': { mark: B( 'undp-logo.svg' ), photo: P( 'undp' ) }, // undp.org
-	'Dankotuwa Porcelain CGI World': { mark: B( 'dankotuwa-logo.webp' ), photo: P( 'dankotuwa' ) }, // dankotuwa.com
-	'Ministry of Crab Gastronomy': { mark: B( 'ministry-of-crab-logo.webp' ), dark: true, photo: P( 'moc' ) }, // ministryofcrab.com
-	'American Express × Swim Week Colombo': { mark: B( 'amex-logo.svg' ), photo: P( 'amex' ) }, // americanexpress.com
-	'Knorr Mother’s Day Campaign': { mark: B( 'knorr-logo.webp' ), photo: P( 'knorr' ) }, // knorr.com (Unilever)
-	'Munchee CBL — Festive AI & Lego Campaign': { mark: B( 'munchee-logo.webp' ), photo: P( 'munchee' ), more: [ '320K+', 'Direct social interactions' ] },
-	'Ahmad Tea London — Digital Channel Retainer': { mark: B( 'ahmad-tea-logo.webp' ), photo: P( 'ahmad' ), more: [ '+68%', 'YoY social follower growth' ] }, // ahmadtea.com
-	'Swisstek Aluminium — Technical & Solar Strategy': { mark: B( 'swisstek-logo.webp' ), photo: P( 'swisstek' ) }, // swisstekceylon.com
-	'Swadeshi Khomba — Natural Herbal Digital Presence': { mark: B( 'swadeshi-logo.webp' ), photo: P( 'khomba' ) }, // swadeshiherbal.com
-	'Imorich Ice Cream — 5-Year Creative Partnership': { tile: B( 'imorich.webp' ), photo: P( 'imorich' ) },
-	'SOZO Sparkling Drinks — Identity & Can Design': { mark: B( 'sozo.svg' ), photo: P( 'sozo' ) },
-	'Too Good Dessert Chocolatier': { mark: B( 'too-good.webp' ), photo: P( 'toogood' ) },
-	'CBW (Cairns Bicycle Works) — Australia': { mark: B( 'cbw-logo.webp' ), dark: true, photo: P( 'cbw' ) }, // cairnsbicycleworks.com.au
-	'Te Dalu — Boutique Hotel Ella': { mark: B( 'te-dalu-logo.webp' ), dark: true, photo: P( 'tedalu' ) }, // tedaluella.com
-	'Viva Malted Food Drink — Avurudu Series': { tile: B( 'viva.webp' ), photo: P( 'viva' ) },
-	'MintPay — Digital Vouchers Commercial': { mark: B( 'mintpay-logo.webp' ), photo: P( 'mintpay' ) }, // mintpay.lk
-	'Swadeshi Khomba — Women’s Day TVC': { mark: B( 'swadeshi-logo.webp' ), photo: P( 'khombatvc' ) },
-	'DSI Footwear — Everyday Journeys': { mark: B( 'dsi-logo.webp' ), photo: P( 'dsi' ) }, // dsi.lk
-	'Sapphire Dragon Chinese Restaurant': { mark: B( 'hilton-logo.webp' ), photo: P( 'sapphire' ) }
+	'Nescafé × Colombo Fashion Week': { mark: B( 'nescafe-logo.webp' ), dark: true }, // nescafe.com
+	'Pond’s Super Light Gel Launch': { mark: B( 'ponds-logo.webp' ) }, // ponds.in (Unilever)
+	'UNDP Sri Lanka — HackaDev Social Innovation': { mark: B( 'undp-logo.svg' ) }, // undp.org
+	'Dankotuwa Porcelain CGI World': { mark: B( 'dankotuwa-logo.webp' ) }, // dankotuwa.com
+	'Ministry of Crab Gastronomy': { mark: B( 'ministry-of-crab-logo.webp' ), dark: true }, // ministryofcrab.com
+	'American Express × Swim Week Colombo': { mark: B( 'amex-logo.svg' ) }, // americanexpress.com
+	'Knorr Mother’s Day Campaign': { mark: B( 'knorr-logo.webp' ) }, // knorr.com (Unilever)
+	'Munchee CBL — Festive AI & Lego Campaign': { mark: B( 'munchee-logo.webp' ) },
+	'Ahmad Tea London — Digital Channel Retainer': { mark: B( 'ahmad-tea-logo.webp' ) }, // ahmadtea.com
+	'Swisstek Aluminium — Technical & Solar Strategy': { mark: B( 'swisstek-logo.webp' ) }, // swisstekceylon.com
+	'Swadeshi Khomba — Natural Herbal Digital Presence': { mark: B( 'swadeshi-logo.webp' ) }, // swadeshiherbal.com
+	'Imorich Ice Cream — 5-Year Creative Partnership': { tile: B( 'imorich.webp' ) },
+	'SOZO Sparkling Drinks — Identity & Can Design': { mark: B( 'sozo.svg' ) },
+	'Too Good Dessert Chocolatier': { mark: B( 'too-good.webp' ) },
+	'CBW (Cairns Bicycle Works) — Australia': { mark: B( 'cbw-logo.webp' ), dark: true }, // cairnsbicycleworks.com.au
+	'Te Dalu — Boutique Hotel Ella': { mark: B( 'te-dalu-logo.webp' ), dark: true }, // tedaluella.com
+	'Viva Malted Food Drink — Avurudu Series': { tile: B( 'viva.webp' ) },
+	'MintPay — Digital Vouchers Commercial': { mark: B( 'mintpay-logo.webp' ) }, // mintpay.lk
+	'Swadeshi Khomba — Women’s Day TVC': { mark: B( 'swadeshi-logo.webp' ) },
+	'DSI Footwear — Everyday Journeys': { mark: B( 'dsi-logo.webp' ) }, // dsi.lk
+	'Sapphire Dragon Chinese Restaurant': { mark: B( 'hilton-logo.webp' ) }
 };

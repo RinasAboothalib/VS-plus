@@ -27,10 +27,6 @@ const data = {
 				"https://linkedin.com/company/visualstudiosplus"
 			],
 			[
-				"Behance",
-				"https://behance.net/visualstudiosplus"
-			],
-			[
 				"Facebook",
 				"https://www.facebook.com/visualstudiosplus/"
 			]

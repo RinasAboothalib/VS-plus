@@ -1,6 +1,5 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { gsap, pad, reduced, slugify, startScroll, stopScroll } from '../../lib/motion.js';
+import { useEffect, useRef, useState } from 'react';
+import { canHover, pad, reduced, slugify, ytEmbed } from '../../lib/motion.js';
 import media from '../../data/caseMedia.js';
 
 /* Case study tuple: [type, year, client, title, line, tags, metric, metricLabel, text] */
@@ -21,8 +20,8 @@ export function FeatureCase( { c } ) {
 }
 
 /* The client's logo: a square brand tile, a transparent mark on white, or a monogram. */
-function CaseLogo( { title, client } ) {
-	const m = media[ title ];
+function CaseLogo( { title, client, logo } ) {
+	const m = logo || media[ title ];
 	const initials = client.replace( /\(.*?\)/g, '' ).split( /[\s/&×—-]+/ ).filter( Boolean ).slice( 0, 2 ).map( ( w ) => w[ 0 ] ).join( '' );
 	if ( m?.tile ) {
 		return <div className="caseLogo caseLogo--tile"><img src={ m.tile } alt={ `${ client } logo` } loading="lazy" decoding="async" /></div>;
@@ -69,96 +68,50 @@ export function CaseRow( { c, index, hidden = false, active = false } ) {
 }
 
 /*
- * One case study as a carousel card (after the Work page's "TVC & films"): the
- * whole main picture with the client's logo popped onto its corner and the headline result on it, then the
- * title and its tags. Opening it shows the full story (CaseDialog).
+ * One flagship project as a video card: the poster with the client's logo
+ * popped onto its corner and the headline result on it, then the title and
+ * its details. Our own clips play muted while the card is on screen; YouTube
+ * films preview muted on hover. Opening the card plays it with sound.
  */
-export function CaseSlide( { c, index, hidden = false, low = false, onOpen } ) {
-	const [ type, year, client, title, , , metric, label ] = c;
-	const m = media[ title ] || {};
-	return (
-		<li className={ `caseSlide${ low ? ' caseSlide--low' : '' }` } hidden={ hidden } data-index={ index } id={ `case-${ slugify( title ) }` }>
-			{ /* Every card is the same horizontal 16:10 frame; each picture is framed on its subject. */ }
-			<button type="button" className="caseSlide_media" onClick={ onOpen } aria-label={ `${ title } — read the case study` }
-				style={ m.photo ? { '--focus': m.photo.focus } : undefined }>
-				{ m.photo
-					? <img className="caseSlide_img" src={ m.photo.src } alt="" loading="lazy" decoding="async" width={ m.photo.w } height={ m.photo.h } />
-					: <span className="caseSlide_panel" aria-hidden="true"><span>{ client }</span></span> }
-				<span className="caseSlide_logo"><CaseLogo title={ title } client={ client } /></span>
-				{ metric && <span className="caseSlide_result"><b>{ metric }</b>{ label }</span> }
-				<span className="caseSlide_open" aria-hidden="true">Read the case ↗</span>
-			</button>
-			<div className="caseSlide_data">
-				<h3><button type="button" onClick={ onOpen }>{ title }</button></h3>
-				<ul className="taglist"><li>{ type }</li><li>{ year }</li><li>{ pad( index + 1 ) }</li></ul>
-				{ m.more && <p className="caseSlide_more"><b>{ m.more[ 0 ] }</b> { m.more[ 1 ] }</p> }
-			</div>
-		</li>
-	);
-}
-
-/* The full case study over the page: picture, story, tags and every verified result. */
-export function CaseDialog( { c, onClose, onStep } ) {
-	const ref = useRef( null );
-	const [ type, year, client, title, line, tags, metric, label, text ] = c;
-	const m = media[ title ] || {};
+export function ProjectCard( { p, index, hidden = false, side = 'left', low = false, onOpen } ) {
+	const video = useRef( null );
+	const [ preview, setPreview ] = useState( false );
 
 	useEffect( () => {
-		const last = document.activeElement;
-		stopScroll();
-		ref.current.querySelector( '.caseDialog_close' ).focus();
-		const key = ( e ) => {
-			if ( e.key === 'Escape' ) {
-				onClose();
-			} else if ( e.key === 'ArrowRight' ) {
-				onStep( 1 );
-			} else if ( e.key === 'ArrowLeft' ) {
-				onStep( -1 );
-			}
-		};
-		window.addEventListener( 'keydown', key );
-		return () => {
-			window.removeEventListener( 'keydown', key );
-			startScroll();
-			last?.focus?.();
-		};
-	}, [ onClose, onStep ] );
-
-	useLayoutEffect( () => {
-		if ( ! reduced ) {
-			gsap.fromTo( ref.current.querySelector( '.caseDialog_panel' ), { y: 40, opacity: 0, scale: 0.97 }, { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: 'expo.out' } );
-			gsap.fromTo( ref.current.querySelectorAll( '.caseDialog_text > *' ), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'expo.out', stagger: 0.04, delay: 0.1 } );
+		const v = video.current;
+		if ( reduced || ! v ) {
+			return undefined;
 		}
-	}, [ title ] );
+		const io = new IntersectionObserver( ( [ e ] ) => ( e.isIntersecting ? v.play().catch( () => {} ) : v.pause() ), { threshold: 0.5 } );
+		io.observe( v );
+		return () => io.disconnect();
+	}, [] );
 
-	return createPortal(
-		<div className="caseDialog" role="dialog" aria-modal="true" aria-label={ title } ref={ ref }>
-			<div className="caseDialog_backdrop" onClick={ onClose } />
-			<div className="caseDialog_panel">
-				<div className="caseDialog_media">
-					{ m.photo ? <img src={ m.photo.src } alt={ `${ client } — ${ title }` } /> : <span className="caseSlide_panel"><span>{ client }</span></span> }
-				</div>
-				<div className="caseDialog_text">
-					<p className="eyebrow">{ type } · { year }</p>
-					<p className="caseClient">{ client }</p>
-					<h3>{ title }</h3>
-					<p className="caseLine">{ line }</p>
-					{ text && <p className="caseText">{ text }</p> }
-					{ ( metric || m.more ) && (
-						<ul className="caseDialog_results">
-							{ metric && <li><b>{ metric }</b><span>{ label }</span></li> }
-							{ m.more && <li><b>{ m.more[ 0 ] }</b><span>{ m.more[ 1 ] }</span></li> }
-						</ul>
-					) }
-					<ul className="pillList">{ tags.map( ( t ) => <li key={ t }>{ t }</li> ) }</ul>
-					<div className="caseDialog_nav">
-						<button type="button" className="stripBtn" onClick={ () => onStep( -1 ) } aria-label="Previous project">←</button>
-						<button type="button" className="stripBtn" onClick={ () => onStep( 1 ) } aria-label="Next project">→</button>
-					</div>
-				</div>
-				<button type="button" className="caseDialog_close" onClick={ onClose } aria-label="Close">✕</button>
+	const hover = p.yt && canHover && ! reduced
+		? { onMouseEnter: () => setPreview( true ), onMouseLeave: () => setPreview( false ) }
+		: {};
+	const where = p.yt ? 'YouTube' : 'Instagram';
+
+	return (
+		<li className={ `caseSlide projCard projCard--${ p.shape }${ low ? ' caseSlide--low' : '' }` } hidden={ hidden }
+			data-side={ side } id={ `project-${ p.id }` }>
+			<button type="button" className="caseSlide_media projCard_media" onClick={ onOpen } aria-label={ `Play ${ p.title } with sound` } { ...hover }>
+				<img className="caseSlide_img" src={ p.poster } alt="" loading="lazy" decoding="async" />
+				{ p.video && <video ref={ video } className="projCard_video" src={ p.video } poster={ p.poster } muted loop playsInline preload="none" aria-hidden="true" /> }
+				{ preview && (
+					<iframe className="projCard_video" src={ ytEmbed( p.yt, `autoplay=1&mute=1&controls=0&loop=1&playlist=${ p.yt }&disablekb=1` ) }
+						title="" tabIndex={ -1 } aria-hidden="true" allow="autoplay; encrypted-media" />
+				) }
+				<span className="caseSlide_logo"><CaseLogo client={ p.client } logo={ p.logo } /></span>
+				{ p.result && <span className="caseSlide_result"><b>{ p.result[ 0 ] }</b>{ p.result[ 1 ] }</span> }
+				<span className="projCard_play" aria-hidden="true">▶</span>
+			</button>
+			<div className="caseSlide_data">
+				<h3><button type="button" onClick={ onOpen }>{ p.title }</button></h3>
+				<ul className="taglist"><li>{ p.client }</li><li>{ p.format }</li><li>{ pad( index + 1 ) }</li></ul>
+				<p className="projCard_line">{ p.line }</p>
+				<a className="btnLink projCard_link" href={ p.url } target="_blank" rel="noopener noreferrer">Watch on { where } ↗</a>
 			</div>
-		</div>,
-		document.body
+		</li>
 	);
 }
