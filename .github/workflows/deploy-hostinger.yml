@@ -1,0 +1,49 @@
+# Builds the site and uploads it to Hostinger (visualstudiosplus.com) on every
+# push to main, so the domain stays in step with GitHub (Vercel deploys itself).
+#
+# One-time setup, in GitHub → Settings → Secrets and variables → Actions:
+#   Secrets:   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD  (from hPanel → Files → FTP Accounts)
+#   Variables (optional):
+#     FTP_SERVER_DIR — folder the site lives in on the server, default "public_html/"
+#     FTP_PROTOCOL   — "ftps" (default, encrypted) or "ftp" if the host refuses TLS
+#
+# Only changed files are uploaded after the first run; the action keeps a small
+# .ftp-deploy-sync-state.json on the server to know what is already there.
+
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Upload to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          security: loose
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
