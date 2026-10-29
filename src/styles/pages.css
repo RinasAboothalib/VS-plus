@@ -2860,6 +2860,13 @@ body.inner .page_content_wrap::before {
 	will-change: transform;
 }
 
+/* One line under even the narrowest (reel) cover. */
+.stripItem_meta span {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 .stripItem_img {
 	display: block;
 	height: calc(100% - 2.2rem);
