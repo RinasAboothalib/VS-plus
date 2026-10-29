@@ -2965,23 +2965,6 @@ body.inner .page_content_wrap::before {
 	background: rgba(5, 5, 5, 0.5);
 }
 
-/* The VS+ mark at the far end of the tile tunnel; the hero's scroll timeline zooms it. */
-.vsHero_logo {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-	display: grid;
-	place-items: center;
-	pointer-events: none;
-	opacity: 0;
-	visibility: hidden;
-}
-
-.vsHero_logo img {
-	width: min(46vw, 560px);
-	height: auto;
-}
-
 /* Film grain, stepped so it flickers like stock rather than sliding. */
 .vsHero_grain {
 	position: absolute;

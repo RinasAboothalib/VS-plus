@@ -105,16 +105,15 @@ export default function Hero() {
 				.to( '.mWord--key', { ease: 'power1.out', color: 'var(--hi)', stagger: step * 1.6, duration: 0.4 }, 0.1 )
 				.to( '.introFacts li', { ease: 'expo.out', opacity: 1, y: 0, stagger: 0.12, duration: 0.7 }, '>-0.2' );
 
-			// Pinned sequence: tiles rush past 0–1 while the headline lifts away and the VS+ mark
-			// grows out of the far end of the tunnel; past the last tile it rushes through the camera,
-			// the manifesto block fades in, then a hold while it reads.
+			// Pinned sequence: tiles rush past 0–1 while the headline lifts away, the manifesto block
+			// fades in once the headline is gone, then a hold while it reads.
 			const tl = gsap.timeline( {
 				// Driven by the timeline's own (scrubbed) progress, so a lagging scrub can't start the read early.
 				onUpdate: () => {
 					const p = tl.progress();
-					if ( p > 0.64 && read.progress() === 0 && ! read.isActive() ) {
+					if ( p > 0.58 && read.progress() === 0 && ! read.isActive() ) {
 						read.play( 0 );
-					} else if ( p < 0.56 && read.progress() > 0 ) {
+					} else if ( p < 0.5 && read.progress() > 0 ) {
 						read.pause( 0 );
 					}
 				},
@@ -126,9 +125,7 @@ export default function Hero() {
 				}
 			} );
 			tl.to( f, { ease: 'power2.in', rush: 3200, duration: 1 }, 0 )
-				.fromTo( '.vsHero_logo', { autoAlpha: 0, scale: 0.04 }, { autoAlpha: 1, scale: 1, ease: 'power2.in', duration: 0.7, immediateRender: false }, 0.3 )
-				.to( '.vsHero_logo', { autoAlpha: 0, scale: 7, ease: 'power2.in', duration: 0.3 }, 1.05 )
-				.fromTo( '.introText', { autoAlpha: 0 }, { autoAlpha: 1, ease: 'none', duration: 0.15, immediateRender: false }, 1.2 )
+				.fromTo( '.introText', { autoAlpha: 0 }, { autoAlpha: 1, ease: 'none', duration: 0.15, immediateRender: false }, 0.9 )
 				.to( {}, { duration: 0.6 } );
 			tl.to( '.vsHero_content, .vsHero_scroll', { ease: 'none', yPercent: -25, opacity: 0, duration: 0.5 }, 0 );
 			tl.to( document.querySelector( '.page_content_wrap' ), { ease: 'none', '--scrim-opacity': 0, duration: 1.2 }, 0 );
@@ -148,7 +145,6 @@ export default function Hero() {
 				<div className="vsHero_shade vsHero_shade--dim"></div>
 			</div>
 			<div className="vsHero_grain" aria-hidden="true"></div>
-			<div className="vsHero_logo" aria-hidden="true"><img src="/assets/img/VSP-Square-logo.png" alt="" width="788" height="272" /></div>
 
 			<div className="vsHero_content">
 				<h1 id="hero-title" className="vsHero_title">
