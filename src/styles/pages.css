@@ -447,23 +447,13 @@ body.inner .page_content_wrap::before {
 
 .stripItem img {
 	width: 100%;
-	height: calc(100% - 2.2rem);
+	height: 100%;
 	object-fit: cover;
 	transition: filter 0.5s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stripItem:hover img {
 	transform: scale(0.98);
-}
-
-.stripItem_meta {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 0.75rem;
-	font-size: 0.75rem;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	opacity: 0.6;
 }
 
 @media (max-width: 900px) {
@@ -2860,16 +2850,9 @@ body.inner .page_content_wrap::before {
 	will-change: transform;
 }
 
-/* One line under even the narrowest (reel) cover. */
-.stripItem_meta span {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
 .stripItem_img {
 	display: block;
-	height: calc(100% - 2.2rem);
+	height: 100%;
 	overflow: hidden;
 }
 

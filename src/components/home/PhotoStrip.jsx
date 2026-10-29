@@ -3,9 +3,10 @@ import posts from '../../data/instagram.js';
 import useFlowRows from '../../lib/useFlowRows.js';
 import TLink from '../TLink.jsx';
 
-/* Both rows carry all the latest Instagram posts (too few to split and still fill a wide screen); the second starts halfway through, reversed. */
-const ROW_A = posts;
-const ROW_B = [ ...posts.slice( 6 ), ...posts.slice( 0, 6 ) ].reverse();
+/* The latest Instagram posts, split over the two rows so no cover shows twice on screen. */
+const half = Math.ceil( posts.length / 2 );
+const ROW_A = posts.slice( 0, half );
+const ROW_B = posts.slice( half );
 
 /*
  * Portfolio as a motion flow: two endless rows of photographs gliding in
@@ -21,8 +22,7 @@ export default function PhotoStrip() {
 		<TLink key={ ( copy ? 'b' : 'a' ) + p.id } className="stripItem"
 			to={ p.url } style={ { '--ar': `${ p.w } / ${ p.h }` } }
 			aria-hidden={ copy || undefined } tabIndex={ copy ? -1 : undefined }>
-			<span className="stripItem_img"><img src={ p.src } alt={ copy ? '' : `Visual Studios Plus Instagram ${ p.kind.toLowerCase() }, ${ p.date }` } decoding="async" /></span>
-			<span className="stripItem_meta"><span>{ p.kind } · { p.date }</span></span>
+			<span className="stripItem_img"><img src={ p.src } alt={ copy ? '' : `Visual Studios Plus Instagram ${ p.kind.toLowerCase() }` } loading="lazy" decoding="async" /></span>
 		</TLink>
 	);
 
