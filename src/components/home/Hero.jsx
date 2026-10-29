@@ -4,24 +4,23 @@ import { gsap, reduced, canHover } from '../../lib/motion.js';
 import { LiftText, WordRotator } from './HeroText.jsx';
 import ProjectField from './ProjectField.jsx';
 
-/* Hero copy from visual-studio-wine.vercel.app. */
-const LEAD = 'We create content';
-const ROTATING = [ 'that moves', 'that sells', 'that connects', 'that grows' ];
-const TAIL = 'brands.';
-const INTRO = 'Colombo’s premier digital marketing, social media campaigns, and content creation agency. We partner with ambitious brands to command attention and deliver verified commercial growth.';
+/* Hero copy: two static lines, then the yellow line rolling between the last two words. */
+const LINES = [ 'Brands built', 'to be found,' ];
+const ROTATING = [ 'felt,', 'followed.' ];
+const HEADLINE = 'Brands built to be found, felt, followed.';
+const INTRO = 'Visual Studios Plus shape how your brand looks, how it lives online, and how it grows. We partner with ambitious brands to command attention and deliver verified commercial growth.';
 
 /*
  * The manifesto, as [text, key] pieces: read word by word as you scroll, key
  * phrases light up yellow.
  */
 const MANIFESTO = [
-	[ 'Every frame is made to ' ], [ 'move something.', true ],
-	[ ' Visual Studios Plus is Colombo’s ' ], [ 'content creation and curation agency', true ],
-	[ ' — ' ], [ 'commercial videography', true ], [ ', ' ], [ 'advertising photography', true ],
-	[ ' and ' ], [ 'social-first campaigns', true ], [ ' for ' ], [ 'FMCG', true ], [ ', ' ],
-	[ 'food & beverage', true ], [ ', ' ], [ 'fashion', true ], [ ' and ' ], [ 'luxury hospitality', true ],
-	[ ' brands. From strategy to shoot to the final colour grade, it’s all ' ], [ 'made in-house', true ],
-	[ ', and all measured against ' ], [ 'real commercial results.', true ]
+	[ 'Visual Studios Plus', true ], [ ' is a Colombo-based digital agency for brands that want to be ' ],
+	[ 'found, felt, and followed.', true ], [ ' We bring ' ], [ 'branding', true ], [ ', ' ], [ 'website development', true ],
+	[ ', and ' ], [ 'digital marketing', true ], [ ' together ' ], [ 'under one roof', true ], [ ' for ' ], [ 'FMCG', true ],
+	[ ', ' ], [ 'food & beverage', true ], [ ', ' ], [ 'fashion', true ], [ ', and ' ], [ 'luxury hospitality', true ],
+	[ ' brands. From brand strategy to website launch to the last campaign optimisation, everything is ' ],
+	[ 'built in-house', true ], [ ' and measured against ' ], [ 'real commercial results.', true ]
 ];
 const MANIFESTO_TEXT = MANIFESTO.map( ( [ t ] ) => t ).join( '' );
 
@@ -39,10 +38,10 @@ let booted = false;
 /*
  * Home hero.
  *
- * Design — "We create content / that moves / brands." (from
+ * Design — "Brands built / to be found, / felt, | followed." (layout from
  * visual-studio-wine.vercel.app) over a 3D field of VS+ project tiles with
  * the showreel playing in one of them, under a heavy dim and grain. The headline lines slide up, letters lift toward the cursor and
- * the middle line rolls.
+ * the yellow last line rolls.
  *
  * Entrance — after uncommondesign.group: a grey preloader counts to 100 and
  * wipes away to black, where the tiles sit in a tight, deep stack at the
@@ -148,11 +147,10 @@ export default function Hero() {
 
 			<div className="vsHero_content">
 				<h1 id="hero-title" className="vsHero_title">
-					<span className="sr-only">{ LEAD } { ROTATING[ 0 ] } { TAIL }</span>
+					<span className="sr-only">{ HEADLINE }</span>
 					<span aria-hidden="true">
-						<span className="vsHero_line"><span><LiftText text={ LEAD } /></span></span>
+						{ LINES.map( ( line ) => <span className="vsHero_line" key={ line }><span><LiftText text={ line } /></span></span> ) }
 						<span className="vsHero_line"><span><WordRotator words={ ROTATING } className="vsHero_accent" /></span></span>
-						<span className="vsHero_line"><span><LiftText text={ TAIL } /></span></span>
 					</span>
 				</h1>
 				<p className="vsHero_intro">{ INTRO }</p>

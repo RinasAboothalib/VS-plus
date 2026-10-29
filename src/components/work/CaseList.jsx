@@ -5,7 +5,9 @@ import { ProjectCard } from './CaseItems.jsx';
 import ReelViewer from '../social/ReelViewer.jsx';
 import JellyCanvas from './JellyCanvas.jsx';
 
-const GROUPS = [ [ 'reel', 'Reels' ], [ 'film', 'Films & campaigns' ] ];
+/* Filters (each project's `category`) and the two layout rows (its `group`). */
+const CATEGORIES = [ [ 'social', 'Influencer / Social media campaigns' ], [ 'case', 'Digital Case Studies' ], [ 'tvc', 'TVC Campaigns' ] ];
+const ROWS = [ [ 'reel', 'Reels' ], [ 'film', 'Films' ] ];
 
 /* What the full-screen viewer shows for each project. */
 const VIEW = projects.map( ( p ) => ( {
@@ -18,14 +20,14 @@ const VIEW = projects.map( ( p ) => ( {
  * The flagship portfolio: the studio's campaign videos. Vertical reels sit in
  * one row of equal 9:16 cards; landscape and square films in staggered pairs,
  * each at its own shape so nothing is cropped. Cards glide in from their own
- * side as you scroll and the logo pops onto the corner. Chips filter by kind;
- * a card opens the video full screen with sound.
+ * side as you scroll and the logo pops onto the corner. Chips filter by
+ * category; a card opens the video full screen with sound.
  */
 export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'case-studies' } ) {
 	const section = useRef( null );
 	const [ filter, setFilter ] = useState( 'all' );
 	const [ open, setOpen ] = useState( null );
-	const shown = useMemo( () => projects.map( ( p, i ) => i ).filter( ( i ) => filter === 'all' || projects[ i ].group === filter ), [ filter ] );
+	const shown = useMemo( () => projects.map( ( p, i ) => i ).filter( ( i ) => filter === 'all' || projects[ i ].category === filter ), [ filter ] );
 
 	// Each card glides in from its own side as it scrolls into view, then its logo pops
 	// onto the picture's corner and the result rises in.
@@ -84,19 +86,21 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 				<JellyCanvas selector=".projCard_media" />
 				<div className="chipRow caseFilters" role="group" aria-label="Filter projects">
 					{ chip( 'all', 'All', projects.length ) }
-					{ GROUPS.map( ( [ key, label ] ) => chip( key, label, projects.filter( ( p ) => p.group === key ).length ) ) }
+					{ CATEGORIES.map( ( [ key, label ] ) => chip( key, label, projects.filter( ( p ) => p.category === key ).length ) ) }
 				</div>
-				{ GROUPS.map( ( [ key, label ] ) => {
+				{ ROWS.map( ( [ key, label ] ) => {
 					const members = projects.map( ( p, i ) => i ).filter( ( i ) => projects[ i ].group === key );
+					const visible = members.filter( ( i ) => shown.includes( i ) );
 					return (
-						<div className="projGroup" key={ key } hidden={ filter !== 'all' && filter !== key }>
-							<p className="projGroup_label">{ label }</p>
+						<div className="projGroup" key={ key } hidden={ ! visible.length }>
 							<ol className={ `projGrid projGrid--${ key }` } aria-label={ label }>
-								{ members.map( ( i, n ) => {
-									// Reels: the left half of the row comes from the left; films: the right column from the right.
+								{ members.map( ( i ) => {
+									// Position among the cards showing: reels' left half comes from the left,
+									// films' right column from the right (and sits lower).
+									const n = visible.indexOf( i );
 									const right = key === 'reel' ? n % 4 >= 2 : n % 2 === 1;
 									return (
-										<ProjectCard key={ projects[ i ].id } p={ projects[ i ] } index={ i } side={ right ? 'right' : 'left' }
+										<ProjectCard key={ projects[ i ].id } p={ projects[ i ] } index={ i } hidden={ n < 0 } side={ right ? 'right' : 'left' }
 											low={ key === 'film' && n % 2 === 1 } onOpen={ () => setOpen( i ) } />
 									);
 								} ) }

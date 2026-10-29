@@ -5,7 +5,9 @@
  * embedded player. Text comes from each post's own caption; results are the
  * verified figures already used on the site.
  *
- *   group  — 'reel' (vertical, 9:16) or 'film' (landscape 16:9, or square)
+ *   category — the filter it appears under: 'social' (Influencer / Social media
+ *              campaigns), 'case' (Digital Case Studies) or 'tvc' (TVC Campaigns)
+ *   group  — layout row: 'reel' (vertical, 9:16) or 'film' (landscape 16:9, or square)
  *   shape  — the video's own shape: 'reel', 'film' or 'square'
  *   result — [figure, label] picked out on the card, where we have one
  */
@@ -14,7 +16,7 @@ const P = ( name ) => `/assets/projects/${ name }`;
 
 export default [
 	{
-		id: 'ponds', client: 'Pond’s Sri Lanka', title: 'Pond’s Sri Lanka', group: 'reel', shape: 'reel',
+		id: 'ponds', category: 'social', client: 'Pond’s Sri Lanka', title: 'Pond’s Sri Lanka', group: 'reel', shape: 'reel',
 		format: 'Instagram reel', date: 'June 2024',
 		line: 'Videography for the Pond’s Sri Lanka campaign.',
 		video: P( 'ponds.mp4' ), poster: P( 'ponds.jpg' ),
@@ -23,7 +25,7 @@ export default [
 		result: [ '+142%', 'Social engagement lift' ]
 	},
 	{
-		id: 'closeup', client: 'Closeup Sri Lanka', title: 'Closeup Toothpaste', group: 'reel', shape: 'reel',
+		id: 'closeup', category: 'tvc', client: 'Closeup Sri Lanka', title: 'Closeup Toothpaste', group: 'reel', shape: 'reel',
 		format: 'Video advertisement', date: 'June 2024',
 		line: 'Our video advertisement for Closeup Sri Lanka.',
 		video: P( 'closeup.mp4' ), poster: P( 'closeup.jpg' ),
@@ -31,7 +33,7 @@ export default [
 		logo: { tile: B( 'closeup-logo.webp' ) } // hul.co.in (Unilever)
 	},
 	{
-		id: 'heritance', client: 'Heritance Hotels', title: 'Heritance Ayurveda', group: 'film', shape: 'film',
+		id: 'heritance', category: 'case', client: 'Heritance Hotels', title: 'Heritance Ayurveda', group: 'film', shape: 'film',
 		format: 'Hospitality film', date: 'March 2024',
 		line: 'Elevating hospitality to cinematic perfection: a video production for Heritance Ayurveda.',
 		video: P( 'heritance.mp4' ), poster: P( 'heritance.jpg' ),
@@ -39,7 +41,7 @@ export default [
 		logo: { mark: B( 'heritance-logo.svg' ) } // heritancehotels.com
 	},
 	{
-		id: 'dankotuwa', client: 'Dankotuwa Porcelain', title: 'Dankotuwa Porcelain', group: 'film', shape: 'square',
+		id: 'dankotuwa', category: 'case', client: 'Dankotuwa Porcelain', title: 'Dankotuwa Porcelain', group: 'film', shape: 'square',
 		format: 'CGI campaign', date: 'January 2024',
 		line: 'Conceptualised with CGI animations for an augmented-reality outcome.',
 		video: P( 'dankotuwa.mp4' ), poster: P( 'dankotuwa.jpg' ),
@@ -48,7 +50,7 @@ export default [
 		result: [ '8K', 'Photorealistic CGI fidelity' ]
 	},
 	{
-		id: 'itc', client: 'ITC Hotels', title: 'ITC Ratnadeepa × Peter Kuruvita', group: 'film', shape: 'film',
+		id: 'itc', category: 'social', client: 'ITC Hotels', title: 'ITC Ratnadeepa × Peter Kuruvita', group: 'film', shape: 'film',
 		format: 'Film trailer', date: 'YouTube',
 		line: 'Trailer for ITC Ratnadeepa with chef Peter Kuruvita.',
 		yt: 'd-_dQ9-LmxE', poster: P( 'itc.jpg' ),
@@ -56,7 +58,7 @@ export default [
 		logo: { mark: B( 'itc-hotels-logo.svg' ) } // itchotels.com
 	},
 	{
-		id: 'iihs', client: 'IIHS', title: 'IIHS — Success Stories', group: 'film', shape: 'film',
+		id: 'iihs', category: 'tvc', client: 'IIHS', title: 'IIHS — Success Stories', group: 'film', shape: 'film',
 		format: 'Brand film', date: 'YouTube',
 		line: 'IIHS brand film: success stories, featuring Dehan.',
 		yt: 'OuY1KR-WiSE', poster: P( 'iihs.jpg' ),
@@ -64,7 +66,7 @@ export default [
 		logo: { mark: B( 'iihs-logo.webp' ) } // iihs.edu.lk
 	},
 	{
-		id: 'ahmad', client: 'Ahmad Tea', title: 'Ahmad Tea — AI Content', group: 'reel', shape: 'reel',
+		id: 'ahmad', category: 'social', client: 'Ahmad Tea', title: 'Ahmad Tea — AI Content', group: 'reel', shape: 'reel',
 		format: 'AI content · Short', date: 'YouTube',
 		line: 'AI-generated content for Ahmad Tea.',
 		yt: 'lMLzgMJ3UTU', poster: P( 'ahmad.jpg' ),
@@ -73,7 +75,7 @@ export default [
 		result: [ '+68%', 'YoY social follower growth' ]
 	},
 	{
-		id: 'milo', client: 'Milo', title: 'Iced Milo Recipe', group: 'reel', shape: 'reel',
+		id: 'milo', category: 'social', client: 'Milo', title: 'Iced Milo Recipe', group: 'reel', shape: 'reel',
 		format: 'Recipe short', date: 'YouTube',
 		line: 'A recipe short for Iced Milo.',
 		yt: 'UP4V8Kg-_J4', poster: P( 'milo.jpg' ),

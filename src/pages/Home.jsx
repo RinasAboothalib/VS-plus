@@ -16,7 +16,7 @@ export default function Home() {
 		page: 'home',
 		inner: false,
 		title: 'Visual Studios Plus — The Digital Creative Marketing Agency',
-		description: 'Colombo’s premier digital marketing, social media campaigns, and content creation agency. We partner with ambitious brands to command attention and deliver verified commercial growth.'
+		description: 'Visual Studios Plus shape how your brand looks, how it lives online, and how it grows. We partner with ambitious brands to command attention and deliver verified commercial growth.'
 	} );
 	useReveals( root );
 
