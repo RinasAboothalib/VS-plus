@@ -3,6 +3,10 @@
 	RewriteEngine On
 	RewriteBase /
 
+	# Hostinger's Git deployment keeps a .git folder in public_html: never serve it
+	# (or any other dot-folder such as .github).
+	RewriteRule (^|/)\.(git|github)(/|$) - [F,L]
+
 	# One address for the site: https and no www.
 	RewriteCond %{HTTPS} off [OR]
 	RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]

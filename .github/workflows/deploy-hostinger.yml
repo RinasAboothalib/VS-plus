@@ -1,37 +1,29 @@
-# Builds the site and uploads it to Hostinger (visualstudiosplus.com) on every
-# push to main, so the domain stays in step with GitHub (Vercel deploys itself).
+# Builds the site on every push to main and publishes the finished files to the
+# "hostinger" branch. Hostinger's Git deployment (hPanel → Websites → Manage →
+# Advanced → GIT, auto-deployment on) pulls that branch into public_html, so
+# visualstudiosplus.com updates on its own. Vercel deploys main by itself.
 #
-# One-time setup, in GitHub → Settings → Secrets and variables → Actions:
-#   Secrets:   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD  (from hPanel → Files → FTP Accounts)
-#   Optional variables:
-#     FTP_SERVER_DIR — the site's folder as seen from the FTP login, default "public_html/"
-#                      (Hostinger: the login opens in /home/<user>/domains/visualstudiosplus.com/
-#                      and the site is served from its public_html/)
-#     FTP_PROTOCOL   — "ftps" (default, encrypted) or "ftp" if the host refuses TLS
-#
-# Only changed files are uploaded after the first run; the action keeps a small
-# .ftp-deploy-sync-state.json on the server to know what is already there. The last
-# step checks the live site really serves this build, so a wrong folder fails loudly.
+# (FTP was dropped: Hostinger's FTP server wrote this account to different storage
+# than the website serves. Git deployment writes through the website's own files.)
 
 name: Deploy to Hostinger
 
-# Paused to manual runs only (Actions → Deploy to Hostinger → Run workflow): Hostinger
-# confirmed their FTP server writes this account to different storage than the website
-# serves (runtime FTP mapping fault, Oct 2026). Restore the push trigger below once they
-# confirm the fix.
 on:
-  # push:
-  #   branches: [ main ]
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 concurrency:
   group: deploy-hostinger
   cancel-in-progress: false
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -44,81 +36,37 @@ jobs:
 
       - run: npm run build
 
-      # Before and after uploading, report which build each candidate folder holds and
-      # which build the live site serves (see .github/scripts/ftp-inspect.sh).
-      - name: Inspect the FTP folders (before)
-        continue-on-error: true
+      # The branch keeps its history (one commit per build), so Hostinger can pull it
+      # as a normal fast-forward each time.
+      - name: Publish the build to the hostinger branch
         env:
-          S: ${{ secrets.FTP_SERVER }}
-          U: ${{ secrets.FTP_USERNAME }}
-          P: ${{ secrets.FTP_PASSWORD }}
-        run: bash .github/scripts/ftp-inspect.sh before
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          url="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$url" hostinger > /dev/null; then
+            git clone -q --depth 1 --branch hostinger "$url" site
+          else
+            mkdir site && git -C site init -q -b hostinger && git -C site remote add origin "$url"
+          fi
+          find site -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a dist/. site/
+          cd site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Build unchanged; nothing to publish."; exit 0; fi
+          git commit -q -m "Build of ${GITHUB_SHA::7}"
+          git push -q origin hostinger
+          echo "::notice::Published build of ${GITHUB_SHA::7} to the hostinger branch."
 
-      # Hostinger's FTP server sometimes drops the connection mid-upload (ECONNRESET);
-      # try up to three times, pausing between tries.
-      - name: Upload to Hostinger
-        id: up1
-        continue-on-error: true
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
-          security: loose
-          local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
-
-      - name: Wait before retrying
-        if: steps.up1.outcome == 'failure'
-        run: sleep 30
-
-      - name: Upload to Hostinger (second try)
-        id: up2
-        if: steps.up1.outcome == 'failure'
-        continue-on-error: true
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
-          security: loose
-          local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
-
-      - name: Wait before the last try
-        if: steps.up1.outcome == 'failure' && steps.up2.outcome == 'failure'
-        run: sleep 60
-
-      - name: Upload to Hostinger (last try)
-        if: steps.up1.outcome == 'failure' && steps.up2.outcome == 'failure'
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
-          security: loose
-          local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
-
-      - name: Inspect the FTP folders (after)
-        if: always()
-        continue-on-error: true
-        env:
-          S: ${{ secrets.FTP_SERVER }}
-          U: ${{ secrets.FTP_USERNAME }}
-          P: ${{ secrets.FTP_PASSWORD }}
-        run: bash .github/scripts/ftp-inspect.sh after
-
-      - name: Check the live site serves this build
+      # Hostinger deploys on its own once the branch updates; report (without failing)
+      # whether the live site picked the new build up within a few minutes.
+      - name: Check the live site
         run: |
           want=$(grep -oE '/assets/index-[A-Za-z0-9_-]+\.js' dist/index.html)
-          for i in 1 2 3 4 5 6; do
+          for i in $(seq 1 18); do
             got=$(curl -s --max-time 20 "https://visualstudiosplus.com/?deploy=${GITHUB_RUN_ID}-$i" | grep -oE '/assets/index-[A-Za-z0-9_-]+\.js' || true)
-            [ "$got" = "$want" ] && { echo "Live site serves $want"; exit 0; }
+            [ "$got" = "$want" ] && { echo "::notice::visualstudiosplus.com serves $want"; exit 0; }
             sleep 10
           done
-          echo "::error::Upload finished, but visualstudiosplus.com still serves ${got:-nothing} instead of $want. The files went to a folder the site is not served from: check FTP_SERVER_DIR."
-          exit 1
+          echo "::warning::visualstudiosplus.com still serves ${got:-nothing} instead of $want after 3 minutes. Check hPanel → Advanced → GIT (auto-deployment on, branch hostinger)."
