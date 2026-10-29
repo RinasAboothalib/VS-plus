@@ -3074,6 +3074,28 @@ body.inner .page_content_wrap::before {
 	visibility: hidden;
 }
 
+/* The hero's three rolling words, each in its own typeface (fonts loaded in index.html). */
+.heroFont--serif {
+	font-family: 'Playfair Display', Georgia, serif;
+	font-style: italic;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+.heroFont--script {
+	font-family: 'Caveat', 'Segoe Script', cursive;
+	font-weight: 700;
+	font-size: 1.12em;
+	letter-spacing: 0;
+}
+
+.heroFont--display {
+	/* Inter: a free, web-licensed stand-in for Aptos (which can't be served on the web). */
+	font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+}
+
 .vsHero_intro {
 	max-width: 32rem;
 	margin-top: clamp(1.25rem, 4.5svh, 3rem);

@@ -6,7 +6,8 @@ import { canHover, gsap, reduced } from '../../lib/motion.js';
  *   LiftText    — every letter is its own span; letters within 190px of the
  *                 cursor rise and grow (smoothstep falloff), easing back out.
  *   WordRotator — the accent line rolls to the next phrase every 2.6s
- *                 (new phrase rises from below while the old one exits above).
+ *                 (new phrase rises from below while the old one exits above);
+ *                 `fonts` gives each phrase its own class (e.g. typeface).
  */
 
 export function LiftText( { text } ) {
@@ -67,10 +68,9 @@ export function LiftText( { text } ) {
 	);
 }
 
-export function WordRotator( { words, interval = 2600, className = '' } ) {
+export function WordRotator( { words, fonts = [], interval = 2600, className = '' } ) {
 	const [ i, setI ] = useState( 0 );
 	const box = useRef( null );
-	const longest = words.reduce( ( a, b ) => ( a.length >= b.length ? a : b ) );
 
 	useEffect( () => {
 		if ( reduced || words.length < 2 ) {
@@ -99,9 +99,10 @@ export function WordRotator( { words, interval = 2600, className = '' } ) {
 
 	return (
 		<span className={ `rotator ${ className }` } ref={ box }>
-			<span className="rotSizer" aria-hidden="true">{ longest }</span>
+			{ /* Every phrase, invisibly, in its own typeface: the cell takes the widest, so the line never jumps. */ }
+			{ words.map( ( w, n ) => <span key={ `s-${ w }` } className={ `rotSizer ${ fonts[ n ] || '' }` } aria-hidden="true">{ w }</span> ) }
 			{ words.map( ( w, n ) => (
-				<span key={ w } className="rotWord" data-shown={ n === 0 ? '1' : '0' } style={ n === 0 ? undefined : { opacity: 0 } }>
+				<span key={ w } className={ `rotWord ${ fonts[ n ] || '' }` } data-shown={ n === 0 ? '1' : '0' } style={ n === 0 ? undefined : { opacity: 0 } }>
 					<LiftText text={ w } />
 				</span>
 			) ) }
