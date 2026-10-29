@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { canHover, pad, reduced, slugify, ytEmbed } from '../../lib/motion.js';
 import media from '../../data/caseMedia.js';
+import TLink from '../TLink.jsx';
 
 /* Case study tuple: [type, year, client, title, line, tags, metric, metricLabel, text] */
 
@@ -110,6 +111,26 @@ export function ProjectCard( { p, index, hidden = false, side = 'left', low = fa
 				<h3><button type="button" onClick={ onOpen }>{ p.title }</button></h3>
 				<ul className="taglist"><li>{ p.client }</li><li>{ p.format }</li><li>{ pad( index + 1 ) }</li></ul>
 				<a className="btnLink projCard_link" href={ p.url } target="_blank" rel="noopener noreferrer">Watch on { where } ↗</a>
+			</div>
+		</li>
+	);
+}
+
+/*
+ * A digital case study as its own campaign panel (logo and story are part of the
+ * picture, so it is shown whole). The card opens the matching service.
+ */
+export function CasePhotoCard( { c, hidden = false, side = 'left', low = false } ) {
+	return (
+		<li className={ `caseSlide projCard projCard--photo${ low ? ' caseSlide--low' : '' }` } hidden={ hidden }
+			data-side={ side } id={ `case-${ c.id }` }>
+			<TLink className="caseSlide_media projCard_media" to={ c.link } aria-label={ `${ c.title } — see the service` }>
+				<img className="caseSlide_img" src={ c.image } alt={ `${ c.title } — ${ c.format } by Visual Studios Plus` } loading="lazy" decoding="async" />
+				<span className="projCard_cta" aria-hidden="true">See the service →</span>
+			</TLink>
+			<div className="caseSlide_data">
+				<h3><TLink to={ c.link }>{ c.title }</TLink></h3>
+				<ul className="taglist"><li>{ c.client }</li><li>{ c.format }</li><li>Digital case study</li></ul>
 			</div>
 		</li>
 	);

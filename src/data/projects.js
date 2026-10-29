@@ -50,22 +50,6 @@ export default [
 		result: [ '8K', 'Photorealistic CGI fidelity' ]
 	},
 	{
-		id: 'itc', category: 'social', client: 'ITC Hotels', title: 'ITC Ratnadeepa × Peter Kuruvita', group: 'film', shape: 'film',
-		format: 'Film trailer', date: 'YouTube',
-		line: 'Trailer for ITC Ratnadeepa with chef Peter Kuruvita.',
-		yt: 'd-_dQ9-LmxE', poster: P( 'itc.jpg' ),
-		url: 'https://www.youtube.com/watch?v=d-_dQ9-LmxE',
-		logo: { mark: B( 'itc-hotels-logo.svg' ) } // itchotels.com
-	},
-	{
-		id: 'iihs', category: 'tvc', client: 'IIHS', title: 'IIHS — Success Stories', group: 'film', shape: 'film',
-		format: 'Brand film', date: 'YouTube',
-		line: 'IIHS brand film: success stories, featuring Dehan.',
-		yt: 'OuY1KR-WiSE', poster: P( 'iihs.jpg' ),
-		url: 'https://www.youtube.com/watch?v=OuY1KR-WiSE',
-		logo: { mark: B( 'iihs-logo.webp' ) } // iihs.edu.lk
-	},
-	{
 		id: 'ahmad', category: 'social', client: 'Ahmad Tea', title: 'Ahmad Tea — AI Content', group: 'reel', shape: 'reel',
 		format: 'AI content · Short', date: 'YouTube',
 		line: 'AI-generated content for Ahmad Tea.',
@@ -81,5 +65,28 @@ export default [
 		yt: 'UP4V8Kg-_J4', poster: P( 'milo.jpg' ),
 		url: 'https://www.youtube.com/shorts/UP4V8Kg-_J4',
 		logo: { tile: B( 'milo-logo.webp' ) } // milo.com.au (Nestlé)
+	}
+];
+
+/*
+ * Digital case studies shown as the studio's own campaign panels, under the videos
+ * (and in the "Digital Case Studies" filter). Each opens the matching service.
+ */
+export const casePhotos = [
+	{
+		id: 'ministry-of-crab', title: 'Ministry of Crab', client: 'Ministry of Crab', format: 'Photography & videography',
+		image: P( 'cases/ministry-of-crab.webp' ), link: '/services/#photography'
+	},
+	{
+		id: 'munchee', title: 'Munchee Biscuits', client: 'Munchee CBL', format: 'AI-powered campaign',
+		image: P( 'cases/munchee.webp' ), link: '/services/#cgi-ai-creative'
+	},
+	{
+		id: 'nescafe-cfw', title: 'Nescafé × Colombo Fashion Week', client: 'Nescafé', format: 'Social media campaign',
+		image: P( 'cases/nescafe-cfw.webp' ), link: '/services/#social-media'
+	},
+	{
+		id: 'amex-swim-week', title: 'American Express × Swim Week Colombo', client: 'American Express', format: 'Digital campaign',
+		image: P( 'cases/amex-swim-week.webp' ), link: '/services/#digital-campaigns'
 	}
 ];

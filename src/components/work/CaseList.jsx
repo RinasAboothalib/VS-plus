@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import projects from '../../data/projects.js';
+import projects, { casePhotos } from '../../data/projects.js';
 import { gsap, reduced, ScrollTrigger } from '../../lib/motion.js';
-import { ProjectCard } from './CaseItems.jsx';
+import { CasePhotoCard, ProjectCard } from './CaseItems.jsx';
 import ReelViewer from '../social/ReelViewer.jsx';
 import JellyCanvas from './JellyCanvas.jsx';
 
@@ -20,13 +20,17 @@ const VIEW = projects.map( ( p ) => ( {
  * The flagship portfolio: the studio's campaign videos. Vertical reels sit in
  * one row of equal 9:16 cards; landscape and square films in staggered pairs,
  * each at its own shape so nothing is cropped. Cards glide in from their own
- * side as you scroll and the logo pops onto the corner. Chips filter by
- * category; a card opens the video full screen with sound.
+ * side as you scroll and the logo pops onto the corner. Under them, the
+ * digital case studies as campaign panels, each opening its service. Chips
+ * filter by category; a video card opens full screen with sound.
  */
 export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'case-studies' } ) {
 	const section = useRef( null );
 	const [ filter, setFilter ] = useState( 'all' );
 	const [ open, setOpen ] = useState( null );
+	// The case-study panels are all digital case studies.
+	const photosShown = filter === 'all' || filter === 'case';
+	const count = ( key ) => projects.filter( ( p ) => p.category === key ).length + ( key === 'case' ? casePhotos.length : 0 );
 	const shown = useMemo( () => projects.map( ( p, i ) => i ).filter( ( i ) => filter === 'all' || projects[ i ].category === filter ), [ filter ] );
 
 	// Each card glides in from its own side as it scrolls into view, then its logo pops
@@ -35,8 +39,8 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 		const fromRight = card.dataset.side === 'right';
 		return gsap.timeline( extra )
 			.fromTo( card, { x: fromRight ? 140 : -140, rotate: fromRight ? 2.5 : -2.5, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, duration: 1.3, ease: 'expo.out' } )
-			.fromTo( card.querySelector( '.caseLogo' ), { scale: 0, rotate: -18 }, { scale: 1, rotate: 0, duration: 0.8, ease: 'back.out(2.2)' }, 0.45 )
-			.fromTo( card.querySelector( '.caseSlide_result' ), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out' }, 0.6 );
+			.fromTo( card.querySelectorAll( '.caseLogo' ), { scale: 0, rotate: -18 }, { scale: 1, rotate: 0, duration: 0.8, ease: 'back.out(2.2)' }, 0.45 )
+			.fromTo( card.querySelectorAll( '.caseSlide_result' ), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out' }, 0.6 );
 	};
 
 	useLayoutEffect( () => {
@@ -85,8 +89,8 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 				{ /* Jelly edge (as on the photography archive): video frames dent toward the cursor and spring back. */ }
 				<JellyCanvas selector=".projCard_media" />
 				<div className="chipRow caseFilters" role="group" aria-label="Filter projects">
-					{ chip( 'all', 'All', projects.length ) }
-					{ CATEGORIES.map( ( [ key, label ] ) => chip( key, label, projects.filter( ( p ) => p.category === key ).length ) ) }
+					{ chip( 'all', 'All', projects.length + casePhotos.length ) }
+					{ CATEGORIES.map( ( [ key, label ] ) => chip( key, label, count( key ) ) ) }
 				</div>
 				{ ROWS.map( ( [ key, label ] ) => {
 					const members = projects.map( ( p, i ) => i ).filter( ( i ) => projects[ i ].group === key );
@@ -108,6 +112,13 @@ export default function CaseList( { eyebrow = '(B) Flagship portfolio', id = 'ca
 						</div>
 					);
 				} ) }
+				<div className="projGroup" hidden={ ! photosShown }>
+					<ol className="projGrid projGrid--film" aria-label="Digital case studies">
+						{ casePhotos.map( ( c, n ) => (
+							<CasePhotoCard key={ c.id } c={ c } side={ n % 2 ? 'right' : 'left' } low={ n % 2 === 1 } />
+						) ) }
+					</ol>
+				</div>
 			</div>
 			{ /* The viewer steps through the projects the current filter shows. */ }
 			{ open !== null && (

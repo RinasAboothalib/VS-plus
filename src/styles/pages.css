@@ -4347,6 +4347,39 @@ textarea {
 	color: var(--ink);
 }
 
+/* Case-study panels: a pill rises in on hover to say where the card leads. */
+.projCard_cta {
+	position: absolute;
+	left: 0.9rem;
+	bottom: 0.9rem;
+	z-index: 2;
+	padding: 0.55rem 1rem;
+	border-radius: 999px;
+	background: var(--hi);
+	color: var(--ink);
+	font-size: 0.78rem;
+	font-weight: 600;
+	opacity: 0;
+	transform: translateY(0.6rem);
+	transition: opacity 0.4s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.caseSlide_media:hover .projCard_cta,
+.caseSlide_media:focus-visible .projCard_cta {
+	opacity: 1;
+	transform: none;
+}
+
+/* Touch screens have no hover: keep the pill showing. */
+@media (hover: none) {
+	.projCard_cta { opacity: 1; transform: none; }
+}
+
+.caseSlide_data h3 a {
+	color: inherit;
+	text-decoration: none;
+}
+
 .caseSlide_data {
 	padding-top: 1.25rem;
 }
