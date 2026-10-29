@@ -50,7 +50,8 @@ export default [
 		result: [ '8K', 'Photorealistic CGI fidelity' ]
 	},
 	{
-		id: 'ahmad', category: 'social', client: 'Ahmad Tea', title: 'Ahmad Tea — AI Content', group: 'reel', shape: 'reel',
+		// No category: shown under "All" only, not in the social filter.
+		id: 'ahmad', category: null, client: 'Ahmad Tea', title: 'Ahmad Tea — AI Content', group: 'reel', shape: 'reel',
 		format: 'AI content · Short', date: 'YouTube',
 		line: 'AI-generated content for Ahmad Tea.',
 		yt: 'lMLzgMJ3UTU', poster: P( 'ahmad.jpg' ),
