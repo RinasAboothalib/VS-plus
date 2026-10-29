@@ -4,9 +4,9 @@
 # One-time setup, in GitHub → Settings → Secrets and variables → Actions:
 #   Secrets:   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD  (from hPanel → Files → FTP Accounts)
 #   Optional variables:
-#     FTP_SERVER_DIR — the site's folder as seen from the FTP login; found automatically
-#                      when not set ("domains/visualstudiosplus.com/public_html/" when the
-#                      login opens at the account root, else "public_html/")
+#     FTP_SERVER_DIR — the site's folder as seen from the FTP login, default "public_html/"
+#                      (Hostinger: the login opens in /home/<user>/domains/visualstudiosplus.com/
+#                      and the site is served from its public_html/)
 #     FTP_PROTOCOL   — "ftps" (default, encrypted) or "ftp" if the host refuses TLS
 #
 # Only changed files are uploaded after the first run; the action keeps a small
@@ -40,27 +40,15 @@ jobs:
 
       - run: npm run build
 
-      # Find the site's folder as the FTP login sees it, and log what is there. Hostinger's
-      # FTP certificate is issued for *.hstgr.io, so connect to the server's IP but check the
-      # certificate against that name: TLS stays fully verified for this listing.
-      - name: Find the website folder
-        id: dir
+      # Before and after uploading, report which build each candidate folder holds and
+      # which build the live site serves (see .github/scripts/ftp-inspect.sh).
+      - name: Inspect the FTP folders (before)
+        continue-on-error: true
         env:
           S: ${{ secrets.FTP_SERVER }}
           U: ${{ secrets.FTP_USERNAME }}
           P: ${{ secrets.FTP_PASSWORD }}
-          FIXED: ${{ vars.FTP_SERVER_DIR }}
-        run: |
-          ip="${S#ftp://}"; ip="${ip%%/*}"; ip="${ip//[[:space:]]/}"
-          ls_ftp() { curl -sS --max-time 30 --ssl-reqd --connect-to "ftp.hstgr.io:21:$ip:21" --user "$U:$P" --list-only "ftp://ftp.hstgr.io/$1"; }
-          root=$(ls_ftp "" | tr -d '\r') || { echo "::error::Could not list the FTP login folder."; exit 1; }
-          seen=$(echo "$root" | tr -s '\n' ' ')
-          if [ -n "$FIXED" ]; then dir="$FIXED"
-          elif ls_ftp "domains/visualstudiosplus.com/public_html/" > /dev/null 2>&1; then dir="domains/visualstudiosplus.com/public_html/"
-          elif echo "$root" | grep -qx 'public_html' && echo "$root" | grep -qx 'DO_NOT_UPLOAD_HERE'; then dir="public_html/"
-          else echo "::error::No site folder found. The FTP login shows: $seen"; exit 1; fi
-          echo "::notice::FTP login shows: $seen | uploading to: $dir"
-          echo "dir=$dir" >> "$GITHUB_OUTPUT"
+        run: bash .github/scripts/ftp-inspect.sh before
 
       # Hostinger's FTP server sometimes drops the connection mid-upload (ECONNRESET);
       # try up to three times, pausing between tries.
@@ -75,7 +63,7 @@ jobs:
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           security: loose
           local-dir: ./dist/
-          server-dir: ${{ steps.dir.outputs.dir }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
 
       - name: Wait before retrying
         if: steps.up1.outcome == 'failure'
@@ -93,7 +81,7 @@ jobs:
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           security: loose
           local-dir: ./dist/
-          server-dir: ${{ steps.dir.outputs.dir }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
 
       - name: Wait before the last try
         if: steps.up1.outcome == 'failure' && steps.up2.outcome == 'failure'
@@ -109,7 +97,16 @@ jobs:
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           security: loose
           local-dir: ./dist/
-          server-dir: ${{ steps.dir.outputs.dir }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
+
+      - name: Inspect the FTP folders (after)
+        if: always()
+        continue-on-error: true
+        env:
+          S: ${{ secrets.FTP_SERVER }}
+          U: ${{ secrets.FTP_USERNAME }}
+          P: ${{ secrets.FTP_PASSWORD }}
+        run: bash .github/scripts/ftp-inspect.sh after
 
       - name: Check the live site serves this build
         run: |
