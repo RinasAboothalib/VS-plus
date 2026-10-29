@@ -15,9 +15,13 @@
 
 name: Deploy to Hostinger
 
+# Paused to manual runs only (Actions → Deploy to Hostinger → Run workflow): Hostinger
+# confirmed their FTP server writes this account to different storage than the website
+# serves (runtime FTP mapping fault, Oct 2026). Restore the push trigger below once they
+# confirm the fix.
 on:
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
   workflow_dispatch:
 
 concurrency:
