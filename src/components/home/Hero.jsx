@@ -4,10 +4,11 @@ import { gsap, reduced, canHover } from '../../lib/motion.js';
 import { LiftText, WordRotator } from './HeroText.jsx';
 import ProjectField from './ProjectField.jsx';
 
-/* Hero copy: two static lines, then the yellow line rolling between the last two words. */
-const LINES = [ 'Brands built', 'to be found,' ];
-const ROTATING = [ 'felt,', 'followed.' ];
-const HEADLINE = 'Brands built to be found, felt, followed.';
+/* Hero copy: two lines; the second ends in the yellow word rolling through the three. */
+const LEAD = 'Brands built';
+const STEM = 'to be';
+const ROTATING = [ 'found', 'felt', 'followed' ];
+const HEADLINE = 'Brands built to be found, felt and followed.';
 const INTRO = 'Visual Studios Plus shape how your brand looks, how it lives online, and how it grows. We partner with ambitious brands to command attention and deliver verified commercial growth.';
 
 /*
@@ -38,7 +39,7 @@ let booted = false;
 /*
  * Home hero.
  *
- * Design — "Brands built / to be found, / felt, | followed." (layout from
+ * Design — "Brands built / to be found | felt | followed" (layout from
  * visual-studio-wine.vercel.app) over a 3D field of VS+ project tiles with
  * the showreel playing in one of them, under a heavy dim and grain. The headline lines slide up, letters lift toward the cursor and
  * the yellow last line rolls.
@@ -149,8 +150,8 @@ export default function Hero() {
 				<h1 id="hero-title" className="vsHero_title">
 					<span className="sr-only">{ HEADLINE }</span>
 					<span aria-hidden="true">
-						{ LINES.map( ( line ) => <span className="vsHero_line" key={ line }><span><LiftText text={ line } /></span></span> ) }
-						<span className="vsHero_line"><span><WordRotator words={ ROTATING } className="vsHero_accent" /></span></span>
+						<span className="vsHero_line"><span><LiftText text={ LEAD } /></span></span>
+						<span className="vsHero_line"><span><LiftText text={ STEM } /> <WordRotator words={ ROTATING } className="vsHero_accent" /></span></span>
 					</span>
 				</h1>
 				<p className="vsHero_intro">{ INTRO }</p>
