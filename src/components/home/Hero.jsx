@@ -8,8 +8,6 @@ import ProjectField from './ProjectField.jsx';
 const LEAD = 'Brands built';
 const STEM = 'to be';
 const ROTATING = [ 'found', 'felt', 'followed' ];
-/* Each rolling word in its own typeface: editorial serif, handwritten script, clean sans. */
-const ROTATING_FONTS = [ 'heroFont--serif', 'heroFont--script', 'heroFont--display' ];
 const HEADLINE = 'Brands built to be found, felt and followed.';
 const INTRO = 'Visual Studios Plus shape how your brand looks, how it lives online, and how it grows. We partner with ambitious brands to command attention and deliver verified commercial growth.';
 
@@ -157,7 +155,7 @@ export default function Hero() {
 					<span className="sr-only">{ HEADLINE }</span>
 					<span aria-hidden="true">
 						<span className="vsHero_line"><span><LiftText text={ LEAD } /></span></span>
-						<span className="vsHero_line"><span><LiftText text={ STEM } /> <WordRotator words={ ROTATING } fonts={ ROTATING_FONTS } className="vsHero_accent" /></span></span>
+						<span className="vsHero_line"><span><LiftText text={ STEM } /> <WordRotator words={ ROTATING } className="vsHero_accent" /></span></span>
 					</span>
 				</h1>
 				<p className="vsHero_intro">{ INTRO }</p>
