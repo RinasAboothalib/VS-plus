@@ -1,0 +1,1204 @@
+/* ==========================================================================
+   Home + top bar, after the Figma "home" frame (visual-studios, node 2:2).
+   The frame is 1728px wide; --u is one design pixel, scaled to the viewport
+   and capped at 1px so wide screens keep the design's size.
+   ========================================================================== */
+
+:root {
+	--u: min(1px, 100vw / 1728);
+	/*
+	 * Black sections (the default): headings, buttons and accents in the brand yellow,
+	 * body copy and links in white. White sections override these below.
+	 */
+	--fg-accent: #ffd400;
+	--fg-accent-2: #ffe14d;
+	--fg-text: #ffffff;
+	--fg-soft: rgba(255, 255, 255, 0.72);
+	--fg-sub: rgba(255, 255, 255, 0.7);
+	--fg-body: rgba(255, 255, 255, 0.62);
+	--fg-faint: rgba(255, 255, 255, 0.4);
+	--fg-bg: #0a0a0a;
+	--fg-panel: #141414;
+	--fg-tile: #1a1a1a;
+	--fg-shadow: rgba(0, 0, 0, 0.6);
+	--fg-glow: rgba(255, 212, 0, 0.08);
+	--fg-tint: rgba(255, 255, 255, 0.05);
+	--fg-line: rgba(255, 255, 255, 0.25);
+	--fg-font: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+	--fg-font-2: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+/* White sections: everything in black on white. Sections opt in with data-theme="light". */
+[data-theme='light'] {
+	--fg-accent: #0a0a0a;
+	--fg-accent-2: #0a0a0a;
+	--fg-text: #0a0a0a;
+	--fg-soft: rgba(10, 10, 10, 0.72);
+	--fg-sub: rgba(10, 10, 10, 0.62);
+	--fg-body: rgba(10, 10, 10, 0.6);
+	--fg-faint: rgba(10, 10, 10, 0.4);
+	--fg-bg: #ffffff;
+	--fg-panel: #f4f4f4;
+	--fg-tile: #eeeeee;
+	--fg-shadow: rgba(0, 0, 0, 0.22);
+	--fg-glow: rgba(0, 0, 0, 0.05);
+	--fg-tint: rgba(10, 10, 10, 0.04);
+	--fg-line: rgba(10, 10, 10, 0.25);
+	background: var(--fg-bg);
+	color: var(--fg-text);
+}
+
+/* Square sections: the old site rounds every section into a card; these run edge to edge. */
+.page_content_wrap .fgHome section,
+.page_content_wrap .fgContact section,
+.fgContact,
+.fgFooter {
+	border-radius: 0;
+}
+
+/* In black sections the service names stay yellow while their copy is white. */
+.fgServices_name {
+	color: var(--fg-accent);
+}
+
+/* ---------- Top bar (every page) ---------- */
+
+/* Over a white section the bar turns black: links, burger and wordmark (the yellow SVG drawn black). */
+body.nav-light:not(.menu-open) .topNav {
+	--fg-accent: #0a0a0a;
+}
+
+body.nav-light:not(.menu-open) .topNav_mark {
+	filter: brightness(0);
+}
+
+.topNav_links a,
+.topNav_mark,
+.topNav_burger span {
+	transition: color 0.3s ease, filter 0.3s ease, background-color 0.3s ease;
+}
+
+.topNav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 95;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: max(56px, calc(65 * var(--u)));
+	padding: 0 max(16px, calc(6 * var(--u)));
+	font-family: var(--fg-font);
+	transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+body.nav-hidden .topNav {
+	transform: translateY(-100%);
+	opacity: 0;
+}
+
+.topNav_brand {
+	display: block;
+}
+
+/* The Visual Studios Plus wordmark from the Figma nav. */
+.topNav_mark {
+	display: block;
+	width: max(150px, calc(211 * var(--u)));
+	height: auto;
+}
+
+.topNav_links {
+	display: flex;
+	align-items: center;
+	gap: max(18px, calc(34 * var(--u)));
+}
+
+.topNav_links a {
+	color: var(--fg-accent);
+	font-size: max(15px, calc(20 * var(--u)));
+	font-weight: 700;
+	text-decoration: none;
+	letter-spacing: -0.01em;
+}
+
+.topNav_links a:hover,
+.topNav_links a[aria-current='page'] {
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+}
+
+/* Services: a button like the other links, opening a dark panel of every service. */
+.topSvc {
+	position: relative;
+}
+
+.topSvc_toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--fg-accent);
+	font: 700 max(15px, calc(20 * var(--u))) / 1.4 var(--fg-font);
+	letter-spacing: -0.01em;
+	cursor: pointer;
+	transition: color 0.3s ease;
+}
+
+.topSvc_toggle:hover,
+.topSvc_toggle[aria-current='page'] {
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+}
+
+.topSvc_caret {
+	width: 0.42em;
+	height: 0.42em;
+	border-right: 2px solid currentColor;
+	border-bottom: 2px solid currentColor;
+	transform: translateY(-25%) rotate(45deg);
+	transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.is-open > .topSvc_toggle .topSvc_caret,
+[aria-expanded='true'] > .topSvc_caret {
+	transform: translateY(15%) rotate(225deg);
+}
+
+.topSvc_panel {
+	position: absolute;
+	top: calc(100% + 18px);
+	right: -24px;
+	width: min(540px, 92vw);
+	padding: 20px 26px 16px;
+	background: var(--fg-bg);
+	border: 1px solid rgba(255, 212, 0, 0.25);
+	border-radius: 24px;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+/* An invisible bridge over the gap, so the pointer can travel from the button to the panel. */
+.topSvc_panel::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 100%;
+	height: 20px;
+}
+
+.topSvc_list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0 28px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.topNav_links .topSvc_list a,
+.topNav_links .topSvc_list a:hover {
+	display: block;
+	padding: 8px 0;
+	color: var(--fg-text);
+	font-size: 16px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.topNav_links .topSvc_list a:hover,
+.topNav_links .topSvc_list a:focus-visible {
+	color: var(--fg-accent);
+	transform: translateX(4px);
+}
+
+.topNav_links .topSvc_list .is-page a,
+.topNav_links .topSvc_list .is-all a {
+	color: var(--fg-accent);
+	font-weight: 800;
+}
+
+.topSvc_list .is-all {
+	grid-column: 1 / -1;
+	margin-top: 8px;
+	border-top: 1px solid var(--fg-line);
+}
+
+/* Phone menu: a two-line burger that turns into a cross, over a full-screen black panel. */
+.topNav_burger,
+.topMenu {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.topNav_links {
+		display: none;
+	}
+
+	.topNav_burger {
+		position: relative;
+		display: block;
+		width: 44px;
+		height: 44px;
+		margin-right: -8px;
+		padding: 0;
+		border: 0;
+		background: none;
+		cursor: pointer;
+	}
+
+	.topNav_burger span {
+		position: absolute;
+		left: 10px;
+		right: 10px;
+		height: 2.5px;
+		border-radius: 2px;
+		background: var(--fg-accent);
+		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.topNav_burger span:first-child { top: 17px; }
+	.topNav_burger span:last-child { top: 25px; }
+	.topNav_burger.is-open span:first-child { transform: translateY(4px) rotate(45deg); }
+	.topNav_burger.is-open span:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+	/* While the menu is open the bar stays in place over it. */
+	body.menu-open .topNav {
+		transform: none;
+		opacity: 1;
+	}
+
+	.topMenu:not([hidden]) {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 92px 16px 32px;
+		background: var(--fg-bg);
+		overflow-y: auto;
+		font-family: var(--fg-font);
+	}
+
+	.topMenu_links {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.topMenu_links a {
+		display: block;
+		padding: 6px 0;
+		color: var(--fg-accent-2);
+		font-size: 34px;
+		font-weight: 800;
+		letter-spacing: -0.04em;
+		line-height: 1.15;
+		text-decoration: none;
+	}
+
+	.topMenu_links a[aria-current='page'],
+	.topMenu_svc > button.is-current {
+		color: var(--fg-accent);
+		text-decoration: underline;
+		text-decoration-thickness: 3px;
+		text-underline-offset: 0.15em;
+	}
+
+	/* Services opens its list in place, in smaller type under the heading. */
+	.topMenu_svc > button {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 6px 0;
+		border: 0;
+		background: none;
+		color: var(--fg-accent-2);
+		font: 800 34px / 1.15 var(--fg-font);
+		letter-spacing: -0.04em;
+		cursor: pointer;
+	}
+
+	.topMenu_svc .topSvc_caret {
+		width: 12px;
+		height: 12px;
+		border-width: 3px;
+	}
+
+	.topMenu_sub {
+		margin: 4px 0 10px;
+		padding: 0 0 0 4px;
+		list-style: none;
+	}
+
+	.topMenu_links .topMenu_sub a {
+		padding: 5px 0;
+		color: var(--fg-soft);
+		font-size: 18px;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+
+	.topMenu_links .topMenu_sub .is-page a,
+	.topMenu_links .topMenu_sub .is-all a {
+		color: var(--fg-accent);
+		font-weight: 800;
+	}
+
+	.topMenu_foot {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding-top: 28px;
+		font-family: var(--fg-font-2);
+		font-weight: 700;
+		letter-spacing: -0.04em;
+	}
+
+	.topMenu_foot > a {
+		color: var(--fg-soft);
+		text-decoration: none;
+	}
+
+	.topMenu .fgFooter_social a {
+		display: grid;
+		place-items: center;
+		width: 40px;
+		height: 40px;
+		border: 2px solid var(--fg-accent);
+		border-radius: 50%;
+		color: var(--fg-accent);
+	}
+}
+
+/* ---------- Home ---------- */
+
+/* The dark top scrim belongs to the old hero. */
+body.is-home .page_content_wrap::before {
+	display: none;
+}
+
+.fgHome {
+	position: relative;
+	background: var(--fg-bg);
+	color: var(--fg-text);
+	font-family: var(--fg-font);
+	overflow-x: clip;
+}
+
+.fgHome a {
+	text-decoration: none;
+}
+
+.fgEyebrow {
+	margin: 0;
+	font-size: max(24px, calc(40 * var(--u)));
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--fg-accent);
+}
+
+.fgBtn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	height: max(46px, calc(57 * var(--u)));
+	min-width: max(170px, calc(209 * var(--u)));
+	padding: 0 1.4em;
+	border-radius: 50px;
+	font-size: max(16px, calc(20 * var(--u)));
+	font-weight: 700;
+	letter-spacing: 1px;
+	transition: background 0.25s ease, color 0.25s ease;
+}
+
+.fgBtn--solid {
+	min-width: max(176px, calc(219 * var(--u)));
+	background: var(--fg-accent);
+	color: var(--fg-bg);
+}
+
+.fgBtn--solid:hover {
+	background: var(--fg-accent-2);
+}
+
+.fgBtn--line {
+	border: 3px solid var(--fg-accent);
+	color: var(--fg-accent);
+}
+
+.fgBtn--line:hover {
+	background: var(--fg-accent);
+	color: var(--fg-bg);
+}
+
+/* Hero */
+.fgHero {
+	position: relative;
+	height: max(100svh, calc(1117 * var(--u)));
+	max-height: 1117px;
+	overflow: hidden;
+}
+
+.fgHero_bg,
+.fgHero_scrim {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* As in the frame: the square photo is stretched to the hero, so all four crews stay in view. */
+.fgHero_bg {
+	object-fit: fill;
+}
+
+/* The photo is near-white, so a dark wash keeps the yellow type readable on the black theme. */
+.fgHero_scrim {
+	background:
+		radial-gradient(70% 60% at 50% 45%, rgba(10, 10, 10, 0.78), rgba(10, 10, 10, 0.55)),
+		rgba(10, 10, 10, 0.2);
+}
+
+.fgHero_inner {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: calc(280 * var(--u));
+	text-align: center;
+}
+
+.fgHero_title {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	font-size: calc(96 * var(--u));
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.05em;
+	color: var(--fg-accent-2);
+}
+
+/*
+ * The rolling word sits in a cell as wide as its widest word and exactly one line tall, so
+ * the lines above and below never move. A little room below keeps descenders (g, y) unclipped.
+ */
+.fgHero_rotator {
+	text-align: left;
+	padding-bottom: 0.14em;
+	margin-bottom: -0.14em;
+}
+
+.fgHero_accent {
+	color: var(--fg-accent);
+}
+
+.fgHero_sub {
+	width: calc(539 * var(--u));
+	margin: calc(38 * var(--u)) 0 calc(36 * var(--u));
+	font-size: calc(24 * var(--u));
+	font-weight: 600;
+	line-height: 1.5;
+	letter-spacing: -0.05em;
+	color: var(--fg-sub);
+}
+
+/* Client logos */
+.fgLogos {
+	padding-top: calc(38 * var(--u));
+	overflow: hidden;
+}
+
+.fgLogos_track {
+	display: flex;
+	gap: 3px;
+	width: max-content;
+	animation: fgMarquee 40s linear infinite;
+}
+
+.fgLogos_track img {
+	width: calc(400 * var(--u));
+	height: calc(100 * var(--u));
+	object-fit: cover;
+	flex: none;
+	opacity: 0.5;
+}
+
+@keyframes fgMarquee {
+	to { transform: translateX(calc(-50% - 1.5px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fgLogos_track { animation: none; }
+}
+
+/* Who we are */
+/* A full screen, so it can lock in place while its words come in. */
+.fgWho {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100svh;
+	padding: 80px var(--gutter);
+	background: var(--fg-bg);
+	text-align: center;
+}
+
+.fgWho_text {
+	max-width: calc(969 * var(--u));
+	margin: 0;
+	font-size: calc(40 * var(--u));
+	font-weight: 700;
+	line-height: 1.36;
+}
+
+/* Each word is its own box so it can rise on its own. */
+.fgWord {
+	display: inline-block;
+	margin-right: 0.26em;
+}
+
+.fgStats {
+	display: flex;
+	gap: calc(18 * var(--u));
+	margin: calc(155 * var(--u)) 0 0;
+	text-align: left;
+	font-weight: 700;
+}
+
+.fgStat {
+	width: calc(256 * var(--u));
+}
+
+.fgStat dt {
+	font-size: calc(40 * var(--u));
+	line-height: calc(55 * var(--u));
+}
+
+.fgStat dd {
+	margin: 0;
+	font-size: max(12px, calc(16 * var(--u)));
+}
+
+/* Services: one pinned stage; GSAP hands from one service to the next as you scroll */
+.fgServices {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100svh;
+	min-height: 560px;
+	padding: calc(47 * var(--u)) calc(110 * var(--u)) max(24px, calc(48 * var(--u))) calc(52 * var(--u));
+	background: var(--fg-bg);
+	overflow: hidden;
+}
+
+.fgServices_head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: max(48px, calc(30 * var(--u)));
+}
+
+.fgServices_count {
+	margin: 0;
+	font-size: max(16px, calc(24 * var(--u)));
+	font-weight: 600;
+	color: var(--fg-faint);
+	font-variant-numeric: tabular-nums;
+}
+
+.fgServices_count span {
+	color: var(--fg-accent);
+}
+
+.fgServices_stage {
+	position: relative;
+	flex: 1;
+	margin-top: max(16px, calc(24 * var(--u)));
+}
+
+.fgSvc {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	grid-template-columns: minmax(0, calc(584 * var(--u))) auto;
+	justify-content: space-between;
+	align-items: center;
+	gap: calc(80 * var(--u));
+}
+
+.fgSvc_copy {
+	padding-left: calc(8 * var(--u));
+}
+
+.fgServices_name {
+	margin: 0;
+	font-size: calc(48 * var(--u));
+	font-weight: 800;
+	line-height: 1.375;
+}
+
+.fgServices_text {
+	max-width: calc(452 * var(--u));
+	margin: calc(10 * var(--u)) 0 calc(10 * var(--u));
+	font-size: max(14px, calc(15 * var(--u)));
+	font-weight: 500;
+	color: var(--fg-body);
+}
+
+/* The frame's portrait card, kept to the screen so the whole picture shows. */
+.fgServices_media {
+	display: block;
+	height: min(100%, calc(680 * var(--u)));
+	aspect-ratio: 758 / 966;
+	border-radius: calc(80 * var(--u));
+	overflow: hidden;
+	background: var(--fg-tile);
+	box-shadow: 0 24px 60px var(--fg-shadow);
+}
+
+/* Without motion the services simply stack. */
+@media (prefers-reduced-motion: reduce) {
+	.fgServices { height: auto; }
+	.fgSvc { position: relative; padding: 40px 0; }
+	.fgServices_media { height: 520px; }
+}
+
+.fgServices_media video,
+.fgCard img,
+.fgCard video,
+.fgShot img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Projects: pinned while five cards rise into the frame's three-deep stack (GSAP sets each card's depth) */
+.fgProjects {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100svh;
+	min-height: 560px;
+	padding: calc(18 * var(--u)) calc(52 * var(--u)) max(24px, calc(40 * var(--u)));
+	background: var(--fg-bg);
+	overflow: hidden;
+}
+
+.fgStack {
+	position: relative;
+	flex: 1;
+	margin: max(56px, calc(130 * var(--u))) 0 max(20px, calc(36 * var(--u)));
+}
+
+.fgCard {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: block;
+	width: min(calc(1098 * var(--u)), 100%, (100svh - 280px) * 1098 / 746);
+	aspect-ratio: 1098 / 746;
+	margin: 0 auto;
+	border-radius: calc(49 * var(--u));
+	overflow: hidden;
+	background: var(--fg-tile);
+	transform-origin: 50% 0;
+	box-shadow:
+		0 -6px 18px var(--fg-glow),
+		0 24px 60px var(--fg-shadow);
+}
+
+.fgCard_label {
+	position: absolute;
+	left: calc(40 * var(--u));
+	bottom: calc(32 * var(--u));
+	display: flex;
+	flex-direction: column;
+	padding: 0.5em 1.1em;
+	border-radius: 24px;
+	background: var(--fg-bg);
+	color: var(--fg-accent);
+	font-size: max(14px, calc(20 * var(--u)));
+	font-weight: 800;
+	line-height: 1.25;
+}
+
+.fgCard_label small {
+	font-size: 0.7em;
+	font-weight: 600;
+	color: var(--fg-body);
+}
+
+.fgProjects_more {
+	align-self: center;
+}
+
+/* Portfolio: two flowing rows of Instagram covers */
+.fgPortfolio {
+	padding: calc(43 * var(--u)) 0 calc(185 * var(--u));
+}
+
+.fgPortfolio_head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 calc(54 * var(--u)) 0 calc(52 * var(--u));
+	margin-bottom: calc(84 * var(--u));
+}
+
+.fgRow_track + .fgRow_track {
+	margin-top: calc(26 * var(--u));
+}
+
+.fgRow {
+	display: flex;
+	gap: calc(22 * var(--u));
+	width: max-content;
+	will-change: transform;
+}
+
+/* The frame's card shapes (345 × 439, wide 612), at three quarters of the size. */
+.fgShot {
+	flex: none;
+	width: calc(259 * var(--u));
+	height: calc(329 * var(--u));
+	border-radius: calc(40 * var(--u));
+	overflow: hidden;
+}
+
+.fgShot--wide {
+	width: calc(459 * var(--u));
+}
+
+.fgShot img {
+	transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fgShot:hover img {
+	transform: scale(1.06);
+}
+
+/* Contact us, before the footer (on every page but Contact) */
+.fgCta {
+	font-family: var(--fg-font);
+	padding: calc(47 * var(--u)) calc(52 * var(--u)) max(64px, calc(160 * var(--u)));
+	background: var(--fg-bg);
+}
+
+.fgCta_body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: max(40px, calc(90 * var(--u)));
+	text-align: center;
+}
+
+.fgCta_title {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	font-size: max(40px, calc(96 * var(--u)));
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.05em;
+	color: var(--fg-accent-2);
+}
+
+.fgCta_sub {
+	max-width: max(300px, calc(560 * var(--u)));
+	margin: max(18px, calc(36 * var(--u))) 0 max(24px, calc(36 * var(--u)));
+	font-size: max(16px, calc(24 * var(--u)));
+	font-weight: 600;
+	line-height: 1.5;
+	letter-spacing: -0.03em;
+	color: var(--fg-sub);
+}
+
+.fgCta_actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 14px;
+}
+
+/* Footer */
+/* Background: the hero's grey (its photo under the frame's 20% grey wash). */
+.fgFooter {
+	position: relative;
+	/* Bottom room for the "Back to top" tab that rises over the page's end. */
+	padding: max(48px, calc(120 * var(--u))) calc(59 * var(--u)) max(56px, calc(70 * var(--u)));
+	background: var(--fg-panel);
+	overflow: hidden;
+	font-family: var(--fg-font-2);
+	font-weight: 700;
+	letter-spacing: -0.1em;
+	color: var(--fg-text);
+}
+
+.fgFooter_cols {
+	display: grid;
+	grid-template-columns: calc(205 * var(--u)) 1fr calc(204 * var(--u)) calc(183 * var(--u));
+	font-size: max(13px, calc(16 * var(--u)));
+}
+
+.fgFooter_col {
+	display: flex;
+	flex-direction: column;
+	gap: calc(5 * var(--u));
+}
+
+.fgFooter_col--push {
+	grid-column: 3;
+}
+
+.fgFooter_col:nth-child(2) {
+	margin-top: calc(-5 * var(--u));
+}
+
+.fgFooter_head {
+	margin: 0;
+	color: var(--fg-accent);
+}
+
+.fgFooter a {
+	text-decoration: none;
+}
+
+.fgFooter_col a {
+	color: var(--fg-soft);
+}
+
+/* Blue social icons under the email, linking the studio's channels. */
+.fgFooter_social {
+	display: flex;
+	flex-wrap: nowrap;
+	width: max-content;
+	gap: 8px;
+	margin: max(12px, calc(18 * var(--u))) 0 0;
+	padding: 0;
+	list-style: none;
+	letter-spacing: 0;
+}
+
+/* In the middle of the column row, on the columns' top line; it takes no grid cell. */
+.fgFooter_cols {
+	position: relative;
+}
+
+.fgFooter_social--mid {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+}
+
+/* Compact brief: tighter spacing so the whole form fits with little scrolling. */
+.fgContact .briefForm .lede {
+	margin: 0;
+	font-size: max(15px, calc(18 * var(--u)));
+}
+
+.fgContact .briefSet {
+	margin-top: max(16px, calc(24 * var(--u)));
+}
+
+.fgContact .briefSet legend {
+	margin-bottom: 0.6rem;
+}
+
+.fgContact .chipRow {
+	gap: 0.4rem;
+}
+
+.fgContact .chip {
+	padding: 0.45rem 0.8rem;
+	font-size: 0.78rem;
+}
+
+.fgContact .briefFields {
+	gap: 0.9rem 1rem;
+	margin-top: max(16px, calc(24 * var(--u)));
+}
+
+.fgContact .field {
+	gap: 0.35rem;
+}
+
+.fgContact .field input,
+.fgContact .field textarea {
+	padding: 0.6rem 0.95rem;
+	font-size: 0.95rem;
+	border-radius: 18px;
+}
+
+.fgContact .briefSubmit {
+	margin-top: max(16px, calc(24 * var(--u)));
+	gap: 1rem;
+}
+
+.fgFooter .fgFooter_social a {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border: 2px solid var(--fg-accent);
+	border-radius: 50%;
+	color: var(--fg-accent);
+	transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.fgFooter .fgFooter_social a:is(:hover, :focus-visible) {
+	background: var(--fg-accent);
+	color: var(--fg-bg);
+	transform: translateY(-2px);
+}
+
+.fgFooter_col a:hover {
+	color: var(--fg-accent);
+}
+
+.fgFooter_title {
+	display: flex;
+	gap: 0.3em;
+	margin: calc(76 * var(--u)) 0 0 calc(149 * var(--u));
+	font-size: calc(200 * var(--u));
+	line-height: 1.21;
+	letter-spacing: -0.1em;
+	white-space: nowrap;
+}
+
+.fgFooter_title sup {
+	align-self: flex-start;
+	margin: calc(-60 * var(--u)) 0 0 calc(-40 * var(--u));
+	font-size: 0.64em;
+	line-height: 1;
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 767px) {
+	.fgHero {
+		height: 100svh;
+	}
+	.fgHero_inner {
+		justify-content: center;
+		height: 100%;
+		padding: 56px 16px 0;
+	}
+	.fgHero_title { font-size: 44px; }
+	.fgHero_sub { width: auto; max-width: 22rem; margin: 18px 0 24px; font-size: 16px; }
+
+	.fgLogos { padding-top: 24px; }
+	.fgLogos_track img { width: 200px; height: 50px; }
+
+	.fgWho { padding: 72px 16px; }
+	.fgWho_text { max-width: none; font-size: 22px; }
+	.fgStats { flex-wrap: wrap; justify-content: center; gap: 24px; margin-top: 48px; text-align: center; }
+	.fgStat { width: auto; min-width: 8rem; }
+	.fgStat dt { font-size: 28px; line-height: 1.3; }
+
+	.fgHero_bg { object-fit: cover; object-position: center; }
+
+	.fgServices { padding: 16px 16px 24px; }
+	/* Phones: name and text, then a full-width landscape picture, then the button. */
+	.fgSvc { grid-template-columns: 1fr; align-content: center; justify-items: start; gap: 14px; }
+	.fgSvc_copy { display: contents; }
+	.fgServices_name { order: 1; font-size: 28px; line-height: 1.2; }
+	.fgServices_text { order: 2; max-width: none; margin: 0; }
+	.fgServices_media { order: 3; width: 100%; height: min(36svh, 300px); aspect-ratio: auto; margin-top: 6px; border-radius: 28px; }
+	.fgSvc_copy .fgBtn { order: 4; justify-self: center; margin-top: 6px; }
+
+	.fgCta { padding: 48px 16px 64px; }
+
+	.fgProjects { padding: 64px 16px 24px; }
+	/* Phones: taller cards, the stack and its button centred together in the pinned screen. */
+	.fgProjects { justify-content: center; }
+	.fgProjects .fgEyebrow { position: absolute; top: 64px; left: 16px; }
+	.fgStack { flex: none; height: calc(min(56svh, 470px) + 40px); margin: 0 0 20px; }
+	.fgCard { top: 40px; width: 100%; height: min(56svh, 470px); aspect-ratio: auto; border-radius: 22px; }
+	.fgCard_label { left: 12px; bottom: 12px; }
+
+	.fgPortfolio { padding: 48px 0 64px; }
+	.fgPortfolio_head { padding: 0 16px; margin-bottom: 28px; }
+	.fgPortfolio_head .fgBtn { min-width: 0; }
+	.fgRow { gap: 12px; }
+	.fgRow_track + .fgRow_track { margin-top: 12px; }
+	.fgShot { width: 120px; height: 152px; border-radius: 20px; }
+	.fgShot--wide { width: 212px; }
+
+	.fgFooter { padding: 48px 16px 56px; }
+	.fgFooter_social { gap: 6px; }
+	.fgFooter .fgFooter_social a { width: 34px; height: 34px; }
+	.fgContact .save_to_clipboard--lg { font-size: 18px; }
+	.fgFooter_cols { grid-template-columns: 1fr 1fr; gap: 28px 16px; }
+	.fgFooter_col--push { grid-column: auto; }
+	.fgFooter_col:nth-child(2) { margin-top: 0; }
+	.fgFooter_social--mid { position: static; grid-column: 1 / -1; grid-row: 3; margin: 0; }
+	.fgFooter_title { gap: 0.22em; margin: 40px 0 0; font-size: 13.5vw; }
+	.fgFooter_title sup { margin: -2vw 0 0 -1.5vw; }
+}
+
+/* ---------- Contact, in the home frame's language ---------- */
+
+body[data-page='contact'] .page_content_wrap::before {
+	display: none;
+}
+
+.fgContact {
+	background: var(--fg-bg);
+	color: var(--fg-text);
+	font-family: var(--fg-font);
+}
+
+/* Form on the left, headline on the right; the headline stays in view while the form scrolls. */
+.fgContact_split {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+	gap: calc(100 * var(--u));
+	align-items: start;
+	padding: max(110px, calc(170 * var(--u))) calc(60 * var(--u)) max(64px, calc(140 * var(--u))) calc(52 * var(--u));
+}
+
+.fgContact_split .briefForm {
+	grid-column: 1;
+	grid-row: 1;
+	padding: max(24px, calc(48 * var(--u)));
+	border-radius: max(28px, calc(53 * var(--u)));
+	background: var(--fg-tint);
+}
+
+.fgContact_hero {
+	position: sticky;
+	top: max(90px, calc(130 * var(--u)));
+	grid-column: 2;
+	grid-row: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding-top: max(24px, calc(48 * var(--u)));
+}
+
+@media (max-width: 900px) {
+	.fgContact_split {
+		grid-template-columns: 1fr;
+		gap: 32px;
+		padding: 100px 16px 64px;
+	}
+	.fgContact_split .briefForm { grid-column: 1; grid-row: 2; }
+	.fgContact_hero { position: static; grid-column: 1; padding-top: 0; }
+}
+
+.fgContact_title {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	font-size: max(44px, calc(96 * var(--u)));
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.05em;
+	color: var(--fg-accent-2);
+}
+
+.fgContact_sub {
+	max-width: max(300px, calc(560 * var(--u)));
+	margin: max(18px, calc(38 * var(--u))) 0 max(24px, calc(36 * var(--u)));
+	font-size: max(16px, calc(24 * var(--u)));
+	font-weight: 600;
+	line-height: 1.5;
+	letter-spacing: -0.03em;
+	color: var(--fg-sub);
+}
+
+.fgContact a {
+	text-decoration: none;
+}
+
+.fgContact .fLabel {
+	font-family: var(--fg-font-2);
+	font-weight: 700;
+	letter-spacing: -0.06em;
+	text-transform: none;
+	color: var(--fg-accent);
+	opacity: 1;
+}
+
+.fgContact .contactBig,
+.fgContact .contactAddr,
+.fgContact .save_to_clipboard,
+.fgContact .save_to_clipboard--lg {
+	color: var(--fg-soft);
+	font-weight: 700;
+}
+
+.fgContact .contactBig:hover {
+	color: var(--fg-accent);
+}
+
+.fgContact .contactNote,
+.fgContact .lede {
+	color: var(--fg-body);
+	font-weight: 500;
+}
+
+.fgContact .briefForm .fgEyebrow {
+	margin-bottom: 0.4em;
+}
+
+.fgContact .chip {
+	border: 2px solid var(--fg-accent);
+	border-radius: 50px;
+	background: transparent;
+	color: var(--fg-accent);
+	font-family: var(--fg-font);
+	font-weight: 700;
+}
+
+.fgContact .chip.is-active,
+.fgContact .chip:hover {
+	background: var(--fg-accent);
+	color: var(--fg-bg);
+}
+
+.fgContact .field span {
+	color: var(--fg-accent);
+	font-weight: 700;
+}
+
+.fgContact .field input,
+.fgContact .field textarea {
+	border: 2px solid var(--fg-line);
+	border-radius: 24px;
+	background: var(--fg-bg);
+	color: var(--fg-text);
+	font-family: var(--fg-font);
+}
+
+.fgContact .field input:focus,
+.fgContact .field textarea:focus {
+	border-color: var(--fg-accent);
+	background: var(--fg-tint);
+	outline: none;
+}
+
+.fgContact .briefError {
+	color: #ff6b6b;
+}
+
+.fgContact .briefSubmit .fgBtn {
+	border: 0;
+	cursor: pointer;
+	font-family: var(--fg-font);
+}
+
+.fgContact .socialIcons--contact a {
+	color: var(--fg-accent);
+}

@@ -1,0 +1,139 @@
+/* ==========================================================================
+   Inner pages (Work, Services, the service pages, Photography, About, a
+   project, 404) in the Figma home design. The pages keep their own layouts;
+   this layer restyles their shared parts: type, headers, section colours,
+   buttons, chips and corners. Tokens come from home.css.
+   ========================================================================== */
+
+/* Manrope everywhere, and the old cream bands become white. */
+body.inner {
+	--font: var(--fg-font);
+	--cream: #ffffff;
+}
+
+body.inner .page_content_wrap {
+	font-family: var(--fg-font);
+}
+
+/* Square sections: the old site rounds every band into a card. */
+body.inner .page_content_wrap section,
+body.inner .pageHero,
+body.inner .bg-white,
+body.inner .servicesPage,
+body.inner .featuredSection {
+	border-radius: 0;
+}
+
+/* ---------- Page header: a black band like the home hero ---------- */
+
+body.inner .pageHero {
+	background: var(--fg-bg);
+	color: var(--fg-text);
+}
+
+body.inner .pageHero .eyebrow {
+	color: var(--fg-accent);
+}
+
+body.inner .pageTitle {
+	font-family: var(--fg-font);
+	font-weight: 800;
+	letter-spacing: -0.05em;
+	line-height: 0.95;
+	text-transform: none;
+	color: var(--fg-accent-2);
+}
+
+/* The title's closing dot in the brand yellow. */
+body.inner .pageTitle .heroDot {
+	background: var(--fg-accent);
+}
+
+body.inner .pageLede {
+	color: var(--fg-sub);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+}
+
+/* The header used to be cream, so its small print and links were dark; on black they go white. */
+body.inner .pageHero :is(.projectNav, .projectMeta, .pageActions) {
+	color: var(--fg-sub);
+}
+
+body.inner .pageHero .btnLink {
+	color: var(--fg-text);
+}
+
+/* ---------- Type ---------- */
+
+/* Labels keep each section's own colour; only their type changes. */
+body.inner .eyebrow {
+	font: 700 1rem / 1.3 var(--fg-font);
+	letter-spacing: -0.01em;
+	text-transform: none;
+}
+
+body.inner .sectionTitle,
+body.inner .missionTitle,
+body.inner .svcBlock_title,
+body.inner .nextProject_title {
+	font-family: var(--fg-font);
+	font-weight: 800;
+	letter-spacing: -0.04em;
+}
+
+body.inner .lede {
+	font-weight: 500;
+}
+
+/* Black sections: headings and labels in yellow. */
+body.inner :is(.aboutMission, .reelsRail, .svcPage--dark, .webProjSection, .rosterSection, .nextProject_link) :is(.eyebrow, .sectionTitle, .missionTitle, h2, h3, .resultNum, .nextProject_title) {
+	color: var(--fg-accent);
+}
+
+/* ---------- Buttons ---------- */
+
+/* Solid pills, as on the home page: yellow with black type, or black with white on light bands. */
+body.inner .pillBtn {
+	min-height: 52px;
+	padding: 0 1.9rem;
+	font: 700 1rem / 1 var(--fg-font);
+	letter-spacing: 1px;
+}
+
+/* Text links become the outlined pill, filling yellow on hover. */
+body.inner .btnLink {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+	padding: 0.75rem 1.5rem;
+	border: 3px solid currentColor;
+	border-radius: 50px;
+	font: 700 1rem / 1 var(--fg-font);
+	letter-spacing: 0.5px;
+	transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+body.inner .btnLink::after {
+	display: none;
+}
+
+body.inner .btnLink:is(:hover, :focus-visible) {
+	background: var(--fg-accent);
+	border-color: var(--fg-accent);
+	color: #0a0a0a;
+}
+
+/* Filter chips: outlined pills; the chosen one fills yellow. */
+body.inner .chip {
+	border: 2px solid currentColor;
+	font: 700 0.85rem / 1 var(--fg-font);
+	transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+body.inner .chip:hover,
+body.inner .chip.is-active {
+	background: var(--fg-accent);
+	border-color: var(--fg-accent);
+	color: #0a0a0a;
+}
