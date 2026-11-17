@@ -46,6 +46,14 @@ const PROJECTS = [
 		text: 'Built to sell sponsorship: **four industry forums** across construction, marine, aviation and Build Expo, event histories, **sponsors like Ooredoo and SITA**, and a direct **Become a sponsor** route.',
 		stats: [ [ '9', 'events hosted' ], [ '4', 'event series' ], [ '200', 'Facebook responses, CIF 2025' ], [ '60+', 'years combined experience' ] ],
 		tags: [ 'Event series', 'Sponsorship', 'News', 'Partners' ]
+	},
+	{
+		id: 'maldives', name: 'Visiting Maldives', kind: 'Travel guide website', place: 'Maldives',
+		url: 'https://visiting-maldives-rqaf.vercel.app/', logo: { bg: '#14121a', fit: 'wide' },
+		metric: [ '1,192', 'Coral islands across the guide' ],
+		text: 'An independent, island-by-island guide to the Maldives: **four themes** from marine life to heritage, most-read guides with **season and atoll on every card**, a **bilingual English / Dhivehi** interface and a plan-your-trip hub.',
+		stats: [ [ '1,192', 'coral islands' ], [ '26', 'natural atolls' ], [ '4', 'ways to explore' ], [ '99%', 'ocean' ] ],
+		tags: [ 'Travel guides', 'Atolls & islands', 'Trip planner', 'Saved guides' ]
 	}
 ];
 
@@ -114,7 +122,7 @@ export default function WebProjects( { eyebrow = '(03) Selected web projects' } 
 						<p className="eyebrow">{ eyebrow }</p>
 						<h2 className="sectionTitle" id="webProjTitle">Sites we have built.</h2>
 					</div>
-					<p className="lede">Five live websites, designed and developed in-house. Every figure below comes from the client’s own site.</p>
+					<p className="lede">Six live websites, designed and developed in-house. Every figure below comes from the client’s own site.</p>
 				</div>
 				<ol className="webProj_list">
 					{ PROJECTS.map( ( p, i ) => (
