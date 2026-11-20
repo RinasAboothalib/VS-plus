@@ -496,3 +496,23 @@ p b,
 	position: relative;
 	z-index: 40;
 }
+
+/*
+ * Header lockup. The wordmark is a masked PNG, so it has no weight to set:
+ * stacking tight white drop-shadows over the masked shape thickens its
+ * strokes instead. The tagline under it sits back a little.
+ */
+.siteBrand_word {
+	/*
+	 * The first two shadows fatten the hairlines; the zero-blur ones stack copies
+	 * of the shape on itself, pushing the anti-aliased edges up to full opacity so
+	 * the mark reads bright white instead of grey.
+	 */
+	filter:
+		drop-shadow(0 0 0.6px var(--white)) drop-shadow(0 0 0.6px var(--white))
+		drop-shadow(0 0 0 var(--white)) drop-shadow(0 0 0 var(--white)) drop-shadow(0 0 0 var(--white));
+}
+
+.siteBrand_text {
+	color: rgba(255, 255, 255, 0.55);
+}
