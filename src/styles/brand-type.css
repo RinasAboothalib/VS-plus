@@ -481,3 +481,18 @@ p b,
 	font-size: 0.68rem;
 	white-space: nowrap;
 }
+
+/*
+ * Stacking sections: each block freezes while the next scrolls up over it.
+ * useSectionStack sets `top` and `z-index` per section, since the offset
+ * depends on whether a section is taller than the screen.
+ */
+.stackCard {
+	position: sticky;
+}
+
+/* The footer is outside the stack, so it has to clear the last sticky block. */
+.siteFooter {
+	position: relative;
+	z-index: 40;
+}

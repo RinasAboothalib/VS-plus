@@ -8,12 +8,17 @@ import TLink from './TLink.jsx';
 import { usePageMeta } from '../context/PageContext.jsx';
 import { useTransition } from '../context/TransitionContext.jsx';
 import { gsap, ScrollTrigger, scrollToTarget, startLenis } from '../lib/motion.js';
+import useSectionStack from '../lib/useSectionStack.js';
 
 export default function Layout() {
 	const location = useLocation();
 	const { page, inner } = usePageMeta();
 	const { reveal } = useTransition();
 	const first = useRef( true );
+	const stack = useRef( null );
+
+	// Each page's top-level sections stack: one sticks while the next scrolls over it.
+	useSectionStack( stack, [ location.pathname ] );
 
 	useEffect( () => {
 		startLenis();
@@ -111,7 +116,9 @@ export default function Layout() {
 						<p className="siteBrand_text">Creative Agency · Colombo 04</p>
 					</div>
 				</header>
-				<Outlet />
+				<div className="pageStack" ref={ stack }>
+					<Outlet />
+				</div>
 				<Footer />
 			</main>
 			<SheetDock />
