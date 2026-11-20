@@ -3,10 +3,12 @@ import { createPortal } from 'react-dom';
 import { gsap, reduced, canHover } from '../../lib/motion.js';
 import { LiftText, WordRotator } from './HeroText.jsx';
 import ProjectField from './ProjectField.jsx';
+import TLink from '../TLink.jsx';
+import FlowButton from '../FlowButton.jsx';
+import { useTransition } from '../../context/TransitionContext.jsx';
 
-/* Hero copy: two lines; the second ends in the yellow word rolling through the three. */
-const LEAD = 'Brands built';
-const STEM = 'to be';
+/* Hero copy: "Brands built to be" on one line, the yellow word rolling through the three on the next. */
+const LEAD = 'Brands built to be';
 const ROTATING = [ 'found', 'felt', 'followed' ];
 const HEADLINE = 'Brands built to be found, felt and followed.';
 const INTRO = 'Visual Studios Plus shape how your brand looks, how it lives online, and how it grows. We partner with ambitious brands to command attention and deliver verified commercial growth.';
@@ -57,6 +59,21 @@ export default function Hero() {
 	// Decided once per mount, so React's double-run of effects in dev can't skip it.
 	const withLoader = useRef( ! booted && ! reduced ).current;
 	const [ loading, setLoading ] = useState( withLoader );
+	const { go } = useTransition();
+
+	// View work: the button fills white first, then the page transition runs.
+	const fillThenGo = ( e ) => {
+		if ( reduced || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey ) {
+			return;
+		}
+		e.preventDefault();
+		const btn = e.currentTarget;
+		if ( btn.classList.contains( 'is-filling' ) ) {
+			return;
+		}
+		btn.classList.add( 'is-filling' );
+		setTimeout( () => go( '/work/' ), 480 );
+	};
 
 	useLayoutEffect( () => {
 		const f = field.current.state;
@@ -90,6 +107,7 @@ export default function Hero() {
 				.to( f, { intro: 0, duration: 2.8, ease: 'expo.out' }, '<' )
 				.from( '.vsHero_line > span', { yPercent: 105, duration: 1.1, ease: 'expo.out', stagger: 0.1 }, '<0.55' )
 				.from( '.vsHero_intro', { y: 20, opacity: 0, duration: 0.7, ease: 'expo.out' }, '<0.15' )
+				.from( '.vsHero_actions', { y: 20, opacity: 0, duration: 0.7, ease: 'expo.out' }, '<0.12' )
 				.from( '.vsHero_scroll', { opacity: 0, duration: 0.8 }, '<0.6' )
 				// Let lifted letters spill over their line masks once the lines are in.
 				.add( () => root.current.classList.add( 'is-in' ) );
@@ -151,10 +169,14 @@ export default function Hero() {
 					<span className="sr-only">{ HEADLINE }</span>
 					<span aria-hidden="true">
 						<span className="vsHero_line"><span><LiftText text={ LEAD } /></span></span>
-						<span className="vsHero_line"><span><LiftText text={ STEM } /> <WordRotator words={ ROTATING } className="vsHero_accent" /></span></span>
+						<span className="vsHero_line"><span><WordRotator words={ ROTATING } className="vsHero_accent" /></span></span>
 					</span>
 				</h1>
 				<p className="vsHero_intro">{ INTRO }</p>
+				<div className="vsHero_actions">
+					<FlowButton to="/work/" onClick={ fillThenGo }>View work</FlowButton>
+					<TLink className="plusLink" to="/services/">Explore services</TLink>
+				</div>
 			</div>
 
 			<div className="vsHero_scroll" aria-hidden="true"><span>Scroll</span><i></i></div>

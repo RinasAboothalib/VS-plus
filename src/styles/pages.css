@@ -2401,17 +2401,12 @@ body.inner .page_content_wrap::before {
 	margin: 2.5rem 0 0 -1rem;
 }
 
-.illus--svc {
-	max-width: 380px;
-	margin-top: 2.5rem;
-}
-
 .philosophy_head .philosophy_counter {
 	margin-top: 1rem;
 }
 
 @media (max-width: 900px) {
-	.illus--phil, .illus--svc { max-width: 320px; margin: 2rem auto 0; }
+	.illus--phil { max-width: 320px; margin: 2rem auto 0; }
 }
 
 /* The sticky philosophy column now holds an illustration: keep it within the window. */

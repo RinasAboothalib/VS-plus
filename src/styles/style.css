@@ -10,6 +10,7 @@
 	--ink-2: #1c1c1c;
 	--lime: #ffd400; /* brand accent: yellow (was lime green #ffd400) */
 	--hi: #ffd400; /* highlight yellow: scroll-lit and marked key words */
+	--lime-deep: #8a6a00; /* Yellow Deep: the accent for text on light backgrounds */
 	--cream: #f8f6f5;
 	--hero-bg: #050505;
 	--white: #ffffff;
@@ -17,7 +18,28 @@
 	--line: rgba(10, 10, 10, 0.16);
 	--gutter: 6vw;
 	--maxw: 1550px;
-	--font: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+	/* Signal Yellow brand type: Quicksand for body, Jost for display, headings, labels and chrome. */
+	--font: 'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+	--font-display: 'Jost', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+/*
+ * Display face (Jost) for everything that isn't running body copy — headings,
+ * eyebrows/labels, navigation, buttons, the brand lockup and the big figures.
+ * Only the family changes here; every weight and animation stays as it was.
+ */
+h1, h2, h3, h4, h5, h6,
+.eyebrow, .fLabel, .resultLabel, .clientele_label, .ww_label, .smmShow_kind,
+.sectionTitle, .footerTitle, .missionTitle, .pageTitle, .pageTitle_line,
+.vsHero_title, .vsHero_accent, .introLead, .introFacts, .siteBrand, .siteBrand_text,
+.vsNav, .menuItems, .projectNav, .vsLoader_label, .vsLoader_count,
+.pillBtn, .btnLink, .stripBtn, .smmClip_btn, .lbBtn, .lbNav,
+.ww_title, .rv_title, .rv_nav, .phase_title, .svcBlock_title, .svcRow_name,
+.flagMore_title, .flagMore_metric, .nextProject_title, .reelCard_title,
+.capCard_name, .catCard_name, .accName,
+.caseCard_metric, .featureCase_metric,
+.webProj_name, .webProj_kind, .webProj_metric, .webProj_stats strong {
+	font-family: var(--font-display);
 }
 
 *,
@@ -201,18 +223,20 @@ body.nav-hidden .siteHeader {
 	pointer-events: auto;
 }
 
-.siteBrand_mark {
+/* Full wordmark (Signal Yellow guidelines): the drawn VISUAL STUDIOS + logotype (802 x 62), as a white mask. */
+.siteBrand_word {
 	display: block;
-	width: 4.2rem;
-	height: 1.4rem;
+	width: 9.5rem;
+	aspect-ratio: 802 / 62;
 	background: var(--white);
-	-webkit-mask: url('/assets/img/VSP-Square-logo.png') left center / contain no-repeat;
-	mask: url('/assets/img/VSP-Square-logo.png') left center / contain no-repeat;
+	-webkit-mask: url('/assets/img/VSP-wordmark.png') left center / contain no-repeat;
+	mask: url('/assets/img/VSP-wordmark.png') left center / contain no-repeat;
+	transform-origin: left center;
 	transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.siteBrand:hover .siteBrand_mark {
-	transform: scale(1.06);
+.siteBrand:hover .siteBrand_word {
+	transform: scale(1.04);
 }
 
 .siteBrand_text {
@@ -228,6 +252,7 @@ body.nav-hidden .siteHeader {
 @media (max-width: 1240px) {
 	.siteHeader { height: 3.9rem; }
 	.siteHeader_inner { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.2rem; padding-right: 4rem; }
+	.siteBrand_word { width: 8.25rem; }
 	.siteBrand_text { font-size: 0.62rem; }
 }
 

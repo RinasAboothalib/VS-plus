@@ -1,0 +1,483 @@
+/* ==========================================================================
+   Signal Yellow type weights (matches vsplus-modify.vercel.app)
+   Light type, warm emphasis: Jost 200 display, Jost 300 headings,
+   Jost 500 caps labels with wide tracking, Quicksand 400 body.
+   Loaded after style.css and pages.css so it wins on weight and tracking only.
+   ========================================================================== */
+
+html,
+body {
+	font-weight: 400;
+}
+
+/* Display: the largest headlines */
+.vsHero_title,
+.vsHero_accent,
+.pageTitle,
+.pageTitle_line,
+.introLead,
+.menuItems a {
+	font-weight: 200;
+	letter-spacing: -0.02em;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.sectionTitle,
+.footerTitle,
+.missionTitle,
+.ww_title,
+.rv_title,
+.phase_title,
+.svcBlock_title,
+.svcRow_name,
+.flagMore_title,
+.nextProject_title,
+.reelCard_title,
+.capCard_name,
+.catCard_name,
+.accName,
+.webProj_name {
+	font-weight: 300;
+	letter-spacing: -0.015em;
+}
+
+/* Figures: light, like the headings */
+.introFacts b,
+.caseCard_metric,
+.featureCase_metric,
+.flagMore_metric,
+.webProj_metric strong,
+.webProj_stats strong {
+	font-weight: 300;
+}
+
+/* Labels and controls: Jost 500, caps, wide tracking */
+.eyebrow,
+.fLabel,
+.resultLabel,
+.clientele_label,
+.ww_label,
+.smmShow_kind,
+.webProj_kind,
+.siteBrand_text,
+.vsLoader_label {
+	font-weight: 500;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+
+.pillBtn,
+.btnLink,
+.stripBtn,
+.smmClip_btn {
+	font-weight: 500;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+/* Emphasis is a colour shift, never bold */
+p strong,
+p b,
+.lede strong,
+.lede b {
+	font-weight: 500;
+}
+
+/* Menu: soft-white items; the current page (and the hovered item) turns white
+   with a Signal Yellow "+" after it, replacing the old yellow dot. */
+.menuItems a {
+	color: rgba(255, 255, 255, 0.72);
+}
+
+.menuItems a:hover,
+.menuItems a.is-current {
+	color: var(--white);
+}
+
+.menuItems a::after {
+	content: '+';
+	position: static;
+	display: inline-block;
+	vertical-align: baseline;
+	width: auto;
+	height: auto;
+	margin-left: 0.32em;
+	border-radius: 0;
+	background: none;
+	color: var(--lime);
+	font-weight: 200;
+	line-height: 1;
+	opacity: 0;
+	transform: translateX(-0.4em);
+}
+
+.menuItems a:hover::after,
+.menuItems a.is-current::after {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Menu panel (Signal Yellow revision): seven links on the left, studio details on the right. */
+.menuWrap_row {
+	grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+	column-gap: 5rem;
+	align-items: end;
+	min-height: 0;
+}
+
+.menuWrap_links {
+	gap: 0;
+}
+
+.menuItems {
+	gap: 0.35rem;
+}
+
+.menuItems a {
+	font-size: clamp(2.2rem, 4vw, 3.2rem);
+	line-height: 1.1;
+}
+
+.menuWrap_side {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2rem;
+	padding-top: 2rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.menuWrap_note {
+	margin: 0;
+	font-family: var(--font-display);
+	font-weight: 300;
+	font-size: 1.15rem;
+	line-height: 1.5;
+	color: var(--white);
+	opacity: 1;
+}
+
+.menuWrap_contact {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	margin: 0;
+	font-size: 0.95rem;
+	line-height: 1.5;
+}
+
+.menuWrap_contact a {
+	color: var(--white);
+	opacity: 1;
+}
+
+.menuWrap_contact a:hover {
+	color: var(--lime);
+}
+
+.menuWrap_addr {
+	margin-top: 0.4rem;
+	color: rgba(255, 255, 255, 0.5);
+}
+
+/* The menu's Start a project button is the same FlowButton, in Signal Yellow. */
+
+@media (max-width: 1240px) {
+	.menuWrap_row { grid-template-columns: 1fr; row-gap: 2.5rem; }
+	.menuItems a { font-size: 2rem; }
+	.menuItems { gap: 0.2rem; }
+	.menuWrap_side { gap: 1.5rem; }
+}
+
+/* Results grid (as on vsplus-modify): Jost 200 figures, Quicksand sentence-case
+   label, Jost 500 caps client line. The count-up animation is unchanged. */
+.resultNum {
+	font-family: var(--font-display);
+	font-weight: 200;
+	letter-spacing: -0.03em;
+}
+
+.resultLabel {
+	font-family: var(--font);
+	font-weight: 400;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+.resultClient {
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: 0.68rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+
+/* Opening loader: the 000 → 100 count in light Jost, the caption as a Jost label. */
+.vsLoader_count {
+	font-family: var(--font-display);
+	font-weight: 200;
+	letter-spacing: -0.04em;
+}
+
+.vsLoader_label {
+	font-family: var(--font-display);
+	font-weight: 500;
+	letter-spacing: 0.2em;
+}
+
+/* Hero type sizes, matched to vsplus-modify. Written in px because that site
+   uses a fixed 16px root while this one steps 16 / 18 / 21px. */
+.vsHero_title {
+	font-size: clamp(44.8px, 6.4vw, 102.4px);
+	line-height: 1.04;
+	letter-spacing: -0.02em;
+}
+
+.vsHero_intro {
+	max-width: 528px;
+	font-size: clamp(16.8px, 1.3vw, 20px);
+	line-height: 1.6;
+}
+
+@media (max-width: 639px) {
+	.vsHero_title { font-size: clamp(37.6px, 10.5vw, 48px); }
+	.vsHero_intro { font-size: 16.8px; }
+}
+
+/* Hero actions (as on vsplus-modify): an outlined button and a Signal Yellow "+" link. */
+.vsHero_actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 20px 36px;
+	margin-top: 36px;
+}
+
+.flowBtn {
+	/* --flow-fill is the circle that grows; --flow-ink is the label over it. */
+	--flow-line: rgba(255, 255, 255, 0.4);
+	--flow-fill: var(--white);
+	--flow-text: var(--white);
+	--flow-ink: var(--ink);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.95rem 2rem;
+	border: 1.5px solid var(--flow-line);
+	background: transparent;
+	color: var(--flow-text);
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: 12.16px;
+	line-height: 1;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.flowBtn--signal {
+	--flow-line: var(--lime);
+	--flow-fill: var(--lime);
+	--flow-text: var(--lime);
+}
+
+.plusLink {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.5em;
+	padding-bottom: 0.3em;
+	color: var(--lime);
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: 12.16px;
+	line-height: 1.3;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	text-decoration: none;
+	background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+	transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+}
+
+/* Links that leave the site already end in an arrow, so they skip the "+". */
+.plusLink:not([target="_blank"])::after {
+	content: '+';
+	display: inline-block;
+	font-weight: 300;
+	font-size: 1.35em;
+	line-height: 0.6;
+	transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plusLink:hover {
+	background-size: 100% 1px;
+}
+
+.plusLink:hover::after {
+	transform: rotate(90deg);
+}
+
+/* Hero: a slightly heavier veil over the background. */
+.vsHero_shade--dim {
+	background: rgba(5, 5, 5, 0.62);
+}
+
+/* Hero headline: larger, at the brand's light display weight (Jost 200). */
+.vsHero_title,
+.vsHero_accent {
+	font-weight: 200;
+}
+
+.vsHero_title {
+	font-size: clamp(46px, 7.2vw, 120px);
+}
+
+@media (max-width: 639px) {
+	.vsHero_title { font-size: clamp(36px, 9.8vw, 52px); }
+}
+
+/*
+ * View work, built as the FlowButton: a pill that squares off to a 12px radius
+ * while a white circle grows from the middle, the label slides right and the
+ * arrow hands off from the right edge to the left. Colours are flipped for the
+ * dark hero, so the circle is white and the label turns ink.
+ */
+.flowBtn {
+	position: relative;
+	overflow: hidden;
+	border-radius: 100px;
+	cursor: pointer;
+	transition: color 600ms cubic-bezier(0.23, 1, 0.32, 1), border-color 600ms cubic-bezier(0.23, 1, 0.32, 1), border-radius 600ms cubic-bezier(0.23, 1, 0.32, 1), transform 150ms ease;
+}
+
+.flowBtn_text {
+	position: relative;
+	z-index: 1;
+	transform: translateX(-0.75rem);
+	transition: transform 800ms ease-out;
+}
+
+.flowBtn_arrow {
+	position: absolute;
+	z-index: 9;
+	width: 1rem;
+	height: 1rem;
+	fill: none;
+	stroke: currentColor;
+	transition: left 800ms cubic-bezier(0.34, 1.56, 0.64, 1), right 800ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.flowBtn_arrow--in {
+	left: -25%;
+}
+
+.flowBtn_arrow--out {
+	right: 1rem;
+}
+
+.flowBtn_circle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	background: var(--flow-fill);
+	opacity: 0;
+	transform: translate(-50%, -50%);
+	transition: width 800ms cubic-bezier(0.19, 1, 0.22, 1), height 800ms cubic-bezier(0.19, 1, 0.22, 1), opacity 800ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.flowBtn:hover,
+.flowBtn:focus-visible,
+.flowBtn.is-filling {
+	border-color: transparent;
+	border-radius: 12px;
+	color: var(--flow-ink);
+}
+
+.flowBtn:active {
+	transform: scale(0.95);
+}
+
+.flowBtn:hover .flowBtn_text,
+.flowBtn:focus-visible .flowBtn_text,
+.flowBtn.is-filling .flowBtn_text {
+	transform: translateX(0.75rem);
+}
+
+.flowBtn:hover .flowBtn_arrow--in,
+.flowBtn:focus-visible .flowBtn_arrow--in,
+.flowBtn.is-filling .flowBtn_arrow--in {
+	left: 1rem;
+}
+
+.flowBtn:hover .flowBtn_arrow--out,
+.flowBtn:focus-visible .flowBtn_arrow--out,
+.flowBtn.is-filling .flowBtn_arrow--out {
+	right: -25%;
+}
+
+.flowBtn:hover .flowBtn_circle,
+.flowBtn:focus-visible .flowBtn_circle,
+.flowBtn.is-filling .flowBtn_circle {
+	width: 220px;
+	height: 220px;
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flowBtn,
+	.flowBtn_text,
+	.flowBtn_arrow,
+	.flowBtn_circle {
+		transition: none;
+	}
+}
+
+/*
+ * Our services accordion, in the Signal Yellow system: a short yellow rule
+ * marks the open row, its number turns Yellow Deep, the names are light Jost
+ * and the panel link is a Yellow Deep label.
+ */
+.accordion li::after {
+	content: '';
+	position: absolute;
+	top: -1px;
+	left: 0;
+	width: 3rem;
+	height: 3px;
+	background: var(--lime);
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.accordion li.is-open::after {
+	transform: scaleX(1);
+}
+
+.accordion .accNum {
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: 0.66rem;
+	line-height: 1;
+	letter-spacing: 0.16em;
+	color: var(--muted);
+	transition: color 0.3s;
+}
+
+.accordion li.is-open .accNum {
+	color: var(--lime-deep);
+}
+
+.accordion .accName {
+	font-weight: 300;
+}
+
+.accPanel .plusLink {
+	margin-left: 0.25rem;
+	color: var(--hi);
+	font-size: 0.68rem;
+	white-space: nowrap;
+}

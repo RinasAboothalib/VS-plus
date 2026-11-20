@@ -6,6 +6,7 @@ import { SheetProvider } from './context/SheetContext.jsx';
 import { TransitionProvider } from './context/TransitionContext.jsx';
 import './styles/style.css';
 import './styles/pages.css';
+import './styles/brand-type.css';
 
 /*
  * No StrictMode: the pinned ScrollTriggers and the nav's SVG timelines mutate

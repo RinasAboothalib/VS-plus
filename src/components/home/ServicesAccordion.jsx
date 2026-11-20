@@ -3,7 +3,6 @@ import data from '../../data/site.js';
 import { pad, ScrollTrigger } from '../../lib/motion.js';
 import TLink from '../TLink.jsx';
 import HoverDot from '../HoverDot.jsx';
-import Megaphone from '../illustrations/Megaphone.jsx';
 import FloatPreview, { SERVICE_MEDIA } from '../FloatPreview.jsx';
 
 /* Hover preview for each of the eleven services, reusing the studio's reels and stills. */
@@ -41,7 +40,6 @@ export default function ServicesAccordion( { eyebrow = '(01) Our services' } ) {
 					<h2 className="sectionTitle">Our services.</h2>
 					<p className="servicesLede">Eleven disciplines under one roof in Colombo 04 — from social and performance marketing to TV commercials, web builds and photography. Project by project, or as a full-year retainer.</p>
 					<TLink className="btnLink" to="/contact/">Start a project</TLink>
-					<Megaphone className="illus--svc" />
 				</div>
 				<ul className="accordion" ref={ list } onMouseLeave={ () => setHover( null ) }>
 					<HoverDot list={ list } center={ ( li ) => li.offsetTop + li.querySelector( 'button' ).offsetHeight / 2 } />
@@ -53,7 +51,7 @@ export default function ServicesAccordion( { eyebrow = '(01) Our services' } ) {
 								<span className="accIcon" aria-hidden="true"></span>
 							</button>
 							<div className="accPanel" id={ `svc-${ i }` } role="region">
-								<div><p>{ description } <TLink to={ link }>{ /^https?:/.test( link ) ? `See our ${ name } work on Instagram ↗` : `Explore ${ name } →` }</TLink></p></div>
+								<div><p>{ description } <TLink className="plusLink" to={ link }>{ /^https?:/.test( link ) ? `See our ${ name } work on Instagram ↗` : `Explore ${ name }` }</TLink></p></div>
 							</div>
 						</li>
 					) ) }

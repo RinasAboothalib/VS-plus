@@ -106,9 +106,9 @@ export default function Layout() {
 					<div className="siteHeader_glass" aria-hidden="true"></div>
 					<div className="siteHeader_inner">
 						<TLink to="/" className="siteBrand" aria-label="Visual Studios Plus — home">
-							<span className="siteBrand_mark" aria-hidden="true"></span>
+							<span className="siteBrand_word" aria-hidden="true"></span>
 						</TLink>
-						<p className="siteBrand_text">Visual Studios+ · Creative Agency</p>
+						<p className="siteBrand_text">Creative Agency · Colombo 04</p>
 					</div>
 				</header>
 				<Outlet />

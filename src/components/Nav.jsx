@@ -4,12 +4,16 @@ import data from '../data/site.js';
 import { gsap, reduced, startScroll, stopScroll } from '../lib/motion.js';
 import { useTransition } from '../context/TransitionContext.jsx';
 import { SocialIcons } from './SocialIcon.jsx';
+import FlowButton from './FlowButton.jsx';
 
-/* Menu per the client revision (Oct 24): the two lead services, then About and Contact. */
+/* Menu as on the Signal Yellow revision (vsplus-modify): every section, Studio = About. */
 const LINKS = [
+	[ '/work/', 'Work', 'work' ],
+	[ '/photography/', 'Photography', 'photography' ],
+	[ '/services/', 'Services', 'services' ],
 	[ '/social-media-marketing/', 'Social Media Marketing', 'social-media-marketing' ],
 	[ '/web-development/', 'Web Development', 'web-development' ],
-	[ '/about/', 'About', 'about' ],
+	[ '/about/', 'Studio', 'about' ],
 	[ '/contact/', 'Contact', 'contact' ]
 ];
 
@@ -271,16 +275,6 @@ export default function Nav() {
 			</div>
 			<div className="menuWrap" id="vsMenuPanel" ref={ refs.menu } inert={ ! open }>
 				<div className="menuWrap_row">
-					<div className="menuWrap_brand">
-						<a href="/" onClick={ ( e ) => onLink( e, '/' ) }>
-							<img src="/assets/img/VSP-Square-logo.png" className="MenuWrap_logo" alt="Visual Studios Plus — home" />
-						</a>
-						<p className="menuWrap_note">We create. We strategize. We execute.<br />We amplify. We measure. We grow.</p>
-						<p className="menuWrap_contact">
-							<a href={ `mailto:${ data.site.email }` }>{ data.site.email }</a><br />
-							<a href="tel:+94740436639">{ data.site.phones[ 0 ] }</a>
-						</p>
-					</div>
 					<div className="menuWrap_links">
 						<ul className="menuItems" ref={ refs.items }>
 							{ LINKS.map( ( [ to, label, key ] ) => (
@@ -291,6 +285,17 @@ export default function Nav() {
 								</li>
 							) ) }
 						</ul>
+					</div>
+					<div className="menuWrap_side">
+						<p className="menuWrap_note">We create. We strategize. We execute.<br />We amplify. We measure. We grow.</p>
+						<p className="menuWrap_contact">
+							<a href={ `mailto:${ data.site.email }` }>{ data.site.email }</a>
+							{ data.site.phones.map( ( p ) => (
+								<a key={ p } href={ `tel:${ p.replace( /\s+/g, '' ) }` }>{ p }</a>
+							) ) }
+							<span className="menuWrap_addr">{ data.site.address.join( ', ' ) }</span>
+						</p>
+						<FlowButton href="/contact/" className="flowBtn--signal" onClick={ ( e ) => onLink( e, '/contact/' ) }>Start a project</FlowButton>
 						<SocialIcons items={ data.site.socials } className="socialLinks" size={ 22 } />
 					</div>
 				</div>
